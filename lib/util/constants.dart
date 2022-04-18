@@ -1,7 +1,7 @@
 class Constants {
 
   //Font Families
-  static const fontFamily1 = "PlayfairDisplay";
+  static const fontFamily = "SFProDisplay";
   static const fontFamily2 = "Inter";
 
   // OneSignal: for push
