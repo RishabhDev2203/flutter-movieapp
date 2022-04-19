@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase_ott/ui/home_page.dart';
 import 'ui/auth/sign_in_page.dart';
 
 class Splash extends StatefulWidget {
@@ -41,7 +42,7 @@ class _SplashState extends State<Splash> {
   _goto(BuildContext context) {
           Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(
-                builder: (context) => const SignInPage()),
+                builder: (context) => const HomePage()),
                 (Route<dynamic> route) => false);
     }
   // _goto(BuildContext context) async {
