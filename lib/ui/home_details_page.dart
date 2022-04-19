@@ -157,7 +157,7 @@ class _HomeDetailPageState extends State<HomeDetailPage> {
                           color: AppColors.white),
                     ),
 
-                    Text(Strings.seeall,
+                    Text(Strings.seeAll,
                       style: TextStyle(
                           overflow: TextOverflow.ellipsis,
                           fontSize: Dimensions.textSizeMedium,
