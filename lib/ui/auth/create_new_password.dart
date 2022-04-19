@@ -15,7 +15,8 @@ class CreateNewPasswordScreen extends StatefulWidget {
   const CreateNewPasswordScreen({Key? key}) : super(key: key);
 
   @override
-  State<CreateNewPasswordScreen> createState() => _CreateNewPasswordScreenState();
+  State<CreateNewPasswordScreen> createState() =>
+      _CreateNewPasswordScreenState();
 }
 
 class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
@@ -31,9 +32,11 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
           body: Container(
               padding: const EdgeInsets.only(
                 left: Dimensions.marginMedium,
-                right: Dimensions.marginMedium,
-                /* top: MediaQuery.of(context).padding.top + 30*/),
-              child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+                right: Dimensions
+                    .marginMedium, /* top: MediaQuery.of(context).padding.top + 30*/
+              ),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 50),
                     const Padding(
@@ -42,18 +45,25 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
                     ),
                     const SizedBox(height: 20),
                     const TitleText(
-                      text:Strings.createNewPassword,fontSize: 28,),
+                      text: Strings.createNewPassword,
+                      fontSize: 28,
+                    ),
                     const SizedBox(height: 25),
                     MyContainer(
-                      padding: const EdgeInsets.only(right: 10),
+                        padding: const EdgeInsets.only(right: 10),
                         child: TextField(
                           textAlignVertical: TextAlignVertical.center,
                           textCapitalization: TextCapitalization.words,
                           decoration: InputDecoration(
                             hintText: Strings.newPassword,
-                            prefixIcon: IconButton(icon: Image.asset(
-                              "assets/images/sms.png", height: 20, width: 20,),
-                              onPressed: null,),
+                            prefixIcon: IconButton(
+                              icon: Image.asset(
+                                "assets/images/sms.png",
+                                height: 20,
+                                width: 20,
+                              ),
+                              onPressed: null,
+                            ),
                             hintStyle: const TextStyle(
                               color: AppColors.white,
                               fontSize: Dimensions.textSizeSmall,
@@ -76,7 +86,9 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
                             fontSize: Dimensions.textSizeSmall,
                           ),
                         )),
-                    const SizedBox(height: 20,),
+                    const SizedBox(
+                      height: 20,
+                    ),
                     MyContainer(
                         padding: const EdgeInsets.only(right: 10),
                         child: TextField(
@@ -84,9 +96,14 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
                           textCapitalization: TextCapitalization.words,
                           decoration: InputDecoration(
                             hintText: Strings.confirmNewPassword,
-                            prefixIcon: IconButton(icon: Image.asset(
-                              "assets/images/sms.png", height: 20, width: 20,),
-                              onPressed: null,),
+                            prefixIcon: IconButton(
+                              icon: Image.asset(
+                                "assets/images/sms.png",
+                                height: 20,
+                                width: 20,
+                              ),
+                              onPressed: null,
+                            ),
                             hintStyle: const TextStyle(
                               color: AppColors.white,
                               fontSize: Dimensions.textSizeSmall,
@@ -109,18 +126,20 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
                             fontSize: Dimensions.textSizeSmall,
                           ),
                         )),
-                    const SizedBox(height: 30,),
-                    ButtonFill(text: Strings.savePassword, onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const CreateNewAccountScreen(),
-                          ));
-                    }),
-                  ]
-              )
-          )
-      ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    ButtonFill(
+                        text: Strings.savePassword,
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const CreateNewAccountScreen(),
+                              ));
+                        }),
+                  ]))),
     );
   }
 
@@ -141,7 +160,7 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
       valid = false;
       messages.add("Password must contain at least 6 characters.");
     }
-    if(newPassword != confirmPassword){
+    if (newPassword != confirmPassword) {
       valid = false;
       messages.add("New password and confirm password not match.");
     }

@@ -32,15 +32,16 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
           backgroundColor: AppColors.transparent,
           body: Container(
               padding: EdgeInsets.only(
-                left: Dimensions.marginMedium,
-                right: Dimensions
-                    .marginMedium,  top: MediaQuery.of(context).padding.top + 5,bottom: Dimensions.marginSmall
-              ),
+                  left: Dimensions.marginMedium,
+                  right: Dimensions.marginMedium,
+                  top: MediaQuery.of(context).padding.top + 5,
+                  bottom: Dimensions.marginSmall),
               child: ListView(
                   // crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // const SizedBox(height: 50),
-                    const Align(alignment: Alignment.topLeft,child: ButtonBack()),
+                    const Align(
+                        alignment: Alignment.topLeft, child: ButtonBack()),
                     const SizedBox(height: 20),
                     const TitleText(
                       text: Strings.createNewAccount,
@@ -51,90 +52,27 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
                         padding: const EdgeInsets.only(right: 10),
                         child: TextField(
                           textAlignVertical: TextAlignVertical.center,
-                      textCapitalization: TextCapitalization.words,
-                      decoration: InputDecoration(
-                        hintText: Strings.fullName,
-                        prefixIcon: IconButton(
-                          icon: Image.asset(
-                            "assets/images/profile.png",
-                            height: 20,
-                            width: 20,
-                          ),
-                          onPressed: null,
-                        ),
-                        hintStyle: const TextStyle(
-                          color: AppColors.white,
-                          fontSize: Dimensions.textSizeSmall,
-                        ),
-                        border: InputBorder.none,
-                      ),
-                      style: const TextStyle(
-                        fontSize: Dimensions.textSizeSmall,
-                      ),
-                    )),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    MyContainer(
-                        padding: const EdgeInsets.only(right: 10),
-                        child: TextField(
-                          textAlignVertical: TextAlignVertical.center,
-                      textCapitalization: TextCapitalization.words,
-                      decoration: InputDecoration(
-                        hintText: Strings.email,
-                        prefixIcon: IconButton(
-                          icon: Image.asset(
-                            "assets/images/sms.png",
-                            height: 20,
-                            width: 20,
-                          ),
-                          onPressed: null,
-                        ),
-                        hintStyle: const TextStyle(
-                          color: AppColors.white,
-                          fontSize: Dimensions.textSizeSmall,
-                        ),
-                        border: InputBorder.none,
-                      ),
-                      style: const TextStyle(
-                        fontSize: Dimensions.textSizeSmall,
-                      ),
-                    )),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    MyContainer(
-                        padding: const EdgeInsets.only(right: 10),
-                        child: TextField(
-                          textAlignVertical: TextAlignVertical.center,
-                      textCapitalization: TextCapitalization.words,
-                      decoration: InputDecoration(
-                        hintText: Strings.password,
-                        prefixIcon: IconButton(icon: Image.asset("assets/images/lock.png",height: 20,width: 20,),
-                          onPressed: null,
-                        ),
-                        hintStyle: const TextStyle(
-                          color: AppColors.white,
-                          fontSize: Dimensions.textSizeSmall,
-                        ),
-                        suffixIcon: GestureDetector(
-                          // onTap: _newPasswordView,
-                          child: const Padding(
-                            padding: EdgeInsets.only(left: 40),
-                            child: ImageIcon(
-                              AssetImage(
-                                'assets/images/eye-slash.png',
+                          textCapitalization: TextCapitalization.words,
+                          decoration: InputDecoration(
+                            hintText: Strings.fullName,
+                            prefixIcon: IconButton(
+                              icon: Image.asset(
+                                "assets/images/profile.png",
+                                height: 20,
+                                width: 20,
                               ),
-                              color: AppColors.eyeColor,
+                              onPressed: null,
                             ),
+                            hintStyle: const TextStyle(
+                              color: AppColors.white,
+                              fontSize: Dimensions.textSizeSmall,
+                            ),
+                            border: InputBorder.none,
                           ),
-                        ),
-                        border: InputBorder.none,
-                      ),
-                      style: const TextStyle(
-                        fontSize: Dimensions.textSizeSmall,
-                      ),
-                    )),
+                          style: const TextStyle(
+                            fontSize: Dimensions.textSizeSmall,
+                          ),
+                        )),
                     const SizedBox(
                       height: 20,
                     ),
@@ -142,39 +80,112 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
                         padding: const EdgeInsets.only(right: 10),
                         child: TextField(
                           textAlignVertical: TextAlignVertical.center,
-                      textCapitalization: TextCapitalization.words,
-                      decoration: InputDecoration(
-                        hintText: Strings.confirmPassword,
-                        prefixIcon: IconButton(icon: Image.asset("assets/images/lock.png",height: 20,width: 20,),
-                          onPressed: null,
-                        ),
-                        hintStyle: const TextStyle(
-                          color: AppColors.white,
-                          fontSize: Dimensions.textSizeSmall,
-                        ),
-                        suffixIcon: GestureDetector(
-                          // onTap: _newPasswordView,
-                          child: const Padding(
-                            padding: EdgeInsets.only(left: 40),
-                            child: ImageIcon(
-                              AssetImage(
-                                'assets/images/eye-slash.png',
+                          textCapitalization: TextCapitalization.words,
+                          decoration: InputDecoration(
+                            hintText: Strings.email,
+                            prefixIcon: IconButton(
+                              icon: Image.asset(
+                                "assets/images/sms.png",
+                                height: 20,
+                                width: 20,
                               ),
-                              color: AppColors.eyeColor,
+                              onPressed: null,
                             ),
+                            hintStyle: const TextStyle(
+                              color: AppColors.white,
+                              fontSize: Dimensions.textSizeSmall,
+                            ),
+                            border: InputBorder.none,
                           ),
-                        ),
-                        border: InputBorder.none,
-                      ),
-                      style: const TextStyle(
-                        fontSize: Dimensions.textSizeSmall,
-                      ),
-                    )),
+                          style: const TextStyle(
+                            fontSize: Dimensions.textSizeSmall,
+                          ),
+                        )),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    MyContainer(
+                        padding: const EdgeInsets.only(right: 10),
+                        child: TextField(
+                          textAlignVertical: TextAlignVertical.center,
+                          textCapitalization: TextCapitalization.words,
+                          decoration: InputDecoration(
+                            hintText: Strings.password,
+                            prefixIcon: IconButton(
+                              icon: Image.asset(
+                                "assets/images/lock.png",
+                                height: 20,
+                                width: 20,
+                              ),
+                              onPressed: null,
+                            ),
+                            hintStyle: const TextStyle(
+                              color: AppColors.white,
+                              fontSize: Dimensions.textSizeSmall,
+                            ),
+                            suffixIcon: GestureDetector(
+                              // onTap: _newPasswordView,
+                              child: const Padding(
+                                padding: EdgeInsets.only(left: 40),
+                                child: ImageIcon(
+                                  AssetImage(
+                                    'assets/images/eye-slash.png',
+                                  ),
+                                  color: AppColors.eyeColor,
+                                ),
+                              ),
+                            ),
+                            border: InputBorder.none,
+                          ),
+                          style: const TextStyle(
+                            fontSize: Dimensions.textSizeSmall,
+                          ),
+                        )),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    MyContainer(
+                        padding: const EdgeInsets.only(right: 10),
+                        child: TextField(
+                          textAlignVertical: TextAlignVertical.center,
+                          textCapitalization: TextCapitalization.words,
+                          decoration: InputDecoration(
+                            hintText: Strings.confirmPassword,
+                            prefixIcon: IconButton(
+                              icon: Image.asset(
+                                "assets/images/lock.png",
+                                height: 20,
+                                width: 20,
+                              ),
+                              onPressed: null,
+                            ),
+                            hintStyle: const TextStyle(
+                              color: AppColors.white,
+                              fontSize: Dimensions.textSizeSmall,
+                            ),
+                            suffixIcon: GestureDetector(
+                              // onTap: _newPasswordView,
+                              child: const Padding(
+                                padding: EdgeInsets.only(left: 40),
+                                child: ImageIcon(
+                                  AssetImage(
+                                    'assets/images/eye-slash.png',
+                                  ),
+                                  color: AppColors.eyeColor,
+                                ),
+                              ),
+                            ),
+                            border: InputBorder.none,
+                          ),
+                          style: const TextStyle(
+                            fontSize: Dimensions.textSizeSmall,
+                          ),
+                        )),
                     const SizedBox(
                       height: 10,
                     ),
                     const Text(
-                     Strings.bothPasswordSame,
+                      Strings.bothPasswordSame,
                       style: TextStyle(
                           color: AppColors.lightYellowColor,
                           fontWeight: FontWeight.w400,
@@ -196,25 +207,27 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
                     Center(
                       child: RichText(
                         textAlign: TextAlign.center,
-                        text:  TextSpan(children: <TextSpan>[
+                        text: TextSpan(children: <TextSpan>[
                           const TextSpan(
                               text: Strings.alreadyHaveAnAccount,
-                              style: TextStyle(color: Colors.grey,fontSize: Dimensions.textSizeMedium,
-                                  fontWeight: FontWeight.w500
-                              )),
+                              style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: Dimensions.textSizeMedium,
+                                  fontWeight: FontWeight.w500)),
                           TextSpan(
-                              text:Strings.login,
+                              text: Strings.login,
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
                                   Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                             const SignInPage()));
+                                              const SignInPage()));
                                 },
                               style: const TextStyle(
-                                  color: AppColors.white,fontSize: Dimensions.textSizeMedium,fontWeight: FontWeight.w600
-                              )),
+                                  color: AppColors.white,
+                                  fontSize: Dimensions.textSizeMedium,
+                                  fontWeight: FontWeight.w600)),
                         ]),
                       ),
                     ),
@@ -225,10 +238,10 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
   bool validate() {
     var valid = true;
     var emailValid = RegExp(
-        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
         .hasMatch(email.trim());
     List<String>? messages = [];
-    if(name.isEmpty){
+    if (name.isEmpty) {
       valid = false;
       messages.add("Enter Name");
     }
@@ -253,7 +266,7 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
       valid = false;
       messages.add("Password must contain at least 6 characters.");
     }
-    if(password != confirmPassword){
+    if (password != confirmPassword) {
       valid = false;
       messages.add("New password and confirm password not match.");
     }

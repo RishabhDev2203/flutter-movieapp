@@ -31,5 +31,11 @@ class Strings {
   static const savePassword = "Save Password";
   static const createNewAccount = "Create new \naccount";
   static const bothPasswordSame =  "Both password must be same";
+  static const continueWatching = "Continue Watching";
+  static const seeAll = "See all";
+  static const actionMovie = "Action Movie";
+  static const adventureMovie = "Adventure Movie";
+  static const romanticMovie = "Romantic Movie";
+  static const recommended = "Recommended";
 
 }

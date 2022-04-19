@@ -48,66 +48,66 @@ class _SignInPageState extends State<SignInPage> {
               MyContainer(
                   padding: const EdgeInsets.only(right: 10),
                   child: TextField(
-                textAlignVertical: TextAlignVertical.center,
-                textCapitalization: TextCapitalization.words,
-                decoration: InputDecoration(
-                  hintText: Strings.email,
-                  prefixIcon: IconButton(
-                    icon: Image.asset(
-                      "assets/images/sms.png",
-                      height: 20,
-                      width: 20,
+                    textAlignVertical: TextAlignVertical.center,
+                    textCapitalization: TextCapitalization.words,
+                    decoration: InputDecoration(
+                      hintText: Strings.email,
+                      prefixIcon: IconButton(
+                        icon: Image.asset(
+                          "assets/images/sms.png",
+                          height: 20,
+                          width: 20,
+                        ),
+                        onPressed: null,
+                      ),
+                      hintStyle: const TextStyle(
+                        color: AppColors.white,
+                        fontSize: Dimensions.textSizeSmall,
+                      ),
+                      border: InputBorder.none,
                     ),
-                    onPressed: null,
-                  ),
-                  hintStyle: const TextStyle(
-                    color: AppColors.white,
-                    fontSize: Dimensions.textSizeSmall,
-                  ),
-                  border: InputBorder.none,
-                ),
-                style: const TextStyle(
-                  fontSize: Dimensions.textSizeSmall,
-                ),
-              )),
+                    style: const TextStyle(
+                      fontSize: Dimensions.textSizeSmall,
+                    ),
+                  )),
               const SizedBox(height: 15),
               MyContainer(
                   padding: const EdgeInsets.only(right: 10),
                   child: TextField(
-                textAlignVertical: TextAlignVertical.center,
-                textCapitalization: TextCapitalization.words,
-                decoration: InputDecoration(
-                  hintText: Strings.password,
-                  prefixIcon: IconButton(
-                    icon: Image.asset(
-                      "assets/images/lock.png",
-                      height: 20,
-                      width: 20,
-                    ),
-                    onPressed: null,
-                  ),
-                  hintStyle: const TextStyle(
-                    color: AppColors.white,
-                    fontSize: Dimensions.textSizeSmall,
-                  ),
-                  suffixIcon: GestureDetector(
-                    // onTap: _newPasswordView,
-                    child: const Padding(
-                      padding: EdgeInsets.only(left: 40),
-                      child: ImageIcon(
-                        AssetImage(
-                          'assets/images/eye-slash.png',
+                    textAlignVertical: TextAlignVertical.center,
+                    textCapitalization: TextCapitalization.words,
+                    decoration: InputDecoration(
+                      hintText: Strings.password,
+                      prefixIcon: IconButton(
+                        icon: Image.asset(
+                          "assets/images/lock.png",
+                          height: 20,
+                          width: 20,
                         ),
-                        color: AppColors.eyeColor,
+                        onPressed: null,
                       ),
+                      hintStyle: const TextStyle(
+                        color: AppColors.white,
+                        fontSize: Dimensions.textSizeSmall,
+                      ),
+                      suffixIcon: GestureDetector(
+                        // onTap: _newPasswordView,
+                        child: const Padding(
+                          padding: EdgeInsets.only(left: 40),
+                          child: ImageIcon(
+                            AssetImage(
+                              'assets/images/eye-slash.png',
+                            ),
+                            color: AppColors.eyeColor,
+                          ),
+                        ),
+                      ),
+                      border: InputBorder.none,
                     ),
-                  ),
-                  border: InputBorder.none,
-                ),
-                style: const TextStyle(
-                  fontSize: Dimensions.textSizeSmall,
-                ),
-              )),
+                    style: const TextStyle(
+                      fontSize: Dimensions.textSizeSmall,
+                    ),
+                  )),
               const SizedBox(height: 15),
               Align(
                   alignment: Alignment.topRight,
@@ -119,7 +119,8 @@ class _SignInPageState extends State<SignInPage> {
                             builder: (context) => const RecoverPasswordScreen(),
                           ));
                     },
-                    child: const Text(Strings.forgotPassword,
+                    child: const Text(
+                      Strings.forgotPassword,
                       style: TextStyle(color: AppColors.lightYellowColor),
                     ),
                   )),
@@ -143,7 +144,8 @@ class _SignInPageState extends State<SignInPage> {
                               width: 20,
                             ),
                             const SizedBox(width: 10),
-                            const Text( Strings.google,
+                            const Text(
+                              Strings.google,
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: Dimensions.textSizeMedium,

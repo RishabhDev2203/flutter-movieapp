@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_ott/ui/auth/create_new_password.dart';
 import 'package:flutter_firebase_ott/util/component/back_button.dart';
@@ -18,7 +17,6 @@ class RecoverPasswordScreen extends StatefulWidget {
 }
 
 class _RecoverPasswordScreenState extends State<RecoverPasswordScreen> {
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -28,9 +26,11 @@ class _RecoverPasswordScreenState extends State<RecoverPasswordScreen> {
           body: Container(
               padding: const EdgeInsets.only(
                 left: Dimensions.marginMedium,
-                right: Dimensions.marginMedium,
-                /* top: MediaQuery.of(context).padding.top + 30*/),
-              child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+                right: Dimensions
+                    .marginMedium, /* top: MediaQuery.of(context).padding.top + 30*/
+              ),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 50),
                     const Padding(
@@ -39,7 +39,9 @@ class _RecoverPasswordScreenState extends State<RecoverPasswordScreen> {
                     ),
                     const SizedBox(height: 20),
                     const TitleText(
-                      text: Strings.recoverYourPassword,fontSize: 28,),
+                      text: Strings.recoverYourPassword,
+                      fontSize: 28,
+                    ),
                     const SizedBox(height: 25),
                     MyContainer(
                         padding: const EdgeInsets.only(right: 10),
@@ -48,9 +50,14 @@ class _RecoverPasswordScreenState extends State<RecoverPasswordScreen> {
                           textCapitalization: TextCapitalization.words,
                           decoration: InputDecoration(
                             hintText: Strings.email,
-                            prefixIcon: IconButton(icon: Image.asset(
-                              "assets/images/sms.png", height: 20, width: 20,),
-                              onPressed: null,),
+                            prefixIcon: IconButton(
+                              icon: Image.asset(
+                                "assets/images/sms.png",
+                                height: 20,
+                                width: 20,
+                              ),
+                              onPressed: null,
+                            ),
                             hintStyle: const TextStyle(
                               color: AppColors.white,
                               fontSize: Dimensions.textSizeSmall,
@@ -61,18 +68,20 @@ class _RecoverPasswordScreenState extends State<RecoverPasswordScreen> {
                             fontSize: Dimensions.textSizeSmall,
                           ),
                         )),
-                    const SizedBox(height: 30,),
-                    ButtonFill(text: Strings.next, onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const CreateNewPasswordScreen(),
-                          ));
-                    }),
-                  ]
-              )
-          )
-      ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    ButtonFill(
+                        text: Strings.next,
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const CreateNewPasswordScreen(),
+                              ));
+                        }),
+                  ]))),
     );
   }
 }

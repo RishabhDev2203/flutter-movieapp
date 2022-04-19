@@ -3,15 +3,16 @@ import 'package:flutter/material.dart';
 class AppColors {
 
   //App Colors
-  static const header = Color(0xFF211340);
+  static const header = Color(0xFF0f1c46);
   static const primary = Color(0xFF105F50);
   static const primaryDark = Color(0xFF2C1A53);
-  static const bg = Color(0xFFDDDDDD);
+  static const bg = Color(0xFF031038);
+  static const secondBg = Color(0xFF030D2C);
   static const secondaryBg = Color(0xFF33344E);
 
   //Text Colors
   static const textPrimary = Color(0xFF13161E);
-  static const textSecondary = Color(0xFFA8ABC3);
+  static const textSecondary = Color(0xFFA3ADC9);
   static const textThird = Color(0xFFDCEAE7);
   static const textErrorColor =Color(0xFFFC264C);
   static const textPlaceHolder = Color(0xFFA8ABC3);
@@ -19,7 +20,7 @@ class AppColors {
 
   //Container Colors
   static const myContainerColor = Color(0xFF1F2845);
-  static const containerBg = Color(0xFFEDF9F6);
+  static const containerBg = Color(0xFF1F2845);
   static const containerBorder = Color(0xFFC9DFDA);
   static const containerBgOrangeColor =Color(0xFFFFFBF4);
   static const thirdContainerColor =Color(0xFFCCDCD4);
@@ -33,7 +34,7 @@ class AppColors {
   static const buttonRedColor =Color(0xFFE71D1D);
 
   //Divider Colors
-  static const divider = Color(0xFF443E60);
+  static const divider = Color(0xFF6F7B9B);
   static const dividerSecondary = Color(0xFFE5E5EA);
   static const border = Color(0xFFA9BCB9);
 
@@ -45,7 +46,7 @@ class AppColors {
   //Common Colors
   static const transparent = Colors.transparent;
   static const error = Color(0xFFF4603F);
-  static const red = Color(0xFFF43F5A);
+  static const red = Color(0xFFE71D1D);
   static const white = Color(0xFFFFFFFF);
   static const black = Color(0xFF000000);
   static const backButtonColor = Color(0xFFEDFAF7);
@@ -95,17 +96,16 @@ class AppColors {
       height: h,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(cornerRadius),
-        gradient: LinearGradient(
+        gradient: const LinearGradient(
           // Where the linear gradient begins and ends
-          begin: Alignment.topRight,
-          end: Alignment.bottomLeft,
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
           // Add one stop for each color. Stops should increase from 0 to 1
-          stops: const [-1, 0.2, 0.7],
+          stops: [-1, 0.9],
           colors: [
             // Colors are easy thanks to Flutter's Colors class.
-            Colors.transparent,
-            Colors.transparent,
-            Colors.black.withOpacity(0.8),
+            Color(0x10030D2C),
+            Color(0xFC030D2C)
           ],
         ),
       ),
