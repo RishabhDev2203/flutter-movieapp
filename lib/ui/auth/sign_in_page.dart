@@ -48,6 +48,7 @@ class _SignInPageState extends State<SignInPage> {
               MyContainer(
                   padding: const EdgeInsets.only(right: 10),
                   child: TextField(
+                    keyboardType: TextInputType.emailAddress,
                     textAlignVertical: TextAlignVertical.center,
                     textCapitalization: TextCapitalization.words,
                     decoration: InputDecoration(
@@ -62,18 +63,22 @@ class _SignInPageState extends State<SignInPage> {
                       ),
                       hintStyle: const TextStyle(
                         color: AppColors.white,
-                        fontSize: Dimensions.textSizeSmall,
+                        fontSize: Dimensions.textSizeMedium,
+                        fontWeight: FontWeight.w400
                       ),
                       border: InputBorder.none,
                     ),
                     style: const TextStyle(
-                      fontSize: Dimensions.textSizeSmall,
+                        fontSize: Dimensions.textSizeMedium,
+                        fontWeight: FontWeight.w400,
+                      color: AppColors.white
                     ),
                   )),
               const SizedBox(height: 15),
               MyContainer(
                   padding: const EdgeInsets.only(right: 10),
                   child: TextField(
+                    // obscureText: _isHiddenPassword,
                     textAlignVertical: TextAlignVertical.center,
                     textCapitalization: TextCapitalization.words,
                     decoration: InputDecoration(
@@ -88,7 +93,8 @@ class _SignInPageState extends State<SignInPage> {
                       ),
                       hintStyle: const TextStyle(
                         color: AppColors.white,
-                        fontSize: Dimensions.textSizeSmall,
+                          fontSize: Dimensions.textSizeMedium,
+                          fontWeight: FontWeight.w400
                       ),
                       suffixIcon: GestureDetector(
                         // onTap: _newPasswordView,
@@ -105,7 +111,9 @@ class _SignInPageState extends State<SignInPage> {
                       border: InputBorder.none,
                     ),
                     style: const TextStyle(
-                      fontSize: Dimensions.textSizeSmall,
+                        fontSize: Dimensions.textSizeMedium,
+                        fontWeight: FontWeight.w400,
+                      color: AppColors.white
                     ),
                   )),
               const SizedBox(height: 15),

@@ -51,6 +51,7 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
                     MyContainer(
                         padding: const EdgeInsets.only(right: 10),
                         child: TextField(
+                          keyboardType: TextInputType.name,
                           textAlignVertical: TextAlignVertical.center,
                           textCapitalization: TextCapitalization.words,
                           decoration: InputDecoration(
@@ -65,12 +66,15 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
                             ),
                             hintStyle: const TextStyle(
                               color: AppColors.white,
-                              fontSize: Dimensions.textSizeSmall,
+                              fontSize: Dimensions.textSizeMedium,
+                              fontWeight: FontWeight.w400,
                             ),
                             border: InputBorder.none,
                           ),
                           style: const TextStyle(
-                            fontSize: Dimensions.textSizeSmall,
+                            color: AppColors.white,
+                            fontSize: Dimensions.textSizeMedium,
+                            fontWeight: FontWeight.w400,
                           ),
                         )),
                     const SizedBox(
@@ -79,6 +83,7 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
                     MyContainer(
                         padding: const EdgeInsets.only(right: 10),
                         child: TextField(
+                          keyboardType: TextInputType.emailAddress,
                           textAlignVertical: TextAlignVertical.center,
                           textCapitalization: TextCapitalization.words,
                           decoration: InputDecoration(
@@ -93,12 +98,15 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
                             ),
                             hintStyle: const TextStyle(
                               color: AppColors.white,
-                              fontSize: Dimensions.textSizeSmall,
+                              fontSize: Dimensions.textSizeMedium,
+                              fontWeight: FontWeight.w400,
                             ),
                             border: InputBorder.none,
                           ),
                           style: const TextStyle(
-                            fontSize: Dimensions.textSizeSmall,
+                            color: AppColors.white,
+                            fontSize: Dimensions.textSizeMedium,
+                            fontWeight: FontWeight.w400,
                           ),
                         )),
                     const SizedBox(
@@ -121,7 +129,8 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
                             ),
                             hintStyle: const TextStyle(
                               color: AppColors.white,
-                              fontSize: Dimensions.textSizeSmall,
+                              fontSize: Dimensions.textSizeMedium,
+                              fontWeight: FontWeight.w400,
                             ),
                             suffixIcon: GestureDetector(
                               // onTap: _newPasswordView,
@@ -138,7 +147,9 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
                             border: InputBorder.none,
                           ),
                           style: const TextStyle(
-                            fontSize: Dimensions.textSizeSmall,
+                            color: AppColors.white,
+                            fontSize: Dimensions.textSizeMedium,
+                            fontWeight: FontWeight.w400,
                           ),
                         )),
                     const SizedBox(
@@ -178,7 +189,9 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
                             border: InputBorder.none,
                           ),
                           style: const TextStyle(
-                            fontSize: Dimensions.textSizeSmall,
+                            color: AppColors.white,
+                            fontSize: Dimensions.textSizeMedium,
+                            fontWeight: FontWeight.w400,
                           ),
                         )),
                     const SizedBox(

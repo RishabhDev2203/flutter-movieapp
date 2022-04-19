@@ -60,12 +60,15 @@ class _RecoverPasswordScreenState extends State<RecoverPasswordScreen> {
                             ),
                             hintStyle: const TextStyle(
                               color: AppColors.white,
-                              fontSize: Dimensions.textSizeSmall,
+                              fontSize: Dimensions.textSizeMedium,
+                              fontWeight: FontWeight.w400,
                             ),
                             border: InputBorder.none,
                           ),
                           style: const TextStyle(
-                            fontSize: Dimensions.textSizeSmall,
+                            color: AppColors.white,
+                            fontSize: Dimensions.textSizeMedium,
+                            fontWeight: FontWeight.w400,
                           ),
                         )),
                     const SizedBox(
