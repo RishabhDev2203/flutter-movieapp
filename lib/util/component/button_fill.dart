@@ -22,7 +22,7 @@ class ButtonFill extends StatelessWidget {
     return Container(
       height: height,
       decoration: BoxDecoration(
-        color: AppColors.red,
+        color: AppColors.buttonRedColor,
         borderRadius: BorderRadius.circular(100),
       ),
       child: TextButton(
@@ -36,7 +36,7 @@ class ButtonFill extends StatelessWidget {
                 color: textColor,
                 fontSize: Dimensions.textSizeMedium,
                 fontFamily: Constants.fontFamily2,
-                fontWeight: FontWeight.w500),
+                fontWeight: FontWeight.w600),
           ),
         ),
         style:

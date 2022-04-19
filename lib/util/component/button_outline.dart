@@ -30,7 +30,7 @@ class ButtonOutline extends StatelessWidget {
       height: height,
       decoration: BoxDecoration(
         color: AppColors.transparent ,
-        border: Border.all(color: AppColors.red),
+        border: Border.all(color: AppColors.buttonRedColor),
         borderRadius: BorderRadius.circular(100),
       ),
       child: TextButton(
@@ -40,10 +40,10 @@ class ButtonOutline extends StatelessWidget {
         child: Text(
           Utility.capitalized(text),
           style: const TextStyle(
-              color: AppColors.red,
+              color: AppColors.buttonRedColor,
               fontSize: Dimensions.textSizeMedium,
               fontFamily: Constants.fontFamily2,
-              fontWeight: FontWeight.w500),
+              fontWeight: FontWeight.w600),
         ),
         style:
             TextButton.styleFrom(minimumSize: const Size(double.infinity, 40)),

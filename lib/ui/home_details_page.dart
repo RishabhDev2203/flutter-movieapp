@@ -20,7 +20,7 @@ class _HomeDetailPageState extends State<HomeDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.secondbg,
+      backgroundColor: AppColors.secondBg,
       body: Column(
         children: [
           Stack(
@@ -147,7 +147,7 @@ class _HomeDetailPageState extends State<HomeDetailPage> {
                 const SizedBox(height: 15,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
+                  children:  const [
                     Text(Strings.recommended,
                       style: TextStyle(
                           overflow: TextOverflow.ellipsis,

@@ -1,6 +1,7 @@
 class Constants {
 
   //Font Families
+  static const fontFamily1 = "SF Pro Display";
   static const fontFamily = "SFProDisplay";
   static const fontFamily2 = "Inter";
 
