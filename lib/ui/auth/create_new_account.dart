@@ -1,5 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase_ott/bloc/cubit/auth_cubit.dart';
+import 'package:flutter_firebase_ott/repository/auth_repository.dart';
 import 'package:flutter_firebase_ott/ui/auth/sign_in_page.dart';
 
 import '../../util/app_colors.dart';
@@ -23,6 +25,21 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
   String email = "";
   String password = "";
   String confirmPassword = "";
+
+  AuthCubit? _authCubit;
+
+  @override
+  void initState() {
+    _authCubit = AuthCubit(AuthRepository());
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _authCubit?.close();
+    _authCubit = null;
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -197,6 +214,7 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
                     ButtonFill(
                         text: Strings.signUp,
                         onPressed: () {
+                          _authCubit?.createAccount("sandeep", "sandy123@gmail.com", "123456");
                           // Navigator.push(
                           //     context,
                           //     MaterialPageRoute(
