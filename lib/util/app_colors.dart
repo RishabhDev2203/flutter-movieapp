@@ -29,6 +29,7 @@ class AppColors {
   static const pinkContainerColor =Color(0xFFFFEFF2);
   static const pinkBorderColor =Color(0xFFF7DEE2);
   static const pinkColor =Color(0xFFFC3055);
+  static const containerColor =Color(0xFF1F2845);
 
   //Divider Colors
   static const divider = Color(0xFF443E60);
