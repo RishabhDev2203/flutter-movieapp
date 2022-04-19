@@ -97,13 +97,10 @@ class AppColors {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(cornerRadius),
         gradient: const LinearGradient(
-          // Where the linear gradient begins and ends
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          // Add one stop for each color. Stops should increase from 0 to 1
           stops: [-1, 0.9],
           colors: [
-            // Colors are easy thanks to Flutter's Colors class.
             Color(0x10030D2C),
             Color(0xFC030D2C)
           ],

@@ -5,6 +5,7 @@ class Dimensions{
   static const double marginLarge = 24;
   static const double marginXLarge = 32;
 
+  static const double textSmall = 10;
   static const double textSizeExtraSmall = 12;
   static const double textSizeSmall = 14;
   static const double textSizeMedium = 16;
