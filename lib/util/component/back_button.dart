@@ -1,8 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import '../app_colors.dart';
-import '../dimensions.dart';
+import 'package:flutter_firebase_ott/util/app_colors.dart';
 
 class ButtonBack extends StatefulWidget {
   const ButtonBack({Key? key}) : super(key: key);
@@ -18,15 +15,9 @@ class _ButtonBackState extends State<ButtonBack> {
       onTap: (){
         Navigator.pop(context);
       },
-      child: Container(
-        height: 32,width: 32,
-        decoration: BoxDecoration(
-          border: Border.all(color: AppColors.border),
-          color: AppColors.white,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Image.asset('assets/images/backarrow.png',scale: 4,),
-      ),
-    );
+        child: Padding(
+          padding: const EdgeInsets.only(right: 20),
+          child: Image.asset("assets/images/arrow_left.png",height: 20,width: 20,color: AppColors.white,),
+        ));
   }
 }

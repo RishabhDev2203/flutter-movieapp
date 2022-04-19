@@ -1,8 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 import 'package:flutter_firebase_ott/util/strings.dart';
 
 import '../util/app_colors.dart';
@@ -82,7 +80,7 @@ class _HomePageState extends State<HomePage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: const [
-                      Text(Strings.continuewtching,
+                      Text(Strings.continueWatching,
                         style: TextStyle(
                             overflow: TextOverflow.ellipsis,
                             fontSize: Dimensions.textSizeLarge,
@@ -91,7 +89,7 @@ class _HomePageState extends State<HomePage> {
                             color: AppColors.white),
                       ),
 
-                      Text(Strings.seeall,
+                      Text(Strings.seeAll,
                         style: TextStyle(
                             overflow: TextOverflow.ellipsis,
                             fontSize: Dimensions.textSizeMedium,
@@ -124,7 +122,7 @@ class _HomePageState extends State<HomePage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: const [
-                      Text(Strings.actionmovie,
+                      Text(Strings.actionMovie,
                         style: TextStyle(
                             overflow: TextOverflow.ellipsis,
                             fontSize: Dimensions.textSizeLarge,
@@ -133,7 +131,7 @@ class _HomePageState extends State<HomePage> {
                             color: AppColors.white),
                       ),
 
-                      Text(Strings.seeall,
+                      Text(Strings.seeAll,
                         style: TextStyle(
                             overflow: TextOverflow.ellipsis,
                             fontSize: Dimensions.textSizeMedium,
@@ -167,7 +165,7 @@ class _HomePageState extends State<HomePage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: const [
-                      Text(Strings.adventuremovie,
+                      Text(Strings.adventureMovie,
                         style: TextStyle(
                             overflow: TextOverflow.ellipsis,
                             fontSize: Dimensions.textSizeLarge,
@@ -176,7 +174,7 @@ class _HomePageState extends State<HomePage> {
                             color: AppColors.white),
                       ),
 
-                      Text(Strings.seeall,
+                      Text(Strings.seeAll,
                         style: TextStyle(
                             overflow: TextOverflow.ellipsis,
                             fontSize: Dimensions.textSizeMedium,
@@ -210,7 +208,7 @@ class _HomePageState extends State<HomePage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: const [
-                      Text(Strings.romanticmovie,
+                      Text(Strings.romanticMovie,
                         style: TextStyle(
                             overflow: TextOverflow.ellipsis,
                             fontSize: Dimensions.textSizeLarge,
@@ -219,7 +217,7 @@ class _HomePageState extends State<HomePage> {
                             color: AppColors.white),
                       ),
 
-                      Text(Strings.seeall,
+                      Text(Strings.seeAll,
                         style: TextStyle(
                             overflow: TextOverflow.ellipsis,
                             fontSize: Dimensions.textSizeMedium,
@@ -288,26 +286,63 @@ class _HomePageState extends State<HomePage> {
     );
   }
   Widget _continueList(int index){
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(15),
-      child: CachedNetworkImage(
-        height: 120,
-        width: 196,
-        imageUrl: "https://variety.com/wp-content/uploads/2016/09/maleficent.jpg?w=681&h=383&crop=1",
-        fit: BoxFit.cover,
-        placeholder: (context, url) => Container(
-          color: Colors.black12,
-          alignment: Alignment.center,
-          child: Image.asset(
-              "assets/images/user_placeholder.png"),
+    return Stack(
+      children: [
+        ClipRRect(
+          borderRadius: BorderRadius.circular(15),
+          child: CachedNetworkImage(
+            height: 120,
+            width: 196,
+            imageUrl: "https://variety.com/wp-content/uploads/2016/09/maleficent.jpg?w=681&h=383&crop=1",
+            fit: BoxFit.cover,
+            placeholder: (context, url) => Container(
+              color: Colors.black12,
+              alignment: Alignment.center,
+              child: Image.asset(
+                  "assets/images/user_placeholder.png"),
+            ),
+            errorWidget: (context, url, error) => Container(
+              color: Colors.black12,
+              alignment: Alignment.center,
+              child: Image.asset(
+                  "assets/images/user_placeholder.png"),
+            ),
+          ),
         ),
-        errorWidget: (context, url, error) => Container(
-          color: Colors.black12,
-          alignment: Alignment.center,
-          child: Image.asset(
-              "assets/images/user_placeholder.png"),
+        Container(
+          padding: EdgeInsets.only(bottom: 35,left:10,right: 10 ),
+          alignment: Alignment.bottomCenter,
+          width: 196,
+          child: const LinearProgressIndicator(
+            value: 0.5,color:Colors.white,
+            valueColor:  AlwaysStoppedAnimation<Color>(AppColors.red),
+            minHeight: 1.7,
+          ),
         ),
-      ),
+
+        Container(
+          padding: const EdgeInsets.only(bottom: 20,left:10,right: 10 ),
+          alignment: Alignment.bottomCenter,
+          width: 196,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: const [
+              Text("1:10:20",
+                  style: TextStyle(
+                      fontSize: Dimensions.textSmall,
+                      fontFamily: Constants.fontFamily,
+                      fontWeight: FontWeight.w400,
+                      color: AppColors.white)),
+              Text("2:5:20",
+                  style: TextStyle(
+                      fontSize: Dimensions.textSmall,
+                      fontFamily: Constants.fontFamily,
+                      fontWeight: FontWeight.w400,
+                      color: AppColors.white)),
+            ],
+          ),
+        )
+      ],
     );
   }
   Widget _actionList(int index){
