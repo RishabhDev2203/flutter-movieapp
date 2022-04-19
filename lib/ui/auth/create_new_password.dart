@@ -66,7 +66,8 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
                             ),
                             hintStyle: const TextStyle(
                               color: AppColors.white,
-                              fontSize: Dimensions.textSizeSmall,
+                              fontSize: Dimensions.textSizeMedium,
+                              fontWeight: FontWeight.w400,
                             ),
                             suffixIcon: GestureDetector(
                               // onTap: _newPasswordView,
@@ -83,7 +84,9 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
                             border: InputBorder.none,
                           ),
                           style: const TextStyle(
-                            fontSize: Dimensions.textSizeSmall,
+                            color: AppColors.white,
+                            fontSize: Dimensions.textSizeMedium,
+                            fontWeight: FontWeight.w400,
                           ),
                         )),
                     const SizedBox(
@@ -106,7 +109,8 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
                             ),
                             hintStyle: const TextStyle(
                               color: AppColors.white,
-                              fontSize: Dimensions.textSizeSmall,
+                              fontSize: Dimensions.textSizeMedium,
+                              fontWeight: FontWeight.w400,
                             ),
                             suffixIcon: GestureDetector(
                               // onTap: _newPasswordView,
@@ -123,7 +127,9 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
                             border: InputBorder.none,
                           ),
                           style: const TextStyle(
-                            fontSize: Dimensions.textSizeSmall,
+                            color: AppColors.white,
+                            fontSize: Dimensions.textSizeMedium,
+                            fontWeight: FontWeight.w400,
                           ),
                         )),
                     const SizedBox(
