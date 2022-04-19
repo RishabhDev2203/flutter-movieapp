@@ -1,11 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter_firebase_ott/ui/profile/profile_page.dart';
 import 'package:flutter_firebase_ott/util/strings.dart';
-
-import '../util/app_colors.dart';
-import '../util/constants.dart';
-import '../util/dimensions.dart';
+import '../../util/app_colors.dart';
+import '../../util/constants.dart';
+import '../../util/dimensions.dart';
 import 'home_details_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -30,24 +31,29 @@ class _HomePageState extends State<HomePage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(50),
-                    child: CachedNetworkImage(
-                      width: 40,
-                      height: 40,
-                      imageUrl: "https://www.salesforce.com/blog/wp-content/uploads/sites/2/2021/06/2021-12-360BlogHeader-SalesforceAdmin.V3-1500x844-1.png",
-                      fit: BoxFit.cover,
-                      placeholder: (context, url) => Container(
-                        color: Colors.black12,
-                        alignment: Alignment.center,
-                        child: Image.asset(
-                            "assets/images/user_placeholder.png"),
-                      ),
-                      errorWidget: (context, url, error) => Container(
-                        color: Colors.black12,
-                        alignment: Alignment.center,
-                        child: Image.asset(
-                            "assets/images/user_placeholder.png"),
+                  InkWell(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfilePage()));
+                    },
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(50),
+                      child: CachedNetworkImage(
+                        width: 40,
+                        height: 40,
+                        imageUrl: "https://www.salesforce.com/blog/wp-content/uploads/sites/2/2021/06/2021-12-360BlogHeader-SalesforceAdmin.V3-1500x844-1.png",
+                        fit: BoxFit.cover,
+                        placeholder: (context, url) => Container(
+                          color: Colors.black12,
+                          alignment: Alignment.center,
+                          child: Image.asset(
+                              "assets/images/user_placeholder.png"),
+                        ),
+                        errorWidget: (context, url, error) => Container(
+                          color: Colors.black12,
+                          alignment: Alignment.center,
+                          child: Image.asset(
+                              "assets/images/user_placeholder.png"),
+                        ),
                       ),
                     ),
                   ),
@@ -119,6 +125,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                   ),
                   const SizedBox(height: 20,),
+
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: const [
@@ -310,7 +317,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         Container(
-          padding: EdgeInsets.only(bottom: 35,left:10,right: 10 ),
+          padding: const EdgeInsets.only(bottom: 35,left:10,right: 10 ),
           alignment: Alignment.bottomCenter,
           width: 196,
           child: const LinearProgressIndicator(
@@ -461,12 +468,17 @@ class _HomePageState extends State<HomePage> {
             ),),
           const SizedBox(height: 5,),
 
-          const Text("Bad Blood",
-              style: TextStyle(
-                  fontSize: Dimensions.textSizeSmall,
-                  fontFamily: Constants.fontFamily,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.white)),
+          const SizedBox(
+            width: 80,
+            child: Text("Bad Blood",
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                    fontSize: Dimensions.textSizeSmall,
+                    fontFamily: Constants.fontFamily,
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.white)),
+          ),
 
         ],
       ),

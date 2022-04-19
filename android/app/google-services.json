@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "73104713976",
+    "firebase_url": "https://whitelabelvideo-ec5b7-default-rtdb.firebaseio.com",
+    "project_id": "whitelabelvideo-ec5b7",
+    "storage_bucket": "whitelabelvideo-ec5b7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:73104713976:android:c00f972f716405d383330d",
+        "android_client_info": {
+          "package_name": "com.it.ottapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "73104713976-gcn25073ivtri3ulo07h7balu8gl079o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.it.ottapp",
+            "certificate_hash": "96609fac8cb096ec5371a5664063bd07e30cade3"
+          }
+        },
+        {
+          "client_id": "73104713976-r2u13vpsa4egltpj8ja8561kuen93uka.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDIc0WzLBl-QchcmTdSScZxx9F-3e-r2oA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "73104713976-r2u13vpsa4egltpj8ja8561kuen93uka.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

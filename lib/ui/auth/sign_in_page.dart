@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_ott/ui/auth/create_new_account.dart';
 import 'package:flutter_firebase_ott/ui/auth/recover_password.dart';
+import 'package:flutter_firebase_ott/ui/home/home_page.dart';
 import 'package:flutter_firebase_ott/util/app_colors.dart';
 import 'package:flutter_firebase_ott/util/component/button_fill.dart';
 import 'package:flutter_firebase_ott/util/component/button_outline.dart';
@@ -133,7 +134,10 @@ class _SignInPageState extends State<SignInPage> {
                     ),
                   )),
               const SizedBox(height: 25),
-              ButtonFill(text: Strings.login, onPressed: () {}),
+              // ButtonFill(text: Strings.login, onPressed: () {}),
+               ButtonFill(text: Strings.login, onPressed: () {
+                 Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomePage()));
+               }),
               const SizedBox(height: 30),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

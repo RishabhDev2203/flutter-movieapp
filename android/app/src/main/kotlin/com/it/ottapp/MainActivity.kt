@@ -1,4 +1,4 @@
-package com.it.ottapp.flutter_firebase_ott
+package com.it.ottapp
 
 import io.flutter.embedding.android.FlutterActivity
 
