@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_firebase_ott/util/app_colors.dart';
+import 'package:flutter_firebase_ott/util/component/back_button.dart';
 import 'package:flutter_firebase_ott/util/dimensions.dart';
 import '../../util/component/photo_action_bottom_sheet.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -29,7 +30,7 @@ class _ProfilePageState extends State<ProfilePage> {
             children: [
               const Align(
                 alignment: Alignment.topLeft,
-                  child: BackButton()),
+                  child: ButtonBack()),
               Stack(
                 children: [
                   _imageView(_imagePath),
