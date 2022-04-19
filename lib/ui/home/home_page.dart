@@ -1,9 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_firebase_ott/bloc/cubit/profile_page.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter_firebase_ott/ui/profile/profile_page.dart';
 import 'package:flutter_firebase_ott/util/strings.dart';
-
 import '../../util/app_colors.dart';
 import '../../util/constants.dart';
 import '../../util/dimensions.dart';
@@ -125,6 +125,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                   ),
                   const SizedBox(height: 20,),
+
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: const [
@@ -316,7 +317,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         Container(
-          padding: EdgeInsets.only(bottom: 35,left:10,right: 10 ),
+          padding: const EdgeInsets.only(bottom: 35,left:10,right: 10 ),
           alignment: Alignment.bottomCenter,
           width: 196,
           child: const LinearProgressIndicator(
@@ -467,12 +468,17 @@ class _HomePageState extends State<HomePage> {
             ),),
           const SizedBox(height: 5,),
 
-          const Text("Bad Blood",
-              style: TextStyle(
-                  fontSize: Dimensions.textSizeSmall,
-                  fontFamily: Constants.fontFamily,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.white)),
+          const SizedBox(
+            width: 80,
+            child: Text("Bad Blood",
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                    fontSize: Dimensions.textSizeSmall,
+                    fontFamily: Constants.fontFamily,
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.white)),
+          ),
 
         ],
       ),
