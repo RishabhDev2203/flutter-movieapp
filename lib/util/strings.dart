@@ -13,5 +13,11 @@ class Strings {
   static const otp="OTP";
   static const submit = "Submit";
   static const orLoginUsing = "Or Login Using";
+  static const continuewtching = "Continue Watching";
+  static const seeall = "See all";
+  static const actionmovie = "Action Movie";
+  static const adventuremovie = "Adventure Movie";
+  static const romanticmovie = "Romantic Movie";
+  static const recommended = "Recommended";
 
 }
