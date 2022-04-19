@@ -3,11 +3,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 
-import '../util/app_colors.dart';
-import '../util/component/more_description.dart';
-import '../util/constants.dart';
-import '../util/dimensions.dart';
-import '../util/strings.dart';
+import '../../util/app_colors.dart';
+import '../../util/component/more_description.dart';
+import '../../util/constants.dart';
+import '../../util/dimensions.dart';
+import '../../util/strings.dart';
 
 class HomeDetailPage extends StatefulWidget {
   const HomeDetailPage({Key? key}) : super(key: key);
