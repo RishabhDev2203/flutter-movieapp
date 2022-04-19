@@ -18,7 +18,7 @@ class MyContainer extends StatelessWidget {
       padding: padding ??
           const EdgeInsets.symmetric(horizontal: Dimensions.marginMedium),
       decoration: BoxDecoration(
-        color: color ?? AppColors.divider,
+        color: color ?? AppColors.myContainerColor,
         // border: Border.all(color: AppColors.containerBorder),
         borderRadius: BorderRadius.circular(Dimensions.cornerRadiusMedium),
       ),
