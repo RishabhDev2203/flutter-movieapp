@@ -7,7 +7,7 @@ class AppColors {
   static const primary = Color(0xFF105F50);
   static const primaryDark = Color(0xFF2C1A53);
   static const bg = Color(0xFF031038);
-  static const secondbg = Color(0xFF030D2C);
+  static const secondBg = Color(0xFF030D2C);
   static const secondaryBg = Color(0xFF33344E);
 
   //Text Colors
@@ -19,6 +19,7 @@ class AppColors {
   static const subtitleColor =Color(0xFF495B5A);
 
   //Container Colors
+  static const myContainerColor = Color(0xFF1F2845);
   static const containerBg = Color(0xFF1F2845);
   static const containerBorder = Color(0xFFC9DFDA);
   static const containerBgOrangeColor =Color(0xFFFFFBF4);
@@ -30,6 +31,7 @@ class AppColors {
   static const pinkContainerColor =Color(0xFFFFEFF2);
   static const pinkBorderColor =Color(0xFFF7DEE2);
   static const pinkColor =Color(0xFFFC3055);
+  static const buttonRedColor =Color(0xFFE71D1D);
 
   //Divider Colors
   static const divider = Color(0xFF6F7B9B);
@@ -56,7 +58,9 @@ class AppColors {
   static const borderYellowColor =Color(0xFFD29639);
   static const textColor =Color(0xFF1A1817);
   static const shimmerBase = Color(0xFFE4F4F0);
+  static const lightYellowColor = Color(0xFFF9E995);
   static const shimmerAnim = Colors.white70;
+  static const eyeColor = Color(0xFFA7AFC7);
 
 
   // Gradient Color
@@ -74,7 +78,7 @@ class AppColors {
           begin: Alignment.topRight,
           end: Alignment.bottomLeft,
           stops: [-1,0.6],
-          colors: [Color(0xFF33344E),Color(0xFF18182F)]
+          colors: [Color(0xFF03103A),Color(0xFF040C27)]
       ),
     );
   }
@@ -92,12 +96,12 @@ class AppColors {
       height: h,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(cornerRadius),
-        gradient: LinearGradient(
+        gradient: const LinearGradient(
           // Where the linear gradient begins and ends
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           // Add one stop for each color. Stops should increase from 0 to 1
-          stops: const [-1, 0.9],
+          stops: [-1, 0.9],
           colors: [
             // Colors are easy thanks to Flutter's Colors class.
             Color(0x10030D2C),

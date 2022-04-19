@@ -1,8 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 import 'package:flutter_firebase_ott/util/strings.dart';
 
 import '../util/app_colors.dart';
@@ -82,7 +80,7 @@ class _HomePageState extends State<HomePage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: const [
-                      Text(Strings.continuewtching,
+                      Text(Strings.continueWatching,
                         style: TextStyle(
                             overflow: TextOverflow.ellipsis,
                             fontSize: Dimensions.textSizeLarge,
@@ -91,7 +89,7 @@ class _HomePageState extends State<HomePage> {
                             color: AppColors.white),
                       ),
 
-                      Text(Strings.seeall,
+                      Text(Strings.seeAll,
                         style: TextStyle(
                             overflow: TextOverflow.ellipsis,
                             fontSize: Dimensions.textSizeMedium,
@@ -124,7 +122,7 @@ class _HomePageState extends State<HomePage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: const [
-                      Text(Strings.actionmovie,
+                      Text(Strings.actionMovie,
                         style: TextStyle(
                             overflow: TextOverflow.ellipsis,
                             fontSize: Dimensions.textSizeLarge,
@@ -133,7 +131,7 @@ class _HomePageState extends State<HomePage> {
                             color: AppColors.white),
                       ),
 
-                      Text(Strings.seeall,
+                      Text(Strings.seeAll,
                         style: TextStyle(
                             overflow: TextOverflow.ellipsis,
                             fontSize: Dimensions.textSizeMedium,
@@ -167,7 +165,7 @@ class _HomePageState extends State<HomePage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: const [
-                      Text(Strings.adventuremovie,
+                      Text(Strings.adventureMovie,
                         style: TextStyle(
                             overflow: TextOverflow.ellipsis,
                             fontSize: Dimensions.textSizeLarge,
@@ -176,7 +174,7 @@ class _HomePageState extends State<HomePage> {
                             color: AppColors.white),
                       ),
 
-                      Text(Strings.seeall,
+                      Text(Strings.seeAll,
                         style: TextStyle(
                             overflow: TextOverflow.ellipsis,
                             fontSize: Dimensions.textSizeMedium,
@@ -210,7 +208,7 @@ class _HomePageState extends State<HomePage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: const [
-                      Text(Strings.romanticmovie,
+                      Text(Strings.romanticMovie,
                         style: TextStyle(
                             overflow: TextOverflow.ellipsis,
                             fontSize: Dimensions.textSizeLarge,
@@ -219,7 +217,7 @@ class _HomePageState extends State<HomePage> {
                             color: AppColors.white),
                       ),
 
-                      Text(Strings.seeall,
+                      Text(Strings.seeAll,
                         style: TextStyle(
                             overflow: TextOverflow.ellipsis,
                             fontSize: Dimensions.textSizeMedium,
