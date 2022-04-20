@@ -51,6 +51,7 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
             listener: (context, state) {
               if (state is ResponseStateLoading) {
               } else if (state is ResponseStateError) {
+                Utility.hideLoader(context);
                 var error  = state.errorMessage;
                 Utility.showAlertDialog(context, error);
               } else if (state is ResponseStateSuccess) {
