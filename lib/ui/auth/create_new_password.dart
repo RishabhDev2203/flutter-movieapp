@@ -12,7 +12,8 @@ import '../../util/strings.dart';
 import '../../util/utility.dart';
 
 class CreateNewPasswordScreen extends StatefulWidget {
-  const CreateNewPasswordScreen({Key? key}) : super(key: key);
+  String? title;
+   CreateNewPasswordScreen({Key? key,this.title}) : super(key: key);
 
   @override
   State<CreateNewPasswordScreen> createState() =>
@@ -44,8 +45,8 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
                       child: ButtonBack(),
                     ),
                     const SizedBox(height: 20),
-                    const TitleText(
-                      text: Strings.createNewPassword,
+                     TitleText(
+                      text: widget.title??"",
                       fontSize: 28,
                     ),
                     const SizedBox(height: 25),
