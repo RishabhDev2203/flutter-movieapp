@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../dto/user_dto.dart' as user;
 
@@ -25,9 +26,8 @@ class AuthRepository {
 
       dto = await firebaseGetUserDetail();
       return dto;
-    } catch (e) {
-      dto.message = await errorMsgConverter(e.toString());
-      return dto;
+    } on FirebaseException catch (e) {
+      rethrow;
     }
   }
 
@@ -50,13 +50,4 @@ class AuthRepository {
     }
     return dto;
   }
-
-  errorMsgConverter(String e){
-    var str = e.toString();
-    var parts = str.split(']');
-    var prefix = parts[0].trim();
-    var date = parts.sublist(1).join(']').trim();
-    return date;
-  }
-
 }
