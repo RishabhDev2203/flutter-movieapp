@@ -23,6 +23,8 @@ class CreateNewPasswordScreen extends StatefulWidget {
 class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
   String newPassword = "";
   String confirmPassword = "";
+  bool _isHiddenPassword = true;
+  bool _isHiddenConfirmPassword = true;
 
   @override
   Widget build(BuildContext context) {
@@ -54,11 +56,12 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
                         padding: const EdgeInsets.only(right: 10),
                         child: TextField(
                           textAlignVertical: TextAlignVertical.center,
+                          obscureText: _isHiddenPassword,
                           decoration: InputDecoration(
                             hintText: Strings.newPassword,
                             prefixIcon: IconButton(
                               icon: Image.asset(
-                                "assets/images/sms.png",
+                                "assets/images/lock.png",
                                 height: 20,
                                 width: 20,
                               ),
@@ -70,12 +73,14 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
                               fontWeight: FontWeight.w400,
                             ),
                             suffixIcon: GestureDetector(
-                              // onTap: _newPasswordView,
-                              child: const Padding(
-                                padding: EdgeInsets.only(left: 40),
+                                onTap: _passwordView,
+                              child:  Padding(
+                                padding: const EdgeInsets.only(left: 40),
                                 child: ImageIcon(
                                   AssetImage(
-                                    'assets/images/eye-slash.png',
+                                    !_isHiddenPassword?
+                                    'assets/images/eye-slash.png':
+                                    'assets/images/eye.png',
                                   ),
                                   color: AppColors.eyeColor,
                                 ),
@@ -99,11 +104,12 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
                         padding: const EdgeInsets.only(right: 10),
                         child: TextField(
                           textAlignVertical: TextAlignVertical.center,
+                          obscureText: _isHiddenConfirmPassword,
                           decoration: InputDecoration(
                             hintText: Strings.confirmNewPassword,
                             prefixIcon: IconButton(
                               icon: Image.asset(
-                                "assets/images/sms.png",
+                                "assets/images/lock.png",
                                 height: 20,
                                 width: 20,
                               ),
@@ -115,12 +121,14 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
                               fontWeight: FontWeight.w400,
                             ),
                             suffixIcon: GestureDetector(
-                              // onTap: _newPasswordView,
-                              child: const Padding(
-                                padding: EdgeInsets.only(left: 40),
+                               onTap: _passwordConfirmView,
+                              child:  Padding(
+                                padding: const EdgeInsets.only(left: 40),
                                 child: ImageIcon(
                                   AssetImage(
-                                    'assets/images/eye-slash.png',
+                                    !_isHiddenConfirmPassword?
+                                    'assets/images/eye-slash.png':
+                                    'assets/images/eye.png',
                                   ),
                                   color: AppColors.eyeColor,
                                 ),
@@ -154,6 +162,16 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
                         }),
                   ]))),
     );
+  }
+  void _passwordView() {
+    setState(() {
+      _isHiddenPassword = !_isHiddenPassword;
+    });
+  }
+  void _passwordConfirmView() {
+    setState(() {
+      _isHiddenConfirmPassword = !_isHiddenConfirmPassword;
+    });
   }
 
   bool validate() {
