@@ -1,26 +1,62 @@
-import 'dart:convert';
-import 'package:dio/dio.dart';
-import 'package:retrofit/retrofit.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import '../dto/utility_dto.dart';
-import '../network/logging_interceptor.dart';
-import '../network/rest_client.dart';
-import '../util/app_session.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import '../dto/user_dto.dart' as user;
 
 class AuthRepository {
-  final Dio _dio = Dio();
-  late RestClient _apiClient;
-  AppSession? appSession;
-  String token = "";
 
-  AuthRepository() {
-    _dio.interceptors.add(LoggingInterceptor());
-    _apiClient = RestClient(_dio);
-    appSession = AppSession();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  DocumentReference? connections;
+
+  Future<user.UserDto?> createAccount(String name, String email, String password) async {
+
+    user.UserDto dto = user.UserDto();
+    FirebaseFirestore _fireStore = FirebaseFirestore.instance;
+
+    try {
+      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
+          email: email, password: password);
+
+      await _fireStore.collection('users').doc(_auth.currentUser?.uid).set({
+        "email": email,
+        "id": _auth.currentUser?.uid ?? "",
+        "name": name,
+        "role": "user",
+      });
+
+      dto = await firebaseGetUserDetail();
+      return dto;
+    } catch (e) {
+      dto.message = await errorMsgConverter(e.toString());
+      return dto;
+    }
   }
 
-  Future<HttpResponse<UtilityDto>> apiyogaVideoList() async {
-    return _apiClient.apiyogaVideoList();
+  Future<user.UserDto> firebaseGetUserDetail() async {
+    user.UserDto dto = user.UserDto();
+    String uid = _auth.currentUser!.uid;
+
+    CollectionReference collRef =
+    FirebaseFirestore.instance.collection('users');
+    final querySnapshot = await collRef
+        .doc(uid)
+        .withConverter<user.UserDto>(
+        fromFirestore: (snapshot, _) {
+          return user.UserDto.fromJson(snapshot.data()!);
+        },
+        toFirestore: (model, _) => model.toJson())
+        .get();
+    if(querySnapshot.data() != null){
+      dto = querySnapshot.data()!;
+    }
+    return dto;
+  }
+
+  errorMsgConverter(String e){
+    var str = e.toString();
+    var parts = str.split(']');
+    var prefix = parts[0].trim();
+    var date = parts.sublist(1).join(']').trim();
+    return date;
   }
 
 }

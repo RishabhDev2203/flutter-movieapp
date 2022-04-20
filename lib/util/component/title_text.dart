@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-
 import '../app_colors.dart';
 import '../dimensions.dart';
 
@@ -8,7 +7,7 @@ class TitleText extends StatelessWidget {
   final double fontSize;
 
   const TitleText(
-      {Key? key, required this.text, this.fontSize = Dimensions.textSizeXLarge})
+      {Key? key, required this.text, this.fontSize = 28})
       : super(key: key);
 
   @override
@@ -18,7 +17,7 @@ class TitleText extends StatelessWidget {
       style: TextStyle(
           color: AppColors.white,
           fontSize: fontSize,
-          fontWeight: FontWeight.w500),
+          fontWeight: FontWeight.w600),
     );
   }
 }
