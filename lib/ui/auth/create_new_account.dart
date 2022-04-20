@@ -24,6 +24,8 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
   String email = "";
   String password = "";
   String confirmPassword = "";
+  bool _isHiddenPassword = true;
+  bool _isHiddenConfirmPassword = true;
 
   @override
   Widget build(BuildContext context) {
@@ -122,6 +124,7 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
                         padding: const EdgeInsets.only(right: 10),
                         child: TextField(
                           textAlignVertical: TextAlignVertical.center,
+                          obscureText: _isHiddenPassword,
                           decoration: InputDecoration(
                             hintText: Strings.password,
                             prefixIcon: IconButton(
@@ -138,12 +141,14 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
                               fontWeight: FontWeight.w400,
                             ),
                             suffixIcon: GestureDetector(
-                              // onTap: _newPasswordView,
-                              child: const Padding(
-                                padding: EdgeInsets.only(left: 40),
+                               onTap: _passwordView,
+                              child:  Padding(
+                                padding: const EdgeInsets.only(left: 40),
                                 child: ImageIcon(
                                   AssetImage(
-                                    'assets/images/eye-slash.png',
+                                    !_isHiddenPassword?
+                                    'assets/images/eye-slash.png':
+                                    'assets/images/eye.png',
                                   ),
                                   color: AppColors.eyeColor,
                                 ),
@@ -167,6 +172,7 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
                         padding: const EdgeInsets.only(right: 10),
                         child: TextField(
                           textAlignVertical: TextAlignVertical.center,
+                          obscureText: _isHiddenConfirmPassword,
                           decoration: InputDecoration(
                             hintText: Strings.confirmPassword,
                             prefixIcon: IconButton(
@@ -182,12 +188,14 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
                               fontSize: Dimensions.textSizeSmall,
                             ),
                             suffixIcon: GestureDetector(
-                              // onTap: _newPasswordView,
-                              child: const Padding(
-                                padding: EdgeInsets.only(left: 40),
+                               onTap: _passwordConfirmView,
+                              child:  Padding(
+                                padding: const EdgeInsets.only(left: 40),
                                 child: ImageIcon(
                                   AssetImage(
-                                    'assets/images/eye-slash.png',
+                                    !_isHiddenConfirmPassword?
+                                    'assets/images/eye-slash.png':
+                                    'assets/images/eye.png',
                                   ),
                                   color: AppColors.eyeColor,
                                 ),
@@ -259,6 +267,16 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
                     ),
                   ]))),
     );
+  }
+  void _passwordView() {
+    setState(() {
+      _isHiddenPassword = !_isHiddenPassword;
+    });
+  }
+  void _passwordConfirmView() {
+    setState(() {
+      _isHiddenConfirmPassword = !_isHiddenConfirmPassword;
+    });
   }
 
   bool validate() {
