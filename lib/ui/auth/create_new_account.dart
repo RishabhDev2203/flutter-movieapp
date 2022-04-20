@@ -281,9 +281,6 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
     if (password.isEmpty) {
       valid = false;
       messages.add("Enter password");
-    } else if (password.length < 6) {
-      valid = false;
-      messages.add("Password must contain at least 6 characters.");
     }
     if (confirmPassword.isEmpty) {
       valid = false;
