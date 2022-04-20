@@ -214,7 +214,7 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
                     ButtonFill(
                         text: Strings.signUp,
                         onPressed: () {
-                          _authCubit?.createAccount("sandeep", "sandy123@gmail.com", "123456");
+                          _authCubit?.createAccount("justin", "justin@gmail.com", "123456");
                           // Navigator.push(
                           //     context,
                           //     MaterialPageRoute(

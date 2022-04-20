@@ -10,7 +10,6 @@ class AuthRepository {
   Future<user.UserDto?> createAccount(String name, String email, String password) async {
 
     user.UserDto dto = user.UserDto();
-    user.Result result = user.Result();
     FirebaseFirestore _fireStore = FirebaseFirestore.instance;
 
     try {
@@ -37,20 +36,23 @@ class AuthRepository {
 
   Future<user.UserDto> firebaseGetUserDetail() async {
     user.UserDto dto = user.UserDto();
-    user.Result result = user.Result();
-
     String uid = _auth.currentUser!.uid;
-    connections = FirebaseFirestore.instance.collection('users').doc(uid);
-    DocumentSnapshot querySnapshot = await connections!.get();
-    if (querySnapshot.data() != null) {
-      Map<String, dynamic> data = querySnapshot.data() as Map<String, dynamic>;
-      result.email = data["email"];
-      result.name = data["name"];
-      //result.id = data["uid"] ?? "";
-      result.aiName = data["role"] ?? "";
-      dto.result = result;
-      print("result.email ???????????????  ${result.email}");
+
+    CollectionReference collRef =
+    FirebaseFirestore.instance.collection('users');
+    final querySnapshot = await collRef
+        .doc(uid)
+        .withConverter<user.UserDto>(
+        fromFirestore: (snapshot, _) {
+          return user.UserDto.fromJson(snapshot.data()!);
+        },
+        toFirestore: (model, _) => model.toJson())
+        .get();
+
+    if(querySnapshot.data() != null){
+      dto = querySnapshot.data()!;
     }
+
     return dto;
   }
 
