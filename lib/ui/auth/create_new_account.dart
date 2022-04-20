@@ -50,231 +50,238 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
               padding: EdgeInsets.only(
                   left: Dimensions.marginMedium,
                   right: Dimensions.marginMedium,
-                  top: MediaQuery.of(context).padding.top + 5,
+                  top: MediaQuery.of(context).padding.top + 30,
                   bottom: Dimensions.marginSmall),
-              child: ListView(
-                  // crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // const SizedBox(height: 50),
-                    const Align(
-                        alignment: Alignment.topLeft, child: ButtonBack()),
-                    const SizedBox(height: 20),
-                    const TitleText(
-                      text: Strings.createNewAccount,
-                      fontSize: 28,
-                    ),
-                    const SizedBox(height: 25),
-                    MyContainer(
-                        padding: const EdgeInsets.only(right: 10),
-                        child: TextField(
-                          keyboardType: TextInputType.name,
-                          textAlignVertical: TextAlignVertical.center,
-                          textCapitalization: TextCapitalization.words,
-                          decoration: InputDecoration(
-                            hintText: Strings.fullName,
-                            prefixIcon: IconButton(
-                              icon: Image.asset(
-                                "assets/images/profile.png",
-                                height: 20,
-                                width: 20,
-                              ),
-                              onPressed: null,
-                            ),
-                            hintStyle: const TextStyle(
-                              color: AppColors.white,
-                              fontSize: Dimensions.textSizeMedium,
-                              fontWeight: FontWeight.w400,
-                            ),
-                            border: InputBorder.none,
-                          ),
-                          style: const TextStyle(
-                            color: AppColors.white,
-                            fontSize: Dimensions.textSizeMedium,
-                            fontWeight: FontWeight.w400,
-                          ),
-                          onChanged: (text) {
-                            name = text;
-                          },
-                        )),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    MyContainer(
-                        padding: const EdgeInsets.only(right: 10),
-                        child: TextField(
-                          keyboardType: TextInputType.emailAddress,
-                          textAlignVertical: TextAlignVertical.center,
-                          decoration: InputDecoration(
-                            hintText: Strings.email,
-                            prefixIcon: IconButton(
-                              icon: Image.asset(
-                                "assets/images/sms.png",
-                                height: 20,
-                                width: 20,
-                              ),
-                              onPressed: null,
-                            ),
-                            hintStyle: const TextStyle(
-                              color: AppColors.white,
-                              fontSize: Dimensions.textSizeMedium,
-                              fontWeight: FontWeight.w400,
-                            ),
-                            border: InputBorder.none,
-                          ),
-                          style: const TextStyle(
-                            color: AppColors.white,
-                            fontSize: Dimensions.textSizeMedium,
-                            fontWeight: FontWeight.w400,
-                          ),
-                          onChanged: (text) {
-                            email = text;
-                          },
-                        )),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    MyContainer(
-                        padding: const EdgeInsets.only(right: 10),
-                        child: TextField(
-                          textAlignVertical: TextAlignVertical.center,
-                          decoration: InputDecoration(
-                            hintText: Strings.password,
-                            prefixIcon: IconButton(
-                              icon: Image.asset(
-                                "assets/images/lock.png",
-                                height: 20,
-                                width: 20,
-                              ),
-                              onPressed: null,
-                            ),
-                            hintStyle: const TextStyle(
-                              color: AppColors.white,
-                              fontSize: Dimensions.textSizeMedium,
-                              fontWeight: FontWeight.w400,
-                            ),
-                            suffixIcon: GestureDetector(
-                              // onTap: _newPasswordView,
-                              child: const Padding(
-                                padding: EdgeInsets.only(left: 40),
-                                child: ImageIcon(
-                                  AssetImage(
-                                    'assets/images/eye-slash.png',
+              child: CustomScrollView(
+               slivers : [SliverFillRemaining(
+                  hasScrollBody: false,
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // const SizedBox(height: 50),
+                        const Align(
+                            alignment: Alignment.topLeft, child: ButtonBack()),
+                        const SizedBox(height: 20),
+                        const TitleText(
+                          text: Strings.createNewAccount,
+                          fontSize: 28,
+                        ),
+                        const SizedBox(height: 25),
+                        MyContainer(
+                            padding: const EdgeInsets.only(right: 10),
+                            child: TextField(
+                              keyboardType: TextInputType.name,
+                              textAlignVertical: TextAlignVertical.center,
+                              textCapitalization: TextCapitalization.words,
+                              decoration: InputDecoration(
+                                hintText: Strings.fullName,
+                                prefixIcon: IconButton(
+                                  icon: Image.asset(
+                                    "assets/images/profile.png",
+                                    height: 20,
+                                    width: 20,
                                   ),
-                                  color: AppColors.eyeColor,
+                                  onPressed: null,
                                 ),
-                              ),
-                            ),
-                            border: InputBorder.none,
-                          ),
-                          style: const TextStyle(
-                            color: AppColors.white,
-                            fontSize: Dimensions.textSizeMedium,
-                            fontWeight: FontWeight.w400,
-                          ),
-                          onChanged: (text) {
-                            password = text;
-                          },
-                        )),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    MyContainer(
-                        padding: const EdgeInsets.only(right: 10),
-                        child: TextField(
-                          textAlignVertical: TextAlignVertical.center,
-                          decoration: InputDecoration(
-                            hintText: Strings.confirmPassword,
-                            prefixIcon: IconButton(
-                              icon: Image.asset(
-                                "assets/images/lock.png",
-                                height: 20,
-                                width: 20,
-                              ),
-                              onPressed: null,
-                            ),
-                            hintStyle: const TextStyle(
-                              color: AppColors.white,
-                              fontSize: Dimensions.textSizeSmall,
-                            ),
-                            suffixIcon: GestureDetector(
-                              // onTap: _newPasswordView,
-                              child: const Padding(
-                                padding: EdgeInsets.only(left: 40),
-                                child: ImageIcon(
-                                  AssetImage(
-                                    'assets/images/eye-slash.png',
-                                  ),
-                                  color: AppColors.eyeColor,
-                                ),
-                              ),
-                            ),
-                            border: InputBorder.none,
-                          ),
-                          style: const TextStyle(
-                            color: AppColors.white,
-                            fontSize: Dimensions.textSizeMedium,
-                            fontWeight: FontWeight.w400,
-                          ),
-                          onChanged: (text) {
-                            confirmPassword = text;
-                          },
-                        )),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    const Text(
-                      Strings.bothPasswordSame,
-                      style: TextStyle(
-                          color: AppColors.lightYellowColor,
-                          fontWeight: FontWeight.w400,
-                          fontSize: Dimensions.textSizeSmall),
-                    ),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    ButtonFill(
-                        text: Strings.signUp,
-                        onPressed: () {
-                          if(validate())
-                          {
-                            _authCubit?.createAccount("justin", "justin@gmail.com", "123456");
-
-                            // Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //       builder: (context) => const HomePage(),
-                            //     ));
-                          }
-                        }),
-                    const SizedBox(height: 110),
-                    Center(
-                      child: RichText(
-                        textAlign: TextAlign.center,
-                        text: TextSpan(children: <TextSpan>[
-                          const TextSpan(
-                              text: Strings.alreadyHaveAnAccount,
-                              style: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: Dimensions.textSizeMedium,
-                                  fontWeight: FontWeight.w500)),
-                          TextSpan(
-                              text: Strings.login,
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () {
-                                  Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const SignInPage()));
-                                },
-                              style: const TextStyle(
+                                hintStyle: const TextStyle(
                                   color: AppColors.white,
                                   fontSize: Dimensions.textSizeMedium,
-                                  fontWeight: FontWeight.w600)),
-                        ]),
-                      ),
-                    ),
-                  ]))),
+                                  fontWeight: FontWeight.w400,
+                                ),
+                                border: InputBorder.none,
+                              ),
+                              style: const TextStyle(
+                                color: AppColors.white,
+                                fontSize: Dimensions.textSizeMedium,
+                                fontWeight: FontWeight.w400,
+                              ),
+                              onChanged: (text) {
+                                name = text;
+                              },
+                            )),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        MyContainer(
+                            padding: const EdgeInsets.only(right: 10),
+                            child: TextField(
+                              keyboardType: TextInputType.emailAddress,
+                              textAlignVertical: TextAlignVertical.center,
+                              decoration: InputDecoration(
+                                hintText: Strings.email,
+                                prefixIcon: IconButton(
+                                  icon: Image.asset(
+                                    "assets/images/sms.png",
+                                    height: 20,
+                                    width: 20,
+                                  ),
+                                  onPressed: null,
+                                ),
+                                hintStyle: const TextStyle(
+                                  color: AppColors.white,
+                                  fontSize: Dimensions.textSizeMedium,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                                border: InputBorder.none,
+                              ),
+                              style: const TextStyle(
+                                color: AppColors.white,
+                                fontSize: Dimensions.textSizeMedium,
+                                fontWeight: FontWeight.w400,
+                              ),
+                              onChanged: (text) {
+                                email = text;
+                              },
+                            )),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        MyContainer(
+                            padding: const EdgeInsets.only(right: 10),
+                            child: TextField(
+                              textAlignVertical: TextAlignVertical.center,
+                              decoration: InputDecoration(
+                                hintText: Strings.password,
+                                prefixIcon: IconButton(
+                                  icon: Image.asset(
+                                    "assets/images/lock.png",
+                                    height: 20,
+                                    width: 20,
+                                  ),
+                                  onPressed: null,
+                                ),
+                                hintStyle: const TextStyle(
+                                  color: AppColors.white,
+                                  fontSize: Dimensions.textSizeMedium,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                                suffixIcon: GestureDetector(
+                                  // onTap: _newPasswordView,
+                                  child: const Padding(
+                                    padding: EdgeInsets.only(left: 40),
+                                    child: ImageIcon(
+                                      AssetImage(
+                                        'assets/images/eye-slash.png',
+                                      ),
+                                      color: AppColors.eyeColor,
+                                    ),
+                                  ),
+                                ),
+                                border: InputBorder.none,
+                              ),
+                              style: const TextStyle(
+                                color: AppColors.white,
+                                fontSize: Dimensions.textSizeMedium,
+                                fontWeight: FontWeight.w400,
+                              ),
+                              onChanged: (text) {
+                                password = text;
+                              },
+                            )),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        MyContainer(
+                            padding: const EdgeInsets.only(right: 10),
+                            child: TextField(
+                              textAlignVertical: TextAlignVertical.center,
+                              decoration: InputDecoration(
+                                hintText: Strings.confirmPassword,
+                                prefixIcon: IconButton(
+                                  icon: Image.asset(
+                                    "assets/images/lock.png",
+                                    height: 20,
+                                    width: 20,
+                                  ),
+                                  onPressed: null,
+                                ),
+                                hintStyle: const TextStyle(
+                                  color: AppColors.white,
+                                  fontSize: Dimensions.textSizeSmall,
+                                ),
+                                suffixIcon: GestureDetector(
+                                  // onTap: _newPasswordView,
+                                  child: const Padding(
+                                    padding: EdgeInsets.only(left: 40),
+                                    child: ImageIcon(
+                                      AssetImage(
+                                        'assets/images/eye-slash.png',
+                                      ),
+                                      color: AppColors.eyeColor,
+                                    ),
+                                  ),
+                                ),
+                                border: InputBorder.none,
+                              ),
+                              style: const TextStyle(
+                                color: AppColors.white,
+                                fontSize: Dimensions.textSizeMedium,
+                                fontWeight: FontWeight.w400,
+                              ),
+                              onChanged: (text) {
+                                confirmPassword = text;
+                              },
+                            )),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        const Text(
+                          Strings.bothPasswordSame,
+                          style: TextStyle(
+                              color: AppColors.lightYellowColor,
+                              fontWeight: FontWeight.w400,
+                              fontSize: Dimensions.textSizeSmall),
+                        ),
+                        const SizedBox(
+                          height: 30,
+                        ),
+                        ButtonFill(
+                            text: Strings.signUp,
+                            onPressed: () {
+                              if(validate())
+                              {
+                                _authCubit?.createAccount("justin", "justin@gmail.com", "123456");
+
+                                // Navigator.push(
+                                //     context,
+                                //     MaterialPageRoute(
+                                //       builder: (context) => const HomePage(),
+                                //     ));
+                              }
+                            }),
+                        const Spacer(),
+                        const SizedBox(height: 20,),
+                        Center(
+                          child: RichText(
+                            textAlign: TextAlign.center,
+                            text: TextSpan(children: <TextSpan>[
+                              const TextSpan(
+                                  text: Strings.alreadyHaveAnAccount,
+                                  style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: Dimensions.textSizeMedium,
+                                      fontWeight: FontWeight.w500)),
+                              TextSpan(
+                                  text: Strings.login,
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const SignInPage()));
+                                    },
+                                  style: const TextStyle(
+                                      color: AppColors.white,
+                                      fontSize: Dimensions.textSizeMedium,
+                                      fontWeight: FontWeight.w600)),
+                            ]),
+                          ),
+                        ),
+                      ]),
+                ),
+                ]
+              ))),
     );
   }
 
