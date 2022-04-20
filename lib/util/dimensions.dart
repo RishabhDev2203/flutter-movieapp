@@ -20,4 +20,5 @@ class Dimensions{
   static const double lineHeight = 1.5;
 
   static const double radius = 8;
+
 }
