@@ -1,8 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase_ott/bloc/cubit/auth_cubit.dart';
+import 'package:flutter_firebase_ott/repository/auth_repository.dart';
 import 'package:flutter_firebase_ott/ui/auth/sign_in_page.dart';
-import 'package:flutter_firebase_ott/ui/home/home_page.dart';
-
 import '../../util/app_colors.dart';
 import '../../util/component/back_button.dart';
 import '../../util/component/button_fill.dart';
@@ -24,6 +24,21 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
   String email = "";
   String password = "";
   String confirmPassword = "";
+
+  AuthCubit? _authCubit;
+
+  @override
+  void initState() {
+    _authCubit = AuthCubit(AuthRepository());
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _authCubit?.close();
+    _authCubit = null;
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -222,11 +237,13 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
                         onPressed: () {
                           if(validate())
                           {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const HomePage(),
-                                ));
+                            _authCubit?.createAccount("justin", "justin@gmail.com", "123456");
+
+                            // Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //       builder: (context) => const HomePage(),
+                            //     ));
                           }
                         }),
                     const SizedBox(height: 110),

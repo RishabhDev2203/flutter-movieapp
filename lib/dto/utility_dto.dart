@@ -45,7 +45,7 @@ class Result {
     this.token,
   });
 
-  dynamic? id;
+  dynamic id;
   String? message;
   String? token;
 
