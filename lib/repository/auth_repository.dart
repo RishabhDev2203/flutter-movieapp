@@ -16,8 +16,6 @@ class AuthRepository {
       UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
 
-      print("Account created successful");
-
       await _fireStore.collection('users').doc(_auth.currentUser?.uid).set({
         "email": email,
         "id": _auth.currentUser?.uid ?? "",
@@ -26,11 +24,10 @@ class AuthRepository {
       });
 
       dto = await firebaseGetUserDetail();
-
       return dto;
     } catch (e) {
-      print(e);
-      return null;
+      dto.message = await errorMsgConverter(e.toString());
+      return dto;
     }
   }
 
@@ -48,12 +45,18 @@ class AuthRepository {
         },
         toFirestore: (model, _) => model.toJson())
         .get();
-
     if(querySnapshot.data() != null){
       dto = querySnapshot.data()!;
     }
-
     return dto;
+  }
+
+  errorMsgConverter(String e){
+    var str = e.toString();
+    var parts = str.split(']');
+    var prefix = parts[0].trim();
+    var date = parts.sublist(1).join(']').trim();
+    return date;
   }
 
 }

@@ -16,11 +16,12 @@ class AuthCubit extends Cubit<ResponseState> {
     UserDto dto;
     try {
       dto = (await _authRepository.createAccount(name, email, password))!;
-      emit(ResponseStateSuccess(dto));
-      print("dto.email>>>>>>>>>>> ${dto.email}");
-      print("dto.name>>>>>>>>>>> ${dto.name}");
-      print("dto.id>>>>>>>>>>> ${dto.id}");
-      print("dto.role>>>>>>>>>>> ${dto.role}");
+      if(dto.message != null && dto.message!.isNotEmpty) {
+        emit(ResponseStateError(dto.message ?? ""));
+      } else {
+        emit(ResponseStateSuccess(dto));
+      }
+
     }
     on DioError catch (error) {
       emit(ServerError.mapDioErrorToState(error));

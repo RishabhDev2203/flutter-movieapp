@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_firebase_ott/bloc/cubit/auth_cubit.dart';
 import 'package:flutter_firebase_ott/repository/auth_repository.dart';
 import 'package:flutter_firebase_ott/ui/auth/sign_in_page.dart';
+import '../../bloc/api_resp_state.dart';
 import '../../util/app_colors.dart';
 import '../../util/component/back_button.dart';
 import '../../util/component/button_fill.dart';
@@ -11,6 +12,8 @@ import '../../util/component/title_text.dart';
 import '../../util/dimensions.dart';
 import '../../util/strings.dart';
 import '../../util/utility.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../home/home_page.dart';
 
 class CreateNewAccountScreen extends StatefulWidget {
   const CreateNewAccountScreen({Key? key}) : super(key: key);
@@ -24,7 +27,6 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
   String email = "";
   String password = "";
   String confirmPassword = "";
-
   AuthCubit? _authCubit;
 
   @override
@@ -42,6 +44,30 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
 
   @override
   Widget build(BuildContext context) {
+    return MultiBlocListener(
+        listeners: [
+          BlocListener<AuthCubit, ResponseState>(
+            bloc: _authCubit,
+            listener: (context, state) {
+              if (state is ResponseStateLoading) {
+              } else if (state is ResponseStateError) {
+                var error  = state.errorMessage;
+                Utility.showAlertDialog(context, error);
+              } else if (state is ResponseStateSuccess) {
+                Utility.hideLoader(context);
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const HomePage(),
+                    ));
+              }
+            },
+          ),
+        ],
+        child: _getBody());
+  }
+
+  _getBody(){
     return Container(
       decoration: AppColors.bgGradientBoxDecoration(),
       child: Scaffold(
@@ -53,9 +79,7 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
                   top: MediaQuery.of(context).padding.top + 5,
                   bottom: Dimensions.marginSmall),
               child: ListView(
-                  // crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // const SizedBox(height: 50),
                     const Align(
                         alignment: Alignment.topLeft, child: ButtonBack()),
                     const SizedBox(height: 20),
@@ -235,16 +259,9 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
                     ButtonFill(
                         text: Strings.signUp,
                         onPressed: () {
-                          if(validate())
-                          {
-                            _authCubit?.createAccount("justin", "justin@gmail.com", "123456");
-
-                            // Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //       builder: (context) => const HomePage(),
-                            //     ));
-                          }
+                           if(validate()){
+                             createAccount();
+                           }
                         }),
                     const SizedBox(height: 110),
                     Center(
@@ -265,7 +282,7 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              const SignInPage()));
+                                          const SignInPage()));
                                 },
                               style: const TextStyle(
                                   color: AppColors.white,
@@ -325,5 +342,10 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
       Utility.showAlertDialog(context, msg);
     }
     return valid;
+  }
+
+  createAccount(){
+    Utility.showLoader(context);
+    _authCubit?.createAccount(name, email, password);
   }
 }
