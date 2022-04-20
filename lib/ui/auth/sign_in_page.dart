@@ -21,9 +21,9 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
-  bool _isHiddenPassword = true;
   String email = "";
   String password = "";
+  bool _isHiddenPassword = true;
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +81,7 @@ class _SignInPageState extends State<SignInPage> {
               MyContainer(
                   padding: const EdgeInsets.only(right: 10),
                   child: TextField(
-                    // obscureText: _isHiddenPassword,
+                     obscureText: _isHiddenPassword,
                     textAlignVertical: TextAlignVertical.center,
                     decoration: InputDecoration(
                       hintText: Strings.password,
@@ -99,12 +99,14 @@ class _SignInPageState extends State<SignInPage> {
                           fontWeight: FontWeight.w400
                       ),
                       suffixIcon: GestureDetector(
-                        // onTap: _newPasswordView,
-                        child: const Padding(
+                         onTap: _passwordView,
+                        child:  Padding(
                           padding: EdgeInsets.only(left: 40),
                           child: ImageIcon(
                             AssetImage(
-                              'assets/images/eye-slash.png',
+                              !_isHiddenPassword?
+                              'assets/images/eye-slash.png':
+                              'assets/images/eye.png',
                             ),
                             color: AppColors.eyeColor,
                           ),
@@ -237,6 +239,11 @@ class _SignInPageState extends State<SignInPage> {
         ),
       ),
     );
+  }
+  void _passwordView() {
+    setState(() {
+      _isHiddenPassword = !_isHiddenPassword;
+    });
   }
 
   bool validate() {
