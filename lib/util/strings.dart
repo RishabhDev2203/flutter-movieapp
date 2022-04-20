@@ -37,5 +37,6 @@ class Strings {
   static const adventureMovie = "Adventure Movie";
   static const romanticMovie = "Romantic Movie";
   static const recommended = "Recommended";
+  static const changePassword = "Change password";
 
 }

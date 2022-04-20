@@ -42,7 +42,8 @@ class _SplashState extends State<Splash> {
   _goto(BuildContext context) {
           Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(
-                builder: (context) => const SignInPage()),
+                builder: (context) => const /*HomePage()*/ SignInPage()),
+
                 (Route<dynamic> route) => false);
     }
   // _goto(BuildContext context) async {

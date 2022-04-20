@@ -7,7 +7,7 @@ class TitleText extends StatelessWidget {
   final double fontSize;
 
   const TitleText(
-      {Key? key, required this.text, this.fontSize = Dimensions.textSizeXLarge})
+      {Key? key, required this.text, this.fontSize = 28})
       : super(key: key);
 
   @override
