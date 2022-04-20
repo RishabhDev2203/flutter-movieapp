@@ -53,7 +53,6 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
                         padding: const EdgeInsets.only(right: 10),
                         child: TextField(
                           textAlignVertical: TextAlignVertical.center,
-                          textCapitalization: TextCapitalization.words,
                           decoration: InputDecoration(
                             hintText: Strings.newPassword,
                             prefixIcon: IconButton(
@@ -88,6 +87,9 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
                             fontSize: Dimensions.textSizeMedium,
                             fontWeight: FontWeight.w400,
                           ),
+                          onChanged: (text) {
+                            newPassword = text;
+                          },
                         )),
                     const SizedBox(
                       height: 20,
@@ -96,7 +98,6 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
                         padding: const EdgeInsets.only(right: 10),
                         child: TextField(
                           textAlignVertical: TextAlignVertical.center,
-                          textCapitalization: TextCapitalization.words,
                           decoration: InputDecoration(
                             hintText: Strings.confirmNewPassword,
                             prefixIcon: IconButton(
@@ -131,6 +132,9 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
                             fontSize: Dimensions.textSizeMedium,
                             fontWeight: FontWeight.w400,
                           ),
+                          onChanged: (text) {
+                            confirmPassword = text;
+                          },
                         )),
                     const SizedBox(
                       height: 30,
@@ -138,12 +142,14 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
                     ButtonFill(
                         text: Strings.savePassword,
                         onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    const CreateNewAccountScreen(),
-                              ));
+                          if(validate()) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                  const CreateNewAccountScreen(),
+                                ));
+                          }
                         }),
                   ]))),
     );
@@ -154,19 +160,16 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
     List<String>? messages = [];
     if (newPassword.isEmpty) {
       valid = false;
-      messages.add("Enter password");
-    } else if (newPassword.length < 6) {
-      valid = false;
-      messages.add("Password must contain at least 6 characters.");
+      messages.add("Enter new password");
     }
     if (confirmPassword.isEmpty) {
       valid = false;
       messages.add("Please enter confirm password.");
-    } else if (confirmPassword.length < 6) {
+    } else if (newPassword.length < 6) {
       valid = false;
       messages.add("Password must contain at least 6 characters.");
     }
-    if (newPassword != confirmPassword) {
+    if(newPassword != confirmPassword){
       valid = false;
       messages.add("New password and confirm password not match.");
     }
