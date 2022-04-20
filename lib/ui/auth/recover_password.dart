@@ -8,6 +8,7 @@ import '../../util/component/my_container.dart';
 import '../../util/component/title_text.dart';
 import '../../util/dimensions.dart';
 import '../../util/strings.dart';
+import '../../util/utility.dart';
 
 class RecoverPasswordScreen extends StatefulWidget {
   const RecoverPasswordScreen({Key? key}) : super(key: key);
@@ -17,6 +18,8 @@ class RecoverPasswordScreen extends StatefulWidget {
 }
 
 class _RecoverPasswordScreenState extends State<RecoverPasswordScreen> {
+  String email = "";
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -46,6 +49,7 @@ class _RecoverPasswordScreenState extends State<RecoverPasswordScreen> {
                     MyContainer(
                         padding: const EdgeInsets.only(right: 10),
                         child: TextField(
+                          keyboardType: TextInputType.emailAddress,
                           textAlignVertical: TextAlignVertical.center,
                           decoration: InputDecoration(
                             hintText: Strings.email,
@@ -69,6 +73,9 @@ class _RecoverPasswordScreenState extends State<RecoverPasswordScreen> {
                             fontSize: Dimensions.textSizeMedium,
                             fontWeight: FontWeight.w400,
                           ),
+                          onChanged: (text){
+                            email = text;
+                          },
                         )),
                     const SizedBox(
                       height: 30,
@@ -76,14 +83,44 @@ class _RecoverPasswordScreenState extends State<RecoverPasswordScreen> {
                     ButtonFill(
                         text: Strings.next,
                         onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                     CreateNewPasswordScreen(title: Strings.createNewPassword),
-                              ));
+                          if(validate()) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      CreateNewPasswordScreen(title: Strings
+                                          .createNewPassword),
+                                ));
+                          }
                         }),
                   ]))),
     );
+  }
+
+  bool validate() {
+    var valid = true;
+    var emailValid = RegExp(
+        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+        .hasMatch(email);
+    List<String>? messages = [];
+    if (email.isEmpty) {
+      valid = false;
+      messages.add("Enter Email id.");
+    } else if (!emailValid) {
+      valid = false;
+      messages.add("Enter valid email.");
+    }
+    if (!valid) {
+      var msg = "";
+      for (String message in messages) {
+        if (msg.isEmpty) {
+          msg = message;
+        } else {
+          msg = msg + "\n$message";
+        }
+      }
+      Utility.showAlertDialog(context, msg);
+    }
+    return valid;
   }
 }
