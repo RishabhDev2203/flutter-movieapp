@@ -47,7 +47,6 @@ class _RecoverPasswordScreenState extends State<RecoverPasswordScreen> {
                         padding: const EdgeInsets.only(right: 10),
                         child: TextField(
                           textAlignVertical: TextAlignVertical.center,
-                          textCapitalization: TextCapitalization.words,
                           decoration: InputDecoration(
                             hintText: Strings.email,
                             prefixIcon: IconButton(
