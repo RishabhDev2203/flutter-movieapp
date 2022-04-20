@@ -47,7 +47,6 @@ class _RecoverPasswordScreenState extends State<RecoverPasswordScreen> {
                         padding: const EdgeInsets.only(right: 10),
                         child: TextField(
                           textAlignVertical: TextAlignVertical.center,
-                          textCapitalization: TextCapitalization.words,
                           decoration: InputDecoration(
                             hintText: Strings.email,
                             prefixIcon: IconButton(
@@ -60,12 +59,15 @@ class _RecoverPasswordScreenState extends State<RecoverPasswordScreen> {
                             ),
                             hintStyle: const TextStyle(
                               color: AppColors.white,
-                              fontSize: Dimensions.textSizeSmall,
+                              fontSize: Dimensions.textSizeMedium,
+                              fontWeight: FontWeight.w400,
                             ),
                             border: InputBorder.none,
                           ),
                           style: const TextStyle(
-                            fontSize: Dimensions.textSizeSmall,
+                            color: AppColors.white,
+                            fontSize: Dimensions.textSizeMedium,
+                            fontWeight: FontWeight.w400,
                           ),
                         )),
                     const SizedBox(

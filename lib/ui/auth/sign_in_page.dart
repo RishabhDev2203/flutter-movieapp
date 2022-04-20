@@ -49,8 +49,8 @@ class _SignInPageState extends State<SignInPage> {
               MyContainer(
                   padding: const EdgeInsets.only(right: 10),
                   child: TextField(
+                    keyboardType: TextInputType.emailAddress,
                     textAlignVertical: TextAlignVertical.center,
-                    textCapitalization: TextCapitalization.words,
                     decoration: InputDecoration(
                       hintText: Strings.email,
                       prefixIcon: IconButton(
@@ -63,20 +63,26 @@ class _SignInPageState extends State<SignInPage> {
                       ),
                       hintStyle: const TextStyle(
                         color: AppColors.white,
-                        fontSize: Dimensions.textSizeSmall,
+                        fontSize: Dimensions.textSizeMedium,
+                        fontWeight: FontWeight.w400
                       ),
                       border: InputBorder.none,
                     ),
                     style: const TextStyle(
-                      fontSize: Dimensions.textSizeSmall,
+                        fontSize: Dimensions.textSizeMedium,
+                        fontWeight: FontWeight.w400,
+                      color: AppColors.white
                     ),
+                    onChanged: (text) {
+                      email = text;
+                    },
                   )),
               const SizedBox(height: 15),
               MyContainer(
                   padding: const EdgeInsets.only(right: 10),
                   child: TextField(
+                    // obscureText: _isHiddenPassword,
                     textAlignVertical: TextAlignVertical.center,
-                    textCapitalization: TextCapitalization.words,
                     decoration: InputDecoration(
                       hintText: Strings.password,
                       prefixIcon: IconButton(
@@ -89,7 +95,8 @@ class _SignInPageState extends State<SignInPage> {
                       ),
                       hintStyle: const TextStyle(
                         color: AppColors.white,
-                        fontSize: Dimensions.textSizeSmall,
+                          fontSize: Dimensions.textSizeMedium,
+                          fontWeight: FontWeight.w400
                       ),
                       suffixIcon: GestureDetector(
                         // onTap: _newPasswordView,
@@ -106,8 +113,13 @@ class _SignInPageState extends State<SignInPage> {
                       border: InputBorder.none,
                     ),
                     style: const TextStyle(
-                      fontSize: Dimensions.textSizeSmall,
+                        fontSize: Dimensions.textSizeMedium,
+                        fontWeight: FontWeight.w400,
+                      color: AppColors.white
                     ),
+                    onChanged: (text) {
+                      password = text;
+                    },
                   )),
               const SizedBox(height: 15),
               Align(
@@ -122,13 +134,17 @@ class _SignInPageState extends State<SignInPage> {
                     },
                     child: const Text(
                       Strings.forgotPassword,
-                      style: TextStyle(color: AppColors.lightYellowColor),
+                      style: TextStyle(color: AppColors.lightYellowColor,
+                      fontWeight: FontWeight.w500,fontSize: Dimensions.textSizeSmall),
                     ),
                   )),
               const SizedBox(height: 25),
               // ButtonFill(text: Strings.login, onPressed: () {}),
                ButtonFill(text: Strings.login, onPressed: () {
-                 Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomePage()));
+                 if(validate()) {
+                   Navigator.pushReplacement(context, MaterialPageRoute(
+                       builder: (context) => const HomePage()));
+                 }
                }),
               const SizedBox(height: 30),
               Row(
@@ -203,7 +219,7 @@ class _SignInPageState extends State<SignInPage> {
                         text: Strings.signUp,
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            Navigator.pushReplacement(
+                            Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
@@ -225,10 +241,16 @@ class _SignInPageState extends State<SignInPage> {
 
   bool validate() {
     var valid = true;
+    var emailValid = RegExp(
+        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+        .hasMatch(email);
     List<String>? messages = [];
     if (email.isEmpty) {
       valid = false;
-      messages.add("Enter Email");
+      messages.add("Enter Email id.");
+    } else if (!emailValid) {
+      valid = false;
+      messages.add("Enter valid email.");
     }
     if (password.isEmpty) {
       valid = false;
@@ -250,4 +272,5 @@ class _SignInPageState extends State<SignInPage> {
     }
     return valid;
   }
+
 }

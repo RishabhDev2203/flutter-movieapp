@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_ott/ui/auth/sign_in_page.dart';
+import 'package:flutter_firebase_ott/ui/home/home_page.dart';
 
 import '../../util/app_colors.dart';
 import '../../util/component/back_button.dart';
@@ -51,6 +52,7 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
                     MyContainer(
                         padding: const EdgeInsets.only(right: 10),
                         child: TextField(
+                          keyboardType: TextInputType.name,
                           textAlignVertical: TextAlignVertical.center,
                           textCapitalization: TextCapitalization.words,
                           decoration: InputDecoration(
@@ -65,13 +67,19 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
                             ),
                             hintStyle: const TextStyle(
                               color: AppColors.white,
-                              fontSize: Dimensions.textSizeSmall,
+                              fontSize: Dimensions.textSizeMedium,
+                              fontWeight: FontWeight.w400,
                             ),
                             border: InputBorder.none,
                           ),
                           style: const TextStyle(
-                            fontSize: Dimensions.textSizeSmall,
+                            color: AppColors.white,
+                            fontSize: Dimensions.textSizeMedium,
+                            fontWeight: FontWeight.w400,
                           ),
+                          onChanged: (text) {
+                            name = text;
+                          },
                         )),
                     const SizedBox(
                       height: 20,
@@ -79,8 +87,8 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
                     MyContainer(
                         padding: const EdgeInsets.only(right: 10),
                         child: TextField(
+                          keyboardType: TextInputType.emailAddress,
                           textAlignVertical: TextAlignVertical.center,
-                          textCapitalization: TextCapitalization.words,
                           decoration: InputDecoration(
                             hintText: Strings.email,
                             prefixIcon: IconButton(
@@ -93,13 +101,19 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
                             ),
                             hintStyle: const TextStyle(
                               color: AppColors.white,
-                              fontSize: Dimensions.textSizeSmall,
+                              fontSize: Dimensions.textSizeMedium,
+                              fontWeight: FontWeight.w400,
                             ),
                             border: InputBorder.none,
                           ),
                           style: const TextStyle(
-                            fontSize: Dimensions.textSizeSmall,
+                            color: AppColors.white,
+                            fontSize: Dimensions.textSizeMedium,
+                            fontWeight: FontWeight.w400,
                           ),
+                          onChanged: (text) {
+                            email = text;
+                          },
                         )),
                     const SizedBox(
                       height: 20,
@@ -108,7 +122,6 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
                         padding: const EdgeInsets.only(right: 10),
                         child: TextField(
                           textAlignVertical: TextAlignVertical.center,
-                          textCapitalization: TextCapitalization.words,
                           decoration: InputDecoration(
                             hintText: Strings.password,
                             prefixIcon: IconButton(
@@ -121,7 +134,8 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
                             ),
                             hintStyle: const TextStyle(
                               color: AppColors.white,
-                              fontSize: Dimensions.textSizeSmall,
+                              fontSize: Dimensions.textSizeMedium,
+                              fontWeight: FontWeight.w400,
                             ),
                             suffixIcon: GestureDetector(
                               // onTap: _newPasswordView,
@@ -138,8 +152,13 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
                             border: InputBorder.none,
                           ),
                           style: const TextStyle(
-                            fontSize: Dimensions.textSizeSmall,
+                            color: AppColors.white,
+                            fontSize: Dimensions.textSizeMedium,
+                            fontWeight: FontWeight.w400,
                           ),
+                          onChanged: (text) {
+                            password = text;
+                          },
                         )),
                     const SizedBox(
                       height: 20,
@@ -148,7 +167,6 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
                         padding: const EdgeInsets.only(right: 10),
                         child: TextField(
                           textAlignVertical: TextAlignVertical.center,
-                          textCapitalization: TextCapitalization.words,
                           decoration: InputDecoration(
                             hintText: Strings.confirmPassword,
                             prefixIcon: IconButton(
@@ -178,8 +196,13 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
                             border: InputBorder.none,
                           ),
                           style: const TextStyle(
-                            fontSize: Dimensions.textSizeSmall,
+                            color: AppColors.white,
+                            fontSize: Dimensions.textSizeMedium,
+                            fontWeight: FontWeight.w400,
                           ),
+                          onChanged: (text) {
+                            confirmPassword = text;
+                          },
                         )),
                     const SizedBox(
                       height: 10,
@@ -197,11 +220,14 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
                     ButtonFill(
                         text: Strings.signUp,
                         onPressed: () {
-                          // Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //       builder: (context) => const RecoverPasswordScreen(),
-                          //     ));
+                          if(validate())
+                          {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const HomePage(),
+                                ));
+                          }
                         }),
                     const SizedBox(height: 110),
                     Center(
@@ -268,7 +294,7 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
     }
     if (password != confirmPassword) {
       valid = false;
-      messages.add("New password and confirm password not match.");
+      messages.add("Password and confirm password not match.");
     }
     if (!valid) {
       var msg = "";
