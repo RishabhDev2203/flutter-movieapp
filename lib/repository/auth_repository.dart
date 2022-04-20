@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../dto/user_dto.dart' as user;
 
@@ -16,8 +17,6 @@ class AuthRepository {
       UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
 
-      print("Account created successful");
-
       await _fireStore.collection('users').doc(_auth.currentUser?.uid).set({
         "email": email,
         "id": _auth.currentUser?.uid ?? "",
@@ -26,11 +25,9 @@ class AuthRepository {
       });
 
       dto = await firebaseGetUserDetail();
-
       return dto;
-    } catch (e) {
-      print(e);
-      return null;
+    } on FirebaseException catch (e) {
+      rethrow;
     }
   }
 
@@ -48,12 +45,9 @@ class AuthRepository {
         },
         toFirestore: (model, _) => model.toJson())
         .get();
-
     if(querySnapshot.data() != null){
       dto = querySnapshot.data()!;
     }
-
     return dto;
   }
-
 }

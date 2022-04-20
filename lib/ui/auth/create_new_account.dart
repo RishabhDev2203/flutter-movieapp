@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_firebase_ott/bloc/cubit/auth_cubit.dart';
 import 'package:flutter_firebase_ott/repository/auth_repository.dart';
 import 'package:flutter_firebase_ott/ui/auth/sign_in_page.dart';
+import '../../bloc/api_resp_state.dart';
 import '../../util/app_colors.dart';
 import '../../util/component/back_button.dart';
 import '../../util/component/button_fill.dart';
@@ -11,6 +12,8 @@ import '../../util/component/title_text.dart';
 import '../../util/dimensions.dart';
 import '../../util/strings.dart';
 import '../../util/utility.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../home/home_page.dart';
 
 class CreateNewAccountScreen extends StatefulWidget {
   const CreateNewAccountScreen({Key? key}) : super(key: key);
@@ -24,7 +27,8 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
   String email = "";
   String password = "";
   String confirmPassword = "";
-
+  bool _isHiddenPassword = true;
+  bool _isHiddenConfirmPassword = true;
   AuthCubit? _authCubit;
 
   @override
@@ -42,6 +46,31 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
 
   @override
   Widget build(BuildContext context) {
+    return MultiBlocListener(
+        listeners: [
+          BlocListener<AuthCubit, ResponseState>(
+            bloc: _authCubit,
+            listener: (context, state) {
+              if (state is ResponseStateLoading) {
+              } else if (state is ResponseStateError) {
+                Utility.hideLoader(context);
+                var error  = state.errorMessage;
+                Utility.showAlertDialog(context, error);
+              } else if (state is ResponseStateSuccess) {
+                Utility.hideLoader(context);
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const HomePage(),
+                    ));
+              }
+            },
+          ),
+        ],
+        child: _getBody());
+  }
+
+  _getBody(){
     return Container(
       decoration: AppColors.bgGradientBoxDecoration(),
       child: Scaffold(
@@ -140,6 +169,7 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
                             padding: const EdgeInsets.only(right: 10),
                             child: TextField(
                               textAlignVertical: TextAlignVertical.center,
+                              obscureText: _isHiddenPassword,
                               decoration: InputDecoration(
                                 hintText: Strings.password,
                                 prefixIcon: IconButton(
@@ -156,12 +186,14 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
                                   fontWeight: FontWeight.w400,
                                 ),
                                 suffixIcon: GestureDetector(
-                                  // onTap: _newPasswordView,
-                                  child: const Padding(
-                                    padding: EdgeInsets.only(left: 40),
+                                  onTap: _passwordView,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 40),
                                     child: ImageIcon(
                                       AssetImage(
-                                        'assets/images/eye-slash.png',
+                                        !_isHiddenPassword
+                                            ? 'assets/images/eye-slash.png'
+                                            : 'assets/images/eye.png',
                                       ),
                                       color: AppColors.eyeColor,
                                     ),
@@ -185,6 +217,7 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
                             padding: const EdgeInsets.only(right: 10),
                             child: TextField(
                               textAlignVertical: TextAlignVertical.center,
+                              obscureText: _isHiddenConfirmPassword,
                               decoration: InputDecoration(
                                 hintText: Strings.confirmPassword,
                                 prefixIcon: IconButton(
@@ -200,12 +233,14 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
                                   fontSize: Dimensions.textSizeSmall,
                                 ),
                                 suffixIcon: GestureDetector(
-                                  // onTap: _newPasswordView,
-                                  child: const Padding(
-                                    padding: EdgeInsets.only(left: 40),
+                                  onTap: _passwordConfirmView,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 40),
                                     child: ImageIcon(
                                       AssetImage(
-                                        'assets/images/eye-slash.png',
+                                        !_isHiddenConfirmPassword
+                                            ? 'assets/images/eye-slash.png'
+                                            : 'assets/images/eye.png',
                                       ),
                                       color: AppColors.eyeColor,
                                     ),
@@ -240,13 +275,7 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
                             onPressed: () {
                               if(validate())
                               {
-                                _authCubit?.createAccount("justin", "justin@gmail.com", "123456");
-
-                                // Navigator.push(
-                                //     context,
-                                //     MaterialPageRoute(
-                                //       builder: (context) => const HomePage(),
-                                //     ));
+                                createAccount();
                               }
                             }),
                         const Spacer(),
@@ -274,7 +303,7 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
                                   style: const TextStyle(
                                       color: AppColors.white,
                                       fontSize: Dimensions.textSizeMedium,
-                                      fontWeight: FontWeight.w600)),
+                                      fontWeight: FontWeight.w700)),
                             ]),
                           ),
                         ),
@@ -283,6 +312,16 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
                 ]
               ))),
     );
+  }
+  void _passwordView() {
+    setState(() {
+      _isHiddenPassword = !_isHiddenPassword;
+    });
+  }
+  void _passwordConfirmView() {
+    setState(() {
+      _isHiddenConfirmPassword = !_isHiddenConfirmPassword;
+    });
   }
 
   bool validate() {
@@ -329,5 +368,10 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
       Utility.showAlertDialog(context, msg);
     }
     return valid;
+  }
+
+  createAccount(){
+    Utility.showLoader(context);
+    _authCubit?.createAccount(name, email, password);
   }
 }
