@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter_firebase_ott/util/component/back_button.dart';
 
 import '../../util/app_colors.dart';
 import '../../util/component/more_description.dart';
@@ -58,18 +59,9 @@ class _HomeDetailPageState extends State<HomeDetailPage> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  InkWell(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: const Padding(
-                      padding: EdgeInsets.only(top: 40, left: 10),
-                      child: ImageIcon(
-                        AssetImage('assets/images/backarrow.png'),
-                        size: 25,
-                        color: AppColors.white,
-                      ),
-                    ),
+                  const Padding(
+                    padding: EdgeInsets.only(top: 40, left: 10),
+                    child: ButtonBack(),
                   ),
                   Center(
                     child: Padding(

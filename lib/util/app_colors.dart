@@ -22,7 +22,8 @@ class AppColors {
   static const buttonRedColor =Color(0xFFE71D1D);
 
   //Divider Colors
-  static const divider = Color(0xFF6F7B9B);
+  static const divider = Color(0x3D6F7B9B);
+  static const dividerSecondary = Color(0xFF1F2845);
   static const border = Color(0xFFA9BCB9);
 
   //Icon Colors

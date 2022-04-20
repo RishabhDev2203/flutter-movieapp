@@ -80,7 +80,7 @@ class _RecoverPasswordScreenState extends State<RecoverPasswordScreen> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) =>
-                                    const CreateNewPasswordScreen(),
+                                     CreateNewPasswordScreen(title: Strings.createNewPassword),
                               ));
                         }),
                   ]))),
