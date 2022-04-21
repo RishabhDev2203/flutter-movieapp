@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_ott/ui/home/home_page.dart';
 import 'ui/auth/sign_in_page.dart';
@@ -40,11 +41,21 @@ class _SplashState extends State<Splash> {
   }
 
   _goto(BuildContext context) {
-          Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(
-                builder: (context) => const /*HomePage()*/ SignInPage()),
 
-                (Route<dynamic> route) => false);
+          if(FirebaseAuth.instance.currentUser== null){
+            Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(
+                    builder: (context) => const /*HomePage()*/ SignInPage()),
+
+                    (Route<dynamic> route) => false);
+          }else{
+            Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(
+                    builder: (context) => const HomePage()),
+
+                    (Route<dynamic> route) => false);
+
+          }
     }
   // _goto(BuildContext context) async {
   //   var dto = await AppSession().getUserDetail();

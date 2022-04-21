@@ -30,6 +30,43 @@ class AuthRepository {
       rethrow;
     }
   }
+  Future<user.UserDto?> loginAccount(String email, String password) async {
+
+    user.UserDto dto = user.UserDto();
+    try {
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+          email: email, password: password);
+
+      dto = await firebaseGetUserDetail();
+      return dto;
+    } on FirebaseException catch (e) {
+      rethrow;
+    }
+  }
+
+  Future logoutAccount() async {
+    FirebaseAuth _auth = FirebaseAuth.instance;
+    try {
+      await _auth.signOut();
+    } on FirebaseException catch (e) {
+      rethrow;
+    }
+  }
+  Future changePassword(String currentPassword,String newPassword) async {
+    FirebaseAuth _auth = FirebaseAuth.instance;
+    User? currentUser = _auth.currentUser;
+    String? email = currentUser?.email;
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email.toString(),
+        password: currentPassword,
+      );
+      currentUser?.updatePassword(newPassword);
+
+    } on FirebaseException catch (e) {
+      rethrow;
+    }
+  }
 
   Future<user.UserDto> firebaseGetUserDetail() async {
     user.UserDto dto = user.UserDto();

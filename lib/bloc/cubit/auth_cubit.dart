@@ -20,4 +20,36 @@ class AuthCubit extends Cubit<ResponseState> {
       emit(ResponseStateError(error.message?? ""));
     }
   }
+  void loginAccount(email, password) async {
+    emit(ResponseStateLoading());
+    UserDto dto;
+    try {
+      dto = (await _authRepository.loginAccount(email, password))!;
+      emit(ResponseStateSuccess(dto));
+    }
+    on FirebaseException catch (error) {
+      emit(ResponseStateError(error.message?? ""));
+    }
+  }
+
+  void logoutAccount() async {
+    emit(ResponseStateLoading());
+    try {
+      (await _authRepository.logoutAccount());
+      emit(ResponseStateSuccess(""));
+    }
+    on FirebaseException catch (error) {
+      emit(ResponseStateError(error.message?? ""));
+    }
+  }
+  void changePassword(String currentPassword ,String newPassword) async {
+    emit(ResponseStateLoading());
+    try {
+      (await _authRepository.changePassword(currentPassword,newPassword));
+      emit(ResponseStateSuccess(""));
+    }
+    on FirebaseException catch (error) {
+      emit(ResponseStateError(error.message?? ""));
+    }
+  }
 }
