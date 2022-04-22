@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../dto/user_dto.dart' as user;
+import '../util/app_session.dart';
 
 class AuthRepository {
 
@@ -48,6 +49,7 @@ class AuthRepository {
     FirebaseAuth _auth = FirebaseAuth.instance;
     try {
       await _auth.signOut();
+      AppSession().removeUserDetail();
     } on FirebaseException catch (e) {
       rethrow;
     }
@@ -63,6 +65,31 @@ class AuthRepository {
       );
       currentUser?.updatePassword(newPassword);
 
+    } on FirebaseException catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<user.UserDto?> apiGoogleLogin(String email, String name) async {
+    user.UserDto dto = user.UserDto();
+    UserCredential? userCredential;
+    try {
+      userCredential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+          email: email, password: "qwerty");
+
+      //await _auth.signInWithCredential(credential);
+      dto = await firebaseGetUserDetail();
+      return dto;
+    } on FirebaseException catch (e) {
+      rethrow;
+    }
+  }
+
+  Future forgotPassword(String email) async {
+    FirebaseAuth _auth = FirebaseAuth.instance;
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
     } on FirebaseException catch (e) {
       rethrow;
     }
