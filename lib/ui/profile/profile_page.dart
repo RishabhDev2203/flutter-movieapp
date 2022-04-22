@@ -9,13 +9,16 @@ import 'package:flutter_firebase_ott/util/dimensions.dart';
 import 'package:flutter_firebase_ott/util/strings.dart';
 import '../../bloc/api_resp_state.dart';
 import '../../bloc/cubit/auth_cubit.dart';
+import '../../dto/user_dto.dart';
 import '../../repository/auth_repository.dart';
+import '../../util/app_session.dart';
 import '../../util/component/photo_action_bottom_sheet.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../util/constants.dart';
 import '../../util/utility.dart';
 import '../auth/create_new_password.dart';
+import 'edit_profile.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -27,10 +30,12 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   String? _imagePath;
   AuthCubit? _authCubit;
-
+  final AppSession _appSession = AppSession();
+  UserDto? userDto;
   @override
   void initState() {
     _authCubit = AuthCubit(AuthRepository());
+    _appSession.init().then((value) => getDetail());
     super.initState();
   }
   @override
@@ -75,9 +80,27 @@ class _ProfilePageState extends State<ProfilePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Align(
-                  alignment: Alignment.topLeft,
-                  child: ButtonBack()),
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const ButtonBack(),
+                  GestureDetector(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const EditProfilePage()));
+                    },
+                    child: Container(
+                      height: 35,
+                      width: 90,
+                      decoration: BoxDecoration(
+                      color: AppColors.containerColor,
+                      // border: Border.all(color: AppColors.containerBorder),
+                      borderRadius: BorderRadius.circular(Dimensions.cornerRadiusMedium),
+                    ),
+                      child: const Center(child: Text("Edit Profile",style: TextStyle(color: AppColors.white,fontWeight: FontWeight.w500),)),
+                    ),
+                  )
+                ],
+              ),
+              const SizedBox(height: 50,),
               Stack(
                 children: [
                   _imageView(_imagePath),
@@ -112,9 +135,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 ],
               ),
               const SizedBox(height: 5,),
-              const Text(
-                "Wade Warren",
-                style: TextStyle(
+               Text(
+                userDto?.name??"",
+                style: const TextStyle(
                     color: AppColors.white,
                     fontSize: Dimensions.textSizeMedium,
                     fontFamily: Constants.fontFamily,
@@ -122,9 +145,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
               const SizedBox(height: 5,),
-              const Text(
-                "Rennyroy@gmail.com",
-                style: TextStyle(
+               Text(
+                userDto?.email??"",
+                style: const TextStyle(
                     color: AppColors.textSecondary,
                     fontSize: Dimensions.textSizeSmall,
                     fontFamily: Constants.fontFamily,
@@ -253,5 +276,12 @@ class _ProfilePageState extends State<ProfilePage> {
           height: 100,
           width: 100),
     );
+  }
+  getDetail() {
+    _appSession.getUserDetail().then((value) => {
+      setState(() {
+        userDto = value;
+      })
+    });
   }
 }

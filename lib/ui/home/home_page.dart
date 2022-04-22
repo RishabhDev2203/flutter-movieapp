@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_firebase_ott/bloc/cubit/home_cubit.dart';
 import 'package:flutter_firebase_ott/dto/library_dto.dart';
 import 'package:flutter_firebase_ott/repository/home_repository.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter_firebase_ott/ui/home/home_search_page.dart';
 import 'package:flutter_firebase_ott/ui/profile/profile_page.dart';
 import 'package:flutter_firebase_ott/util/strings.dart';
 import '../../bloc/api_resp_state.dart';
@@ -108,6 +110,11 @@ class _HomePageState extends State<HomePage> {
               ),
               InkWell(
                 onTap: (){
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //       builder: (context) => const HomeSearchPage()),
+                  // );
                   getBannerMovieList();
                 },
                 child: Image.asset(

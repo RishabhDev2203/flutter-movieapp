@@ -195,7 +195,7 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
                                             ? 'assets/images/eye-slash.png'
                                             : 'assets/images/eye.png',
                                       ),
-                                      color: AppColors.eyeColor,
+                                      color: AppColors.grey,
                                     ),
                                   ),
                                 ),
@@ -242,7 +242,7 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
                                             ? 'assets/images/eye-slash.png'
                                             : 'assets/images/eye.png',
                                       ),
-                                      color: AppColors.eyeColor,
+                                      color: AppColors.grey,
                                     ),
                                   ),
                                 ),

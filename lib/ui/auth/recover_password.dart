@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_ott/ui/auth/create_new_password.dart';
+import 'package:flutter_firebase_ott/ui/auth/sign_in_page.dart';
 import 'package:flutter_firebase_ott/util/component/back_button.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../bloc/api_resp_state.dart';
+import '../../bloc/cubit/auth_cubit.dart';
+import '../../repository/auth_repository.dart';
 import '../../util/app_colors.dart';
 import '../../util/component/button_fill.dart';
 import '../../util/component/my_container.dart';
@@ -19,10 +23,48 @@ class RecoverPasswordScreen extends StatefulWidget {
 
 class _RecoverPasswordScreenState extends State<RecoverPasswordScreen> {
   String email = "";
+  AuthCubit? _authCubit;
 
   @override
+  void initState() {
+    _authCubit = AuthCubit(AuthRepository());
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _authCubit?.close();
+    _authCubit = null;
+    super.dispose();
+  }
+  @override
   Widget build(BuildContext context) {
-    return Container(
+    return MultiBlocListener(
+        listeners: [
+          BlocListener<AuthCubit, ResponseState>(
+            bloc: _authCubit,
+            listener: (context, state) {
+              if (state is ResponseStateLoading) {
+              } else if (state is ResponseStateError) {
+                Utility.hideLoader(context);
+                var error  = state.errorMessage;
+                Utility.showAlertDialog(context, error);
+              } else if (state is ResponseStateSuccess) {
+                Utility.hideLoader(context);
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const SignInPage(),
+                    ));
+              }
+            },
+          ),
+        ],
+        child: _getBody());
+
+  }
+  _getBody(){
+    return  Container(
       decoration: AppColors.bgGradientBoxDecoration(),
       child: Scaffold(
           backgroundColor: AppColors.transparent,
@@ -84,17 +126,15 @@ class _RecoverPasswordScreenState extends State<RecoverPasswordScreen> {
                         text: Strings.next,
                         onPressed: () {
                           if(validate()) {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      CreateNewPasswordScreen(title: Strings
-                                          .createNewPassword),
-                                ));
+                            forgotPassword();
                           }
                         }),
                   ]))),
     );
+  }
+  forgotPassword(){
+    Utility.showLoader(context);
+    _authCubit?.forgotPassword(email);
   }
 
   bool validate() {
