@@ -28,7 +28,7 @@ class _HomeSearchPageState extends State<HomeSearchPage> {
       // backgroundColor:AppColors.bg,
       body: Padding(
         padding: EdgeInsets.only(
-            left: 16, right: 16, top: MediaQuery.of(context).padding.top + 30),
+            left: 16, right: 16, top: MediaQuery.of(context).padding.top+10 ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -169,7 +169,7 @@ class _HomeSearchPageState extends State<HomeSearchPage> {
                     alignment: Alignment.center,
                     child: Text("Bad Blood",
                         style: TextStyle(
-                            fontSize: Dimensions.textSizeSmall,
+                            fontSize: Dimensions.textSizeMedium,
                             fontFamily: Constants.fontFamily,
                             fontWeight: FontWeight.w500,
                             color: AppColors.white)),

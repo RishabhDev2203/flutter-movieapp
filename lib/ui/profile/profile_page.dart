@@ -76,7 +76,7 @@ class _ProfilePageState extends State<ProfilePage> {
       child: Scaffold(
         backgroundColor: AppColors.transparent,
         body: Padding(
-          padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top+30,left: Dimensions.marginMedium,right: Dimensions.marginMedium),
+          padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top,left: Dimensions.marginMedium,right: Dimensions.marginMedium),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -87,15 +87,18 @@ class _ProfilePageState extends State<ProfilePage> {
                     onTap: (){
                       Navigator.push(context, MaterialPageRoute(builder: (context) => const EditProfilePage()));
                     },
-                    child: Container(
-                      height: 35,
-                      width: 90,
-                      decoration: BoxDecoration(
-                      color: AppColors.containerColor,
-                      // border: Border.all(color: AppColors.containerBorder),
-                      borderRadius: BorderRadius.circular(Dimensions.cornerRadiusMedium),
-                    ),
-                      child: const Center(child: Text("Edit Profile",style: TextStyle(color: AppColors.white,fontWeight: FontWeight.w500),)),
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 10.0),
+                      child: Container(
+                        height: 36,
+                        width: 90,
+                        decoration: BoxDecoration(
+                        color: AppColors.red,
+                        // border: Border.all(color: AppColors.containerBorder),
+                        borderRadius: BorderRadius.circular(Dimensions.cornerRadiusMedium),
+                      ),
+                        child: const Center(child: Text("Edit Profile",style: TextStyle(color: AppColors.white,fontWeight: FontWeight.w500),)),
+                      ),
                     ),
                   )
                 ],

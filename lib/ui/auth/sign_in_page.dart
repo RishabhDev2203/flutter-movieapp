@@ -110,7 +110,7 @@ class _SignInPageState extends State<SignInPage> {
               left: Dimensions.marginMedium,
               right: Dimensions.marginMedium,
               top: MediaQuery.of(context).padding.top + 30,
-              bottom: Dimensions.marginSmall),
+              bottom: Dimensions.marginLarge),
           child: CustomScrollView(slivers: [
             SliverFillRemaining(
               hasScrollBody: false,
@@ -291,31 +291,33 @@ class _SignInPageState extends State<SignInPage> {
                   const SizedBox(
                     height: 20,
                   ),
-                  Center(
-                    child: RichText(
-                      textAlign: TextAlign.center,
-                      text: TextSpan(children: <TextSpan>[
-                        const TextSpan(
-                            text: Strings.doNotHaveAnAccount,
-                            style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: Dimensions.textSizeSmall,
-                                fontWeight: FontWeight.w500)),
-                        TextSpan(
-                            text: Strings.signUp,
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                        const CreateNewAccountScreen()));
-                              },
-                            style: const TextStyle(
-                                color: AppColors.white,
-                                fontSize: Dimensions.textSizeSmall,
-                                fontWeight: FontWeight.w600)),
-                      ]),
+                  Expanded(
+                    child: Center(
+                      child: RichText(
+                        textAlign: TextAlign.center,
+                        text: TextSpan(children: <TextSpan>[
+                          const TextSpan(
+                              text: Strings.doNotHaveAnAccount,
+                              style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: Dimensions.textSizeSmall,
+                                  fontWeight: FontWeight.w500)),
+                          TextSpan(
+                              text: Strings.signUp,
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                          const CreateNewAccountScreen()));
+                                },
+                              style: const TextStyle(
+                                  color: AppColors.white,
+                                  fontSize: Dimensions.textSizeSmall,
+                                  fontWeight: FontWeight.w600)),
+                        ]),
+                      ),
                     ),
                   ),
                 ],
