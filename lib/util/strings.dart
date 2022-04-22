@@ -9,6 +9,7 @@ class Strings {
   static const email = "Email";
   static const password = "Password";
   static const newPassword = "New Password";
+  static const currentPassword = "Current Password";
   static const confirmNewPassword = "Confirm New Password";
   static const forgotPassword="Forgot Password";
   static const mobileNumber="Mobile Number";

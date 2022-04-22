@@ -1,7 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_ott/ui/auth/create_new_account.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_firebase_ott/ui/auth/sign_in_page.dart';
+import '../../bloc/api_resp_state.dart';
+import '../../bloc/cubit/auth_cubit.dart';
+import '../../repository/auth_repository.dart';
 import '../../util/app_colors.dart';
 import '../../util/component/back_button.dart';
 import '../../util/component/button_fill.dart';
@@ -21,14 +25,51 @@ class CreateNewPasswordScreen extends StatefulWidget {
 }
 
 class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
+  String currentPassword = "";
   String newPassword = "";
-  String confirmPassword = "";
   bool _isHiddenPassword = true;
   bool _isHiddenConfirmPassword = true;
+  AuthCubit? _authCubit;
 
   @override
+  void initState() {
+    _authCubit = AuthCubit(AuthRepository());
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _authCubit?.close();
+    _authCubit = null;
+    super.dispose();
+  }
+  @override
   Widget build(BuildContext context) {
-    return Container(
+    return MultiBlocListener(
+        listeners: [
+          BlocListener<AuthCubit, ResponseState>(
+            bloc: _authCubit,
+            listener: (context, state) {
+              if (state is ResponseStateLoading) {
+              } else if (state is ResponseStateError) {
+                Utility.hideLoader(context);
+                var error  = state.errorMessage;
+                Utility.showAlertDialog(context, error);
+              } else if (state is ResponseStateSuccess) {
+                Utility.hideLoader(context);
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const SignInPage(),
+                    ));
+              }
+            },
+          ),
+        ],
+        child: _getBody());
+  }
+  _getBody(){
+    return  Container(
       decoration: AppColors.bgGradientBoxDecoration(),
       child: Scaffold(
           backgroundColor: AppColors.transparent,
@@ -47,7 +88,7 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
                       child: ButtonBack(),
                     ),
                     const SizedBox(height: 20),
-                     TitleText(
+                    TitleText(
                       text: widget.title??"",
                       fontSize: 28,
                     ),
@@ -58,7 +99,7 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
                           textAlignVertical: TextAlignVertical.center,
                           obscureText: _isHiddenPassword,
                           decoration: InputDecoration(
-                            hintText: Strings.newPassword,
+                            hintText: Strings.currentPassword,
                             prefixIcon: IconButton(
                               icon: Image.asset(
                                 "assets/images/lock.png",
@@ -73,7 +114,7 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
                               fontWeight: FontWeight.w400,
                             ),
                             suffixIcon: GestureDetector(
-                                onTap: _passwordView,
+                              onTap: _passwordView,
                               child:  Padding(
                                 padding: const EdgeInsets.only(left: 40),
                                 child: ImageIcon(
@@ -94,7 +135,7 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
                             fontWeight: FontWeight.w400,
                           ),
                           onChanged: (text) {
-                            newPassword = text;
+                            currentPassword = text;
                           },
                         )),
                     const SizedBox(
@@ -106,7 +147,7 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
                           textAlignVertical: TextAlignVertical.center,
                           obscureText: _isHiddenConfirmPassword,
                           decoration: InputDecoration(
-                            hintText: Strings.confirmNewPassword,
+                            hintText: Strings.newPassword,
                             prefixIcon: IconButton(
                               icon: Image.asset(
                                 "assets/images/lock.png",
@@ -121,7 +162,7 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
                               fontWeight: FontWeight.w400,
                             ),
                             suffixIcon: GestureDetector(
-                               onTap: _passwordConfirmView,
+                              onTap: _passwordConfirmView,
                               child:  Padding(
                                 padding: const EdgeInsets.only(left: 40),
                                 child: ImageIcon(
@@ -142,7 +183,7 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
                             fontWeight: FontWeight.w400,
                           ),
                           onChanged: (text) {
-                            confirmPassword = text;
+                            newPassword = text;
                           },
                         )),
                     const SizedBox(
@@ -152,16 +193,16 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
                         text: Strings.savePassword,
                         onPressed: () {
                           if(validate()) {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                  const CreateNewAccountScreen(),
-                                ));
+                            changePassword();
                           }
                         }),
                   ]))),
     );
+  }
+
+  changePassword(){
+    Utility.showLoader(context);
+    _authCubit?.changePassword(currentPassword,newPassword);
   }
   void _passwordView() {
     setState(() {
@@ -177,21 +218,22 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
   bool validate() {
     var valid = true;
     List<String>? messages = [];
+    if (currentPassword.isEmpty) {
+      valid = false;
+      messages.add("Enter current password");
+    }
     if (newPassword.isEmpty) {
       valid = false;
-      messages.add("Enter new password");
+      messages.add("Enter new password.");
     }
-    if (confirmPassword.isEmpty) {
-      valid = false;
-      messages.add("Please enter confirm password.");
-    } else if (newPassword.length < 6) {
-      valid = false;
-      messages.add("Password must contain at least 6 characters.");
-    }
-    if(newPassword != confirmPassword){
-      valid = false;
-      messages.add("New password and confirm password not match.");
-    }
+    // else if (currentPassword.length < 6) {
+    //   valid = false;
+    //   messages.add("Password must contain at least 6 characters.");
+    // }
+    // if(currentPassword != newPassword){
+    //   valid = false;
+    //   messages.add("New password and confirm password not match.");
+    // }
     if (!valid) {
       var msg = "";
       for (String message in messages) {

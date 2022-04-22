@@ -9,7 +9,10 @@ import 'package:flutter_firebase_ott/util/component/button_outline.dart';
 import 'package:flutter_firebase_ott/util/component/my_container.dart';
 import 'package:flutter_firebase_ott/util/component/title_text.dart';
 import 'package:flutter_firebase_ott/util/dimensions.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../bloc/api_resp_state.dart';
+import '../../bloc/cubit/auth_cubit.dart';
+import '../../repository/auth_repository.dart';
 import '../../util/strings.dart';
 import '../../util/utility.dart';
 
@@ -24,10 +27,40 @@ class _SignInPageState extends State<SignInPage> {
   String email = "";
   String password = "";
   bool _isHiddenPassword = true;
+  AuthCubit? _authCubit;
+
+  @override
+  void initState() {
+    _authCubit = AuthCubit(AuthRepository());
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _authCubit?.close();
+    _authCubit = null;
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return  BlocListener<AuthCubit, ResponseState>(
+      bloc: _authCubit,
+      listener: (context, state) {
+        if (state is ResponseStateLoading) {
+        } else if (state is ResponseStateError) {
+          Utility.hideLoader(context);
+          var error  = state.errorMessage;
+          Utility.showAlertDialog(context, error);
+        } else if (state is ResponseStateSuccess) {
+          Utility.hideLoader(context);
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const HomePage(),
+              ));
+        }
+      },child: Container(
       decoration: AppColors.bgGradientBoxDecoration(),
       child: Scaffold(
         resizeToAvoidBottomInset: false,
@@ -131,7 +164,7 @@ class _SignInPageState extends State<SignInPage> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) =>
-                                    const RecoverPasswordScreen(),
+                                const RecoverPasswordScreen(),
                               ));
                         },
                         child: const Text(
@@ -148,10 +181,7 @@ class _SignInPageState extends State<SignInPage> {
                       text: Strings.login,
                       onPressed: () {
                         if (validate()) {
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const HomePage()));
+                          loginAccount();
                         }
                       }),
                   const SizedBox(height: 30),
@@ -234,7 +264,7 @@ class _SignInPageState extends State<SignInPage> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            const CreateNewAccountScreen()));
+                                        const CreateNewAccountScreen()));
                               },
                             style: const TextStyle(
                                 color: AppColors.white,
@@ -249,7 +279,13 @@ class _SignInPageState extends State<SignInPage> {
           ]),
         ),
       ),
+    ),
     );
+
+  }
+  loginAccount(){
+    Utility.showLoader(context);
+    _authCubit?.loginAccount(email, password);
   }
 
   void _passwordView() {
@@ -291,4 +327,5 @@ class _SignInPageState extends State<SignInPage> {
     }
     return valid;
   }
+
 }

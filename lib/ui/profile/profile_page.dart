@@ -1,15 +1,20 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_firebase_ott/ui/auth/sign_in_page.dart';
 import 'package:flutter_firebase_ott/util/app_colors.dart';
 import 'package:flutter_firebase_ott/util/component/back_button.dart';
 import 'package:flutter_firebase_ott/util/component/my_container.dart';
 import 'package:flutter_firebase_ott/util/dimensions.dart';
 import 'package:flutter_firebase_ott/util/strings.dart';
+import '../../bloc/api_resp_state.dart';
+import '../../bloc/cubit/auth_cubit.dart';
+import '../../repository/auth_repository.dart';
 import '../../util/component/photo_action_bottom_sheet.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../util/constants.dart';
+import '../../util/utility.dart';
 import '../auth/create_new_password.dart';
 import 'edit_profile.dart';
 
@@ -22,10 +27,47 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   String? _imagePath;
+  AuthCubit? _authCubit;
+
+  @override
+  void initState() {
+    _authCubit = AuthCubit(AuthRepository());
+    super.initState();
+  }
+  @override
+  void dispose() {
+    _authCubit?.close();
+    _authCubit = null;
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return MultiBlocListener(
+        listeners: [
+          BlocListener<AuthCubit, ResponseState>(
+            bloc: _authCubit,
+            listener: (context, state) {
+              if (state is ResponseStateLoading) {
+              } else if (state is ResponseStateError) {
+                Utility.hideLoader(context);
+                var error  = state.errorMessage;
+                Utility.showAlertDialog(context, error);
+              } else if (state is ResponseStateSuccess) {
+                Utility.hideLoader(context);
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const SignInPage(),
+                    ));
+              }
+            },
+          ),
+        ],
+        child: _getBody());
+  }
+  _getBody(){
+    return   Container(
       decoration: AppColors.bgGradientBoxDecoration(),
       child: Scaffold(
         backgroundColor: AppColors.transparent,
@@ -92,10 +134,10 @@ class _ProfilePageState extends State<ProfilePage> {
               const Text(
                 "Wade Warren",
                 style: TextStyle(
-                  color: AppColors.white,
-                  fontSize: Dimensions.textSizeMedium,
+                    color: AppColors.white,
+                    fontSize: Dimensions.textSizeMedium,
                     fontFamily: Constants.fontFamily,
-                  fontWeight: FontWeight.w500
+                    fontWeight: FontWeight.w500
                 ),
               ),
               const SizedBox(height: 5,),
@@ -116,7 +158,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               const SizedBox(height: 20,),
               Container(
-                padding: const EdgeInsets.only(top: 25,bottom: 25,left: 10,right: 10),
+                  padding: const EdgeInsets.only(top: 25,bottom: 25,left: 10,right: 10),
                   decoration: BoxDecoration(
                     color: AppColors.myContainerColor,
                     borderRadius: BorderRadius.circular(Dimensions.cornerRadiusMedium),
@@ -129,7 +171,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) =>
-                                 CreateNewPasswordScreen(title: Strings.changePassword),
+                                    CreateNewPasswordScreen(title: Strings.changePassword),
                               ));
                         },
                         child: Row(
@@ -158,26 +200,31 @@ class _ProfilePageState extends State<ProfilePage> {
                       const Divider(
                         color: AppColors.black,thickness: 1.3,),
                       const SizedBox(height: 10,),
-                      Row(
-                        children: [
-                          const SizedBox(width: 20,),
-                          Image.asset(
-                            "assets/images/logout.png",
-                            height: 20,
-                            width: 20,
-                          ),
-                          const SizedBox(width: 20,),
-                          const Text(
-                            "Logout",
-                            style: TextStyle(
-                                color: AppColors.white,
-                                fontSize: Dimensions.textSizeMedium,
-                                fontFamily: Constants.fontFamily,
-                                fontWeight: FontWeight.w500
+                      InkWell(
+                        onTap: (){
+                          logoutAccount();
+                        },
+                        child: Row(
+                          children: [
+                            const SizedBox(width: 20,),
+                            Image.asset(
+                              "assets/images/logout.png",
+                              height: 20,
+                              width: 20,
                             ),
-                          ),
+                            const SizedBox(width: 20,),
+                            const Text(
+                              "Logout",
+                              style: TextStyle(
+                                  color: AppColors.white,
+                                  fontSize: Dimensions.textSizeMedium,
+                                  fontFamily: Constants.fontFamily,
+                                  fontWeight: FontWeight.w500
+                              ),
+                            ),
 
-                        ],
+                          ],
+                        ),
                       )
                     ],
                   )
@@ -189,6 +236,10 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
       ),
     );
+  }
+  logoutAccount(){
+    Utility.showLoader(context);
+    _authCubit?.logoutAccount();
   }
 
   Widget _imageView(String? imagePath) {
