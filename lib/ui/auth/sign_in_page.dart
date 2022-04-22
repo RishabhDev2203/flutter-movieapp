@@ -108,7 +108,7 @@ class _SignInPageState extends State<SignInPage> {
                                       ? 'assets/images/eye-slash.png'
                                       : 'assets/images/eye.png',
                                 ),
-                                color: AppColors.eyeColor,
+                                color: AppColors.grey,
                               ),
                             ),
                           ),

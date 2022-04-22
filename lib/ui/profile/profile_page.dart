@@ -11,6 +11,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 
 import '../../util/constants.dart';
 import '../auth/create_new_password.dart';
+import 'edit_profile.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -33,9 +34,27 @@ class _ProfilePageState extends State<ProfilePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Align(
-                alignment: Alignment.topLeft,
-                  child: ButtonBack()),
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const ButtonBack(),
+                  GestureDetector(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const EditProfilePage()));
+                    },
+                    child: Container(
+                      height: 35,
+                      width: 90,
+                      decoration: BoxDecoration(
+                      color: AppColors.containerColor,
+                      // border: Border.all(color: AppColors.containerBorder),
+                      borderRadius: BorderRadius.circular(Dimensions.cornerRadiusMedium),
+                    ),
+                      child: const Center(child: Text("Edit Profile",style: TextStyle(color: AppColors.white,fontWeight: FontWeight.w500),)),
+                    ),
+                  )
+                ],
+              ),
+              const SizedBox(height: 50,),
               Stack(
                 children: [
                   _imageView(_imagePath),

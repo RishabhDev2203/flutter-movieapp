@@ -45,7 +45,8 @@ class AppColors {
   static const shimmerBase = Color(0xFFE4F4F0);
   static const lightYellowColor = Color(0xFFF9E995);
   static const shimmerAnim = Colors.white70;
-  static const eyeColor = Color(0xFFA7AFC7);
+  static const grey = Color(0xFFA7AFC7);
+  static const navyBlueContainerColor = Color(0xFF050C20);
 
 
   // Gradient Color

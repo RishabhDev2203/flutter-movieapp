@@ -38,5 +38,9 @@ class Strings {
   static const romanticMovie = "Romantic Movie";
   static const recommended = "Recommended";
   static const changePassword = "Change password";
+  static const search = "Search";
+  static const editName = "Edit name";
+  static const editEmail = "Edit Email";
+  static const editProfile = "Edit Profile";
 
 }

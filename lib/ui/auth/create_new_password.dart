@@ -82,7 +82,7 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
                                     'assets/images/eye-slash.png':
                                     'assets/images/eye.png',
                                   ),
-                                  color: AppColors.eyeColor,
+                                  color: AppColors.grey,
                                 ),
                               ),
                             ),
@@ -130,7 +130,7 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
                                     'assets/images/eye-slash.png':
                                     'assets/images/eye.png',
                                   ),
-                                  color: AppColors.eyeColor,
+                                  color: AppColors.grey,
                                 ),
                               ),
                             ),
