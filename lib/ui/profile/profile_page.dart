@@ -9,7 +9,9 @@ import 'package:flutter_firebase_ott/util/dimensions.dart';
 import 'package:flutter_firebase_ott/util/strings.dart';
 import '../../bloc/api_resp_state.dart';
 import '../../bloc/cubit/auth_cubit.dart';
+import '../../dto/user_dto.dart';
 import '../../repository/auth_repository.dart';
+import '../../util/app_session.dart';
 import '../../util/component/photo_action_bottom_sheet.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,10 +30,12 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   String? _imagePath;
   AuthCubit? _authCubit;
-
+  final AppSession _appSession = AppSession();
+  UserDto? userDto;
   @override
   void initState() {
     _authCubit = AuthCubit(AuthRepository());
+    _appSession.init().then((value) => getDetail());
     super.initState();
   }
   @override
@@ -131,9 +135,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 ],
               ),
               const SizedBox(height: 5,),
-              const Text(
-                "Wade Warren",
-                style: TextStyle(
+               Text(
+                userDto?.name??"",
+                style: const TextStyle(
                     color: AppColors.white,
                     fontSize: Dimensions.textSizeMedium,
                     fontFamily: Constants.fontFamily,
@@ -141,9 +145,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
               const SizedBox(height: 5,),
-              const Text(
-                "Rennyroy@gmail.com",
-                style: TextStyle(
+               Text(
+                userDto?.email??"",
+                style: const TextStyle(
                     color: AppColors.textSecondary,
                     fontSize: Dimensions.textSizeSmall,
                     fontFamily: Constants.fontFamily,
@@ -272,5 +276,12 @@ class _ProfilePageState extends State<ProfilePage> {
           height: 100,
           width: 100),
     );
+  }
+  getDetail() {
+    _appSession.getUserDetail().then((value) => {
+      setState(() {
+        userDto = value;
+      })
+    });
   }
 }

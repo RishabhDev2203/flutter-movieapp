@@ -1,13 +1,16 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_firebase_ott/bloc/cubit/home_cubit.dart';
+import 'package:flutter_firebase_ott/repository/auth_repository.dart';
+import 'package:flutter_firebase_ott/repository/home_repository.dart';
 import 'package:flutter_firebase_ott/splash.dart';
-import 'package:flutter_firebase_ott/ui/auth/sign_in_page.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_firebase_ott/util/app_colors.dart';
 import 'package:flutter_firebase_ott/util/app_theme.dart';
 import 'package:flutter_firebase_ott/util/constants.dart';
 import 'package:loader_overlay/loader_overlay.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'bloc/cubit/auth_cubit.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,25 +25,33 @@ void main() async{
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return GlobalLoaderOverlay(
-      overlayOpacity: 0.1,
-      child: MaterialApp(
-          title: '',
-          scrollBehavior: MyBehavior(),
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-              primarySwatch:
-              AppTheme.createMaterialColor(Colors.blue),
-              //scaffoldBackgroundColor: AppColors.bg,
-              fontFamily: Constants.fontFamily,
-              splashColor: Colors.transparent,
-              highlightColor: Colors.transparent,
-              textSelectionTheme: const TextSelectionThemeData(
-                  cursorColor: AppColors.red)),
-          home: const Splash()),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => AuthCubit(AuthRepository()),
+        ),
+        BlocProvider(
+          create: (context) => HomeCubit(HomeRepository()),
+        ),
+      ],
+      child: GlobalLoaderOverlay(
+        overlayOpacity: 0.1,
+        child: MaterialApp(
+            title: '',
+            scrollBehavior: MyBehavior(),
+            debugShowCheckedModeBanner: false,
+            theme: ThemeData(
+                primarySwatch:
+                AppTheme.createMaterialColor(Colors.blue),
+                fontFamily: Constants.fontFamily,
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+                textSelectionTheme: const TextSelectionThemeData(
+                    cursorColor: AppColors.red)),
+            home: const Splash()),
+      ),
     );
   }
 }
