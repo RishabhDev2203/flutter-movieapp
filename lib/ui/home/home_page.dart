@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_firebase_ott/ui/home/home_search_page.dart';
 import 'package:flutter_firebase_ott/ui/profile/profile_page.dart';
 import 'package:flutter_firebase_ott/util/strings.dart';
 import '../../util/app_colors.dart';
@@ -57,11 +58,20 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                   ),
-                  Image.asset(
-                    "assets/images/search.png",
-                    width: 20,
-                    height: 20,
-                    color: AppColors.white,
+                  GestureDetector(
+                    onTap: (){
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const HomeSearchPage()),
+                          );
+                    },
+                    child: Image.asset(
+                      "assets/images/search.png",
+                      width: 20,
+                      height: 20,
+                      color: AppColors.white,
+                    ),
                   ),
                 ],
               ),
