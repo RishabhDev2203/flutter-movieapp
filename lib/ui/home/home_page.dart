@@ -3,6 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_firebase_ott/ui/home/home_search_page.dart';
+import 'package:flutter_firebase_ott/ui/home/see_all_page.dart';
 import 'package:flutter_firebase_ott/ui/profile/profile_page.dart';
 import 'package:flutter_firebase_ott/util/strings.dart';
 import '../../util/app_colors.dart';
@@ -138,8 +139,8 @@ class _HomePageState extends State<HomePage> {
 
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
-                      Text(Strings.actionMovie,
+                    children: [
+                      const Text(Strings.actionMovie,
                         style: TextStyle(
                             overflow: TextOverflow.ellipsis,
                             fontSize: Dimensions.textSizeLarge,
@@ -148,13 +149,18 @@ class _HomePageState extends State<HomePage> {
                             color: AppColors.white),
                       ),
 
-                      Text(Strings.seeAll,
-                        style: TextStyle(
-                            overflow: TextOverflow.ellipsis,
-                            fontSize: Dimensions.textSizeMedium,
-                            fontFamily: Constants.fontFamily,
-                            fontWeight: FontWeight.w400,
-                            color: AppColors.textSecondary),
+                      GestureDetector(
+                        onTap: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => SeeAllPage(type:'Action Movie')));
+                        },
+                        child: const Text(Strings.seeAll,
+                          style: TextStyle(
+                              overflow: TextOverflow.ellipsis,
+                              fontSize: Dimensions.textSizeMedium,
+                              fontFamily: Constants.fontFamily,
+                              fontWeight: FontWeight.w400,
+                              color: AppColors.textSecondary),
+                        ),
                       ),
 
                     ],
@@ -181,8 +187,8 @@ class _HomePageState extends State<HomePage> {
 
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
-                      Text(Strings.adventureMovie,
+                    children: [
+                      const Text(Strings.adventureMovie,
                         style: TextStyle(
                             overflow: TextOverflow.ellipsis,
                             fontSize: Dimensions.textSizeLarge,
@@ -190,14 +196,18 @@ class _HomePageState extends State<HomePage> {
                             fontWeight: FontWeight.w600,
                             color: AppColors.white),
                       ),
-
-                      Text(Strings.seeAll,
-                        style: TextStyle(
-                            overflow: TextOverflow.ellipsis,
-                            fontSize: Dimensions.textSizeMedium,
-                            fontFamily: Constants.fontFamily,
-                            fontWeight: FontWeight.w400,
-                            color: AppColors.textSecondary),
+                      GestureDetector(
+                        onTap: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => SeeAllPage(type:'Adventure Movie')));
+                        },
+                        child: const Text(Strings.seeAll,
+                          style: TextStyle(
+                              overflow: TextOverflow.ellipsis,
+                              fontSize: Dimensions.textSizeMedium,
+                              fontFamily: Constants.fontFamily,
+                              fontWeight: FontWeight.w400,
+                              color: AppColors.textSecondary),
+                        ),
                       ),
 
                     ],
@@ -221,11 +231,10 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   const SizedBox(height: 15,),
-
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
-                      Text(Strings.romanticMovie,
+                    children: [
+                      const Text(Strings.romanticMovie,
                         style: TextStyle(
                             overflow: TextOverflow.ellipsis,
                             fontSize: Dimensions.textSizeLarge,
@@ -233,14 +242,18 @@ class _HomePageState extends State<HomePage> {
                             fontWeight: FontWeight.w600,
                             color: AppColors.white),
                       ),
-
-                      Text(Strings.seeAll,
-                        style: TextStyle(
-                            overflow: TextOverflow.ellipsis,
-                            fontSize: Dimensions.textSizeMedium,
-                            fontFamily: Constants.fontFamily,
-                            fontWeight: FontWeight.w400,
-                            color: AppColors.textSecondary),
+                      GestureDetector(
+                        onTap: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => SeeAllPage(type:'Romantic Movie')));
+                        },
+                        child: const Text(Strings.seeAll,
+                          style: TextStyle(
+                              overflow: TextOverflow.ellipsis,
+                              fontSize: Dimensions.textSizeMedium,
+                              fontFamily: Constants.fontFamily,
+                              fontWeight: FontWeight.w400,
+                              color: AppColors.textSecondary),
+                        ),
                       ),
 
                     ],
