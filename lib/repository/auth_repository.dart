@@ -9,9 +9,18 @@ class AuthRepository {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   DocumentReference? connections;
 
-  Future<user.UserDto?> createAccount(String name, String email, String password) async {
+  Future<user.UserDto?> createAccount(String name, String email, String password, {bool enableMock = false}) async {
 
     user.UserDto dto = user.UserDto();
+
+    if(enableMock)  {
+
+
+
+
+      return dto;
+    }
+
     FirebaseFirestore _fireStore = FirebaseFirestore.instance;
 
     try {
@@ -31,9 +40,18 @@ class AuthRepository {
       rethrow;
     }
   }
-  Future<user.UserDto?> loginAccount(String email, String password) async {
+  Future<user.UserDto?> loginAccount(String email, String password, {bool enableMock = false}) async {
 
     user.UserDto dto = user.UserDto();
+
+    if(enableMock)  {
+
+
+
+
+      return dto;
+    }
+
     try {
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
