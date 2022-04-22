@@ -10,16 +10,16 @@ import '../../util/constants.dart';
 import '../../util/dimensions.dart';
 import '../../util/strings.dart';
 
-class HomeSearchPage extends StatefulWidget {
-  const HomeSearchPage({Key? key}) : super(key: key);
+class SeeAllPage extends StatefulWidget {
+  String? type;
+
+  SeeAllPage({Key? key, this.type}) : super(key: key);
 
   @override
-  State<HomeSearchPage> createState() => _HomeSearchPageState();
+  State<SeeAllPage> createState() => _SeeAllPageState();
 }
 
-class _HomeSearchPageState extends State<HomeSearchPage> {
-  String searchText = "";
-
+class _SeeAllPageState extends State<SeeAllPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,88 +34,29 @@ class _HomeSearchPageState extends State<HomeSearchPage> {
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
-                ButtonBack(),
+              children: [
+                const ButtonBack(),
                 SubTitleText(
-                  text: Strings.search,
-                  fontSize: Dimensions.textSizeXLarge,
+                  text: widget.type == "Action Movie"
+                      ? "Action Movie"
+                      : widget.type == "Adventure Movie"
+                          ? "Adventure Movie"
+                          : "Romantic Movie",
                   color: AppColors.white,
+                  fontSize: Dimensions.textSizeXLarge,
                 ),
-                SizedBox(
-                  height: 32,
+                const SizedBox(
+                  height: 20,
                   width: 20,
-                )
+                ),
               ],
             ),
             const SizedBox(
-              height: 20,
-            ),
-            searchView(),
-            const SizedBox(
-              height: 20,
-            ),
-            const SubTitleText(
-              text: 'All Movies',
-              color: AppColors.grey,
-              fontSize: Dimensions.textSizeLarge,
-              fontWeight: FontWeight.w500,
-            ),
-            const SizedBox(
-              height: 10,
+              height: 30,
             ),
             movieListBody(),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget searchView() {
-    return Container(
-      decoration: BoxDecoration(
-        color: AppColors.navyBlueContainerColor,
-        // border: Border.all(color: AppColors.containerBorder),
-        borderRadius: BorderRadius.circular(Dimensions.cornerRadiusMedium),
-      ),
-      child: TextField(
-        textAlignVertical: TextAlignVertical.center,
-        textCapitalization: TextCapitalization.sentences,
-        decoration: InputDecoration(
-          hintText: Strings.search,
-          prefixIcon: IconButton(
-            icon: Image.asset(
-              "assets/images/search.png",
-              color: AppColors.grey,
-              height: 20,
-              width: 20,
-            ),
-            onPressed: null,
-          ),
-          hintStyle: const TextStyle(
-              color: AppColors.grey,
-              fontSize: Dimensions.textSizeSmall,
-              fontWeight: FontWeight.w500),
-          suffixIcon: Padding(
-            padding: const EdgeInsets.only(left: 40, right: 16),
-            child: GestureDetector(
-              onTap: () {
-                Navigator.pop(context);
-              },
-              child: const ImageIcon(
-                AssetImage('assets/images/close.png'),
-                color: AppColors.grey,
-              ),
-            ),
-          ),
-          border: InputBorder.none,
-        ),
-        style: const TextStyle(
-            fontSize: Dimensions.textSizeMedium,
-            fontWeight: FontWeight.w400,
-            color: AppColors.white),
-        onChanged: (text) {
-          searchText = text;
-        },
       ),
     );
   }

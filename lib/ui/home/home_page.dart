@@ -65,8 +65,8 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
         child: Scaffold(
-          backgroundColor: AppColors.bg,
-          body: _getBody()
+            backgroundColor: AppColors.bg,
+            body: _getBody()
         )
     );
   }
@@ -336,7 +336,7 @@ class _HomePageState extends State<HomePage> {
           height: 120,
           width: 260,
           // imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsqXq71F9jE6knN8oQAYNx16M-tPfaAibucg&usqp=CAU",
-           imageUrl: _libraryList?[index]?.thumbnails?[0].url ?? "",
+          imageUrl: _libraryList?[index]?.thumbnails?[0].url ?? "",
           //imageUrl: "https://ddl3zxv7r1oki.cloudfront.net/FoodRecipe/Images/NonVeg/CHICKENMOMOS.png",
           fit: BoxFit.cover,
           placeholder: (context, url) => Container(
@@ -419,33 +419,33 @@ class _HomePageState extends State<HomePage> {
 
   Widget _actionList(int index){
     return Container(
-     decoration: BoxDecoration(
-         color: AppColors.containerBg,
-      borderRadius: BorderRadius.circular(10)
-    ),
+      decoration: BoxDecoration(
+          color: AppColors.containerBg,
+          borderRadius: BorderRadius.circular(10)
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: CachedNetworkImage(
-                  height: 130,
-                  width: 100,
-                  imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBFz-2B5ao74f1IBlKFvDgarz9Rx-1kFwqcw&usqp=CAU",
-                  fit: BoxFit.cover,
-                  placeholder: (context, url) => Container(
-                    color: Colors.black12,
-                    alignment: Alignment.center,
-                    child: Image.asset(
-                        "assets/images/user_placeholder.png"),
-                  ),
-                  errorWidget: (context, url, error) => Container(
-                    color: Colors.black12,
-                    alignment: Alignment.center,
-                    child: Image.asset(
-                        "assets/images/user_placeholder.png"),
-                  ),
-                ),),
+            borderRadius: BorderRadius.circular(10),
+            child: CachedNetworkImage(
+              height: 130,
+              width: 100,
+              imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBFz-2B5ao74f1IBlKFvDgarz9Rx-1kFwqcw&usqp=CAU",
+              fit: BoxFit.cover,
+              placeholder: (context, url) => Container(
+                color: Colors.black12,
+                alignment: Alignment.center,
+                child: Image.asset(
+                    "assets/images/user_placeholder.png"),
+              ),
+              errorWidget: (context, url, error) => Container(
+                color: Colors.black12,
+                alignment: Alignment.center,
+                child: Image.asset(
+                    "assets/images/user_placeholder.png"),
+              ),
+            ),),
           const SizedBox(height: 5,),
 
           const Text("Bad Blood",
