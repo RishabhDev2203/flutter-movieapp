@@ -26,7 +26,7 @@ class PhotoActionBottomSheet {
               topRight: Radius.circular(20)),
         ),
         isScrollControlled: true,
-        backgroundColor: AppColors.primary,
+        backgroundColor: AppColors.containerBg,
         context: context,
         builder: (_) {
           return ClipRRect(
@@ -37,8 +37,9 @@ class PhotoActionBottomSheet {
               padding: const EdgeInsets.only(
                   left: Dimensions.marginMedium,
                   right: Dimensions.marginMedium,
-                  top: 10),
-              decoration: AppColors.bgGradientBoxDecoration(),
+                  top: 10,
+                 /*  bottom: Dimensions.textSizeMedium*/),
+              // decoration: AppColors.bgGradientBoxDecoration(),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -55,7 +56,7 @@ class PhotoActionBottomSheet {
                     "Choose An Action",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        color: AppColors.black,
+                        color: AppColors.containerBorder,
                         fontSize: Dimensions.textSizeMedium,
                         fontWeight: FontWeight.w700),
                   ),
@@ -66,7 +67,7 @@ class PhotoActionBottomSheet {
                       label: const Text("Take Photo"),
                       icon: const Icon(
                         Icons.photo_camera_outlined,
-                        color: AppColors.black,
+                        color: AppColors.white,
                         size: 24.0,
                       ),
                       onPressed: () {
@@ -77,8 +78,8 @@ class PhotoActionBottomSheet {
                           alignment: Alignment.centerLeft,
                           padding: const EdgeInsets.only(
                               left: Dimensions.marginMedium),
-                          backgroundColor: AppColors.transparent,
-                          primary: AppColors.black,
+                          backgroundColor: AppColors.navyBlueContainerColor,
+                          primary: AppColors.white,
                           minimumSize: const Size(double.infinity, 56),
                           shape: RoundedRectangleBorder(
                             borderRadius:
@@ -93,7 +94,7 @@ class PhotoActionBottomSheet {
                       label: const Text("Choose From Gallery"),
                       icon: const Icon(
                         Icons.photo_library_outlined,
-                        color: AppColors.black,
+                        color: AppColors.white,
                         size: 24.0,
                       ),
                       onPressed: () {
@@ -104,8 +105,8 @@ class PhotoActionBottomSheet {
                           alignment: Alignment.centerLeft,
                           padding: const EdgeInsets.only(
                               left: Dimensions.marginMedium),
-                          backgroundColor: AppColors.transparent,
-                          primary: AppColors.black,
+                          backgroundColor: AppColors.navyBlueContainerColor,
+                          primary: AppColors.white,
                           minimumSize: const Size(double.infinity, 56),
                           shape: RoundedRectangleBorder(
                             borderRadius:
@@ -113,7 +114,7 @@ class PhotoActionBottomSheet {
                           )),
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 60),
                 ],
               ),
             ),

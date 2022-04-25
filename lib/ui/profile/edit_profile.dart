@@ -1,17 +1,23 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_ott/ui/home/home_search_page.dart';
 import 'package:flutter_firebase_ott/util/component/button_fill.dart';
 import 'package:flutter_firebase_ott/util/component/title_text.dart';
+import '../../bloc/cubit/auth_cubit.dart';
 import '../../dto/user_dto.dart';
+import '../../repository/auth_repository.dart';
 import '../../util/app_colors.dart';
 import '../../util/app_session.dart';
 import '../../util/component/back_button.dart';
 import '../../util/component/photo_action_bottom_sheet.dart';
 import '../../util/dimensions.dart';
 import '../../util/strings.dart';
+import '../../util/utility.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({Key? key}) : super(key: key);
@@ -26,13 +32,25 @@ class _EditProfilePageState extends State<EditProfilePage> {
   String? _imagePath;
   final AppSession _appSession = AppSession();
   UserDto? userDto;
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
+  var profileDetail;
+  AuthCubit? _authCubit;
+
 
   @override
   void initState() {
+    _authCubit = AuthCubit(AuthRepository());
     _appSession.init().then((value) => getDetail());
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _authCubit?.close();
+    _authCubit = null;
+    super.dispose();
   }
 
   @override
@@ -46,7 +64,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
           padding: EdgeInsets.only(
               left: Dimensions.textSizeMedium,
               right: Dimensions.marginMedium,
-              top: MediaQuery.of(context).padding.top ),
+              top: MediaQuery
+                  .of(context)
+                  .padding
+                  .top),
           child: Column(
             children: [
               Row(
@@ -57,8 +78,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   Padding(
                     padding: const EdgeInsets.only(top: 10.0),
                     child: GestureDetector(
-                      onTap: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeSearchPage()));
+                      onTap: () {
+                        storeData();
                       },
                       child: Container(
                         height: 36,
@@ -72,7 +93,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                             child: Text(
                               "Update",
                               style: TextStyle(
-                                  color: AppColors.white, fontWeight: FontWeight.w500),
+                                  color: AppColors.white,
+                                  fontWeight: FontWeight.w500),
                             )),
                       ),
                     ),
@@ -89,14 +111,20 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           context: context,
                           onComplete: (imagePath) {
                             _imagePath = imagePath;
+                            uploadImage(imagePath).then((value) =>
+                            {
+                              Utility.hideLoader(context),
+                              print("value>>>>>>>>>>>>>>>. $value"),
+                              profileDetail = value,
+                            });
                             setState(() {});
                           },
                           cropEnable: true);
                     },
                     child: Container(
-                      height: 30,
-                      width: 30,
-                      margin: const EdgeInsets.only(left: 45, top: 45),
+                      height: 35,
+                      width: 35,
+                      margin: const EdgeInsets.only(left: 70, top: 70),
                       decoration: BoxDecoration(
                           color: AppColors.containerColor,
                           borderRadius: BorderRadius.circular(20)),
@@ -105,8 +133,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         child: Image.asset(
                           "assets/images/edit.png",
                           color: AppColors.red,
-                          height: 15,
-                          width: 15,
+                          height: 30,
+                          width: 30,
                         ),
                       ),
                     ),
@@ -121,7 +149,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   color: AppColors.containerColor,
                   // border: Border.all(color: AppColors.containerBorder),
                   borderRadius:
-                      BorderRadius.circular(Dimensions.cornerRadiusMedium),
+                  BorderRadius.circular(Dimensions.cornerRadiusMedium),
                 ),
                 child: TextField(
                   controller: _nameController,
@@ -161,7 +189,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   color: AppColors.containerColor,
                   // border: Border.all(color: AppColors.containerBorder),
                   borderRadius:
-                      BorderRadius.circular(Dimensions.cornerRadiusMedium),
+                  BorderRadius.circular(Dimensions.cornerRadiusMedium),
                 ),
                 child: TextField(
                   controller: _emailController,
@@ -189,7 +217,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       fontWeight: FontWeight.w400,
                       color: AppColors.white),
                   onChanged: (text) {
-                       email = text;
+                    email = text;
                   },
                 ),
               ),
@@ -206,33 +234,36 @@ class _EditProfilePageState extends State<EditProfilePage> {
   Widget _imageView(String? imagePath) {
     return imagePath == null
         ? ClipRRect(
-            borderRadius: BorderRadius.circular(50),
-            child: CachedNetworkImage(
-              width: 70,
-              height: 70,
-              imageUrl: "",
-              fit: BoxFit.cover,
-              placeholder: (context, url) => Container(
-                color: Colors.transparent,
-                alignment: Alignment.center,
-                child: Image.asset("assets/images/user_placeholder.png"),
-              ),
-              errorWidget: (context, url, error) => Container(
-                color: Colors.transparent,
-                alignment: Alignment.center,
-                child: Image.asset("assets/images/user_placeholder.png"),
-              ),
+      borderRadius: BorderRadius.circular(50),
+      child: CachedNetworkImage(
+        width: 100,
+        height: 100,
+        imageUrl: profileDetail,
+        fit: BoxFit.cover,
+        placeholder: (context, url) =>
+            Container(
+              color: Colors.transparent,
+              alignment: Alignment.center,
+              child: Image.asset("assets/images/user_placeholder.png"),
             ),
-          )
+        errorWidget: (context, url, error) =>
+            Container(
+              color: Colors.transparent,
+              alignment: Alignment.center,
+              child: Image.asset("assets/images/user_placeholder.png"),
+            ),
+      ),
+    )
         : ClipRRect(
-            borderRadius: BorderRadius.circular(50),
-            child: Image.file(File(imagePath),
-                fit: BoxFit.cover, height: 100, width: 100),
-          );
+      borderRadius: BorderRadius.circular(50),
+      child: Image.file(File(imagePath),
+          fit: BoxFit.cover, height: 100, width: 100),
+    );
   }
 
   getDetail() {
-    _appSession.getUserDetail().then((value) => {
+    _appSession.getUserDetail().then((value) =>
+    {
       setState(() {
         userDto = value;
         _nameController.text = userDto?.name ?? "";
@@ -240,4 +271,32 @@ class _EditProfilePageState extends State<EditProfilePage> {
       })
     });
   }
+
+  Future<String> uploadImage(image) async {
+    Utility.showLoader(context);
+    var file = File(image);
+    var snapshot =
+    await _firebaseStorage.ref().child('users/imageName').putFile(file);
+    var downloadUrl = await snapshot.ref.getDownloadURL();
+    setState(() {});
+    return downloadUrl;
+  }
+
+  void storeData() {
+    Utility.showLoader(context);
+    Map<String, Object?> data = {
+      // "name" : "sandy",
+      "image": profileDetail,
+      "name": name,
+      "email": email
+    };
+    print('image???????????????????????????????   $_imagePath');
+    print('name?????????????????????????????????????????????????????   $_nameController.text');
+    print('email???????????????????????????????????????????? $_emailController.text');
+    Future.delayed(const Duration(seconds: 1), () {
+      _authCubit?.update(context, data);
+      Utility.hideLoader(context);
+    });
+  }
+
 }
