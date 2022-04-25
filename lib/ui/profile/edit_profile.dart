@@ -2,9 +2,12 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase_ott/ui/home/home_search_page.dart';
 import 'package:flutter_firebase_ott/util/component/button_fill.dart';
 import 'package:flutter_firebase_ott/util/component/title_text.dart';
+import '../../dto/user_dto.dart';
 import '../../util/app_colors.dart';
+import '../../util/app_session.dart';
 import '../../util/component/back_button.dart';
 import '../../util/component/photo_action_bottom_sheet.dart';
 import '../../util/dimensions.dart';
@@ -21,6 +24,16 @@ class _EditProfilePageState extends State<EditProfilePage> {
   String name = "";
   String email = "";
   String? _imagePath;
+  final AppSession _appSession = AppSession();
+  UserDto? userDto;
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _nameController = TextEditingController();
+
+  @override
+  void initState() {
+    _appSession.init().then((value) => getDetail());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,26 +53,30 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const ButtonBack(),
-                  // TitleText(
-                  //   text: Strings.editProfile,
-                  //   fontSize: Dimensions.textSizeXLarge,
-                  // ),
-                  ButtonFill(text: "Update", onPressed: (){})
-                  // Container(
-                  //   height: 40,
-                  //   width: 100,
-                  //   decoration: BoxDecoration(
-                  //     color: AppColors.containerColor,
-                  //     borderRadius:
-                  //     BorderRadius.circular(Dimensions.cornerRadiusMedium),
-                  //   ),
-                  //   child: const Center(
-                  //       child: Text(
-                  //         "Update",
-                  //         style: TextStyle(
-                  //             color: AppColors.white, fontWeight: FontWeight.w500),
-                  //       )),
-                  // ),
+                  // ButtonFill(text: "Update", onPressed: (){})
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10.0),
+                    child: GestureDetector(
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeSearchPage()));
+                      },
+                      child: Container(
+                        height: 36,
+                        width: 80,
+                        decoration: BoxDecoration(
+                          color: AppColors.red,
+                          borderRadius:
+                          BorderRadius.circular(Dimensions.cornerRadiusMedium),
+                        ),
+                        child: const Center(
+                            child: Text(
+                              "Update",
+                              style: TextStyle(
+                                  color: AppColors.white, fontWeight: FontWeight.w500),
+                            )),
+                      ),
+                    ),
+                  ),
                 ],
               ),
               const SizedBox(height: 50),
@@ -107,6 +124,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       BorderRadius.circular(Dimensions.cornerRadiusMedium),
                 ),
                 child: TextField(
+                  controller: _nameController,
                   textAlignVertical: TextAlignVertical.center,
                   textCapitalization: TextCapitalization.sentences,
                   decoration: InputDecoration(
@@ -146,6 +164,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       BorderRadius.circular(Dimensions.cornerRadiusMedium),
                 ),
                 child: TextField(
+                  controller: _emailController,
                   textAlignVertical: TextAlignVertical.center,
                   textCapitalization: TextCapitalization.sentences,
                   decoration: InputDecoration(
@@ -170,7 +189,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       fontWeight: FontWeight.w400,
                       color: AppColors.white),
                   onChanged: (text) {
-                    email = text;
+                       email = text;
                   },
                 ),
               ),
@@ -210,5 +229,15 @@ class _EditProfilePageState extends State<EditProfilePage> {
             child: Image.file(File(imagePath),
                 fit: BoxFit.cover, height: 100, width: 100),
           );
+  }
+
+  getDetail() {
+    _appSession.getUserDetail().then((value) => {
+      setState(() {
+        userDto = value;
+        _nameController.text = userDto?.name ?? "";
+        _emailController.text = userDto?.email ?? "";
+      })
+    });
   }
 }
