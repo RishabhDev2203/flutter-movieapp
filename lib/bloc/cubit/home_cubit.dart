@@ -18,6 +18,7 @@ class HomeCubit extends Cubit<ResponseState> {
       print("dto.length>>>>>>>>>>>>>>>>>>>>>>> ${dto?.length}");
       print("dto>>>>>>>>>>>>>>>>>>>>>>> ${dto?[0]?.type?[0] ?? ""}");
       print("dto>>>>>>>>>>>>>>>>>>>>>>> ${dto?[0]?.thumbnails?[0].url}");
+      print("dto>>>>>>>>>>>>>>>>>>>>>>> ${dto?[0]?.videoContent?.outputUrl}");
       emit(ResponseStateSuccess(dto));
     }
     on FirebaseException catch (error) {
