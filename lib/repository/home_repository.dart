@@ -34,7 +34,7 @@ class HomeRepository {
         return e.data();
       }).toList();
 
-      // return list;
+      return list;
     } on FirebaseException catch (e) {
       rethrow;
     }
