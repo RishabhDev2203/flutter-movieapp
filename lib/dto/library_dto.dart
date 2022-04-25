@@ -4,6 +4,7 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_firebase_ott/dto/content_dto.dart';
 
 LibraryDto libraryDtoFromJson(String str) => LibraryDto.fromJson(json.decode(str));
 
@@ -20,6 +21,7 @@ class LibraryDto {
     this.isFeatures,
     this.slug,
     this.sortDescription,
+    this.videoContent,
     this.status,
     this.tag,
     this.type,
@@ -36,6 +38,7 @@ class LibraryDto {
   bool? isFeatures;
   String? slug;
   String? sortDescription;
+  ContentDto? videoContent;
   String? status;
   List<dynamic>? tag;
   List<dynamic>? type;
