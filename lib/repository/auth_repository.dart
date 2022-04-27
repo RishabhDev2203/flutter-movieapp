@@ -135,11 +135,14 @@ class AuthRepository {
     return dto;
   }
 
-  Future update(BuildContext context,Map<String, Object?> data) async {
+  Future update(Map<String, Object?> data) async {
+    user.UserDto dto = user.UserDto();
     final FirebaseAuth _auth = FirebaseAuth.instance;
     String uid = _auth.currentUser?.uid ?? "";
     print(">>>>>>>>>>>> uid $uid");
     FirebaseFirestore.instance.collection('users').doc(uid).update(data);
+    dto = await firebaseGetUserDetail();
+    return dto;
   }
 
 }

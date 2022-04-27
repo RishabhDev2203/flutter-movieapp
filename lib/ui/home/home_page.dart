@@ -88,8 +88,8 @@ class _HomePageState extends State<HomePage> {
               children: [
                 InkWell(
                   onTap: (){
-                    getCategoryMovieList();
-                    // Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfilePage()));
+                    // getCategoryMovieList();
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfilePage()));
                   },
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(50),

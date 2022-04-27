@@ -16,6 +16,7 @@ class UserDto {
     this.name,
     this.role,
     this.id,
+    this.avatar,
   });
 
   // Result? result;
@@ -25,6 +26,7 @@ class UserDto {
   String? role;
   String? name;
   String? id;
+  String? avatar;
 
   factory UserDto.fromJson(Map<String, dynamic> json) => UserDto(
     // result: json.containsKey("result") ? Result.fromJson(json["result"]) : null, token: json["token"],
@@ -33,6 +35,7 @@ class UserDto {
     role: json["role"],
     name: json["name"],
     id: json["id"],
+    avatar: json["avatar"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -43,6 +46,7 @@ class UserDto {
     "role": role,
     "name": name,
     "id": id,
+    "avatar":avatar,
   };
 
   // UserDto copyWith({ Result? result, String? token, String? message }) {

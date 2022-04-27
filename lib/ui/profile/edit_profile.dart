@@ -31,7 +31,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
-  String? profileDetail;
+  String? profilePicture = "";
   AuthCubit? _authCubit;
 
   @override
@@ -106,7 +106,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                             uploadImage(imagePath).then((value) => {
                                   Utility.hideLoader(context),
                                   print("value>>>>>>>>>>>>>>>. $value"),
-                                  profileDetail = value,
+                                  profilePicture = value,
                                 });
                             setState(() {});
                           },
@@ -256,6 +256,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
             userDto = value;
             _nameController.text = userDto?.name ?? "";
             _emailController.text = userDto?.email ?? "";
+            profilePicture = userDto?.avatar ?? "";
           })
         });
   }
@@ -274,18 +275,17 @@ class _EditProfilePageState extends State<EditProfilePage> {
     Utility.showLoader(context);
     Map<String, Object?> data = {
       // "name" : "sandy",
-      "image": profileDetail,
       "name": _nameController.text,
       "email": _emailController.text
     };
-    print('image???????????????????????????????   $_imagePath');
     print(
-        'name?????????????????????????????????????????????????????   $_nameController.text');
+        'name????????????????????????????????????????????????????? $_nameController.text');
     print(
         'email???????????????????????????????????????????? $_emailController.text');
     Future.delayed(const Duration(seconds: 1), () {
-      _authCubit?.update(context, data);
+      _authCubit?.update(data);
       Utility.hideLoader(context);
     });
   }
+
 }
