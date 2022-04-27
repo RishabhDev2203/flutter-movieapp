@@ -5,9 +5,11 @@ import 'package:flutter_firebase_ott/bloc/cubit/home_cubit.dart';
 import 'package:flutter_firebase_ott/dto/library_dto.dart';
 import 'package:flutter_firebase_ott/repository/home_repository.dart';
 import 'package:flutter_firebase_ott/ui/home/home_search_page.dart';
+import 'package:flutter_firebase_ott/ui/home/see_all_page.dart';
 import 'package:flutter_firebase_ott/ui/profile/profile_page.dart';
 import 'package:flutter_firebase_ott/util/strings.dart';
 import '../../bloc/api_resp_state.dart';
+import '../../dto/category_dto.dart';
 import '../../util/app_colors.dart';
 import '../../util/constants.dart';
 import '../../util/dimensions.dart';
@@ -27,12 +29,14 @@ class _HomePageState extends State<HomePage> {
   HomeCubit? _bannerCubit;
   HomeCubit? _categoryCubit;
   List<LibraryDto?>? _libraryList;
+  List<CategoryDto?>? _categoryList;
 
   @override
   void initState() {
     _bannerCubit = HomeCubit(HomeRepository());
     _categoryCubit = HomeCubit(HomeRepository());
     getBannerMovieList();
+    getCategoryMovieList();
     super.initState();
   }
 
@@ -66,6 +70,23 @@ class _HomePageState extends State<HomePage> {
               }
             },
           ),
+          BlocListener<HomeCubit, ResponseState>(
+            bloc: _categoryCubit,
+            listener: (context, state) {
+              if (state is ResponseStateLoading) {
+              } else if (state is ResponseStateError) {
+                Utility.hideLoader(context);
+                var error  = state.errorMessage;
+                Utility.showAlertDialog(context, error);
+              } else if (state is ResponseStateSuccess) {
+                Utility.hideLoader(context);
+                if(state.data != null){
+                  _categoryList = state.data;
+                  setState(() {});
+                }
+              }
+            },
+          ),
         ],
         child: Scaffold(
             backgroundColor: AppColors.bg,
@@ -76,7 +97,7 @@ class _HomePageState extends State<HomePage> {
 
   _getBody(){
     return Padding(
-      padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+      padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top,),
       child: Column(
         children: [
           Container(
@@ -88,8 +109,7 @@ class _HomePageState extends State<HomePage> {
               children: [
                 InkWell(
                   onTap: (){
-                    getCategoryMovieList();
-                    // Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfilePage()));
+                     Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfilePage()));
                   },
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(50),
@@ -115,13 +135,13 @@ class _HomePageState extends State<HomePage> {
                 ),
                 InkWell(
                   onTap: (){
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //       builder: (context) => const HomeSearchPage()),
-                    // );
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const HomeSearchPage()),
+                    );
                     // getBannerMovieList();
-                    getCategoryMovieList();
+                  //  getCategoryMovieList();
                   },
                   child: Image.asset(
                     "assets/images/search.png",
@@ -135,7 +155,7 @@ class _HomePageState extends State<HomePage> {
           ),
           Expanded(
             child: ListView(
-              padding: const EdgeInsets.only(left: 15,right: 15,top: 15),
+              padding: const EdgeInsets.all(15),
               children: [
                 CarouselSlider.builder(
                   options: CarouselOptions(
@@ -145,7 +165,7 @@ class _HomePageState extends State<HomePage> {
                     enableInfiniteScroll: false,
                     initialPage: 1,
                   ),
-                  itemCount: _libraryList?.length ?? 0,
+                  itemCount: _libraryList?.length ?? 10,
                   itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) =>
                       _getItem(itemIndex),
                 ),
@@ -191,12 +211,11 @@ class _HomePageState extends State<HomePage> {
                     },
                   ),
                 ),
-                const SizedBox(height: 20,),
-
+                const SizedBox(height: 16,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
-                    Text(Strings.actionMovie,
+                  children:  [
+                    const Text(Strings.actionMovie,
                       style: TextStyle(
                           overflow: TextOverflow.ellipsis,
                           fontSize: Dimensions.textSizeLarge,
@@ -205,25 +224,34 @@ class _HomePageState extends State<HomePage> {
                           color: AppColors.white),
                     ),
 
-                    Text(Strings.seeAll,
-                      style: TextStyle(
-                          overflow: TextOverflow.ellipsis,
-                          fontSize: Dimensions.textSizeMedium,
-                          fontFamily: Constants.fontFamily,
-                          fontWeight: FontWeight.w400,
-                          color: AppColors.textSecondary),
+                    InkWell(
+                      onTap: (){
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>  SeeAllPage(type: Strings.actionMovie,seeAllList: _categoryList,)),
+                        );
+                      },
+                      child: const Text(Strings.seeAll,
+                        style: TextStyle(
+                            overflow: TextOverflow.ellipsis,
+                            fontSize: Dimensions.textSizeMedium,
+                            fontFamily: Constants.fontFamily,
+                            fontWeight: FontWeight.w400,
+                            color: AppColors.textSecondary),
+                      ),
                     ),
 
                   ],
                 ),
-                const SizedBox(height: 16,),
+                const SizedBox(height: 20,),
                 SizedBox(
                   height: 162,
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
                     padding: EdgeInsets.zero,
                     shrinkWrap: true,
-                    itemCount: 10,
+                    itemCount: _categoryList?.length ?? 0,
                     itemBuilder: (BuildContext context, int index) {
                       return _actionList(index);
                     },
@@ -234,93 +262,7 @@ class _HomePageState extends State<HomePage> {
                     },
                   ),
                 ),
-                const SizedBox(height: 15,),
-
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
-                    Text(Strings.adventureMovie,
-                      style: TextStyle(
-                          overflow: TextOverflow.ellipsis,
-                          fontSize: Dimensions.textSizeLarge,
-                          fontFamily: Constants.fontFamily,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.white),
-                    ),
-
-                    Text(Strings.seeAll,
-                      style: TextStyle(
-                          overflow: TextOverflow.ellipsis,
-                          fontSize: Dimensions.textSizeMedium,
-                          fontFamily: Constants.fontFamily,
-                          fontWeight: FontWeight.w400,
-                          color: AppColors.textSecondary),
-                    ),
-
-                  ],
-                ),
-                const SizedBox(height: 16,),
-                SizedBox(
-                  height: 162,
-                  child: ListView.separated(
-                    scrollDirection: Axis.horizontal,
-                    padding: EdgeInsets.zero,
-                    shrinkWrap: true,
-                    itemCount: 10,
-                    itemBuilder: (BuildContext context, int index) {
-                      return _adventureList(index);
-                    },
-                    separatorBuilder: (BuildContext context, int index) {
-                      return const SizedBox(
-                        width: 10,
-                      );
-                    },
-                  ),
-                ),
-                const SizedBox(height: 15,),
-
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
-                    Text(Strings.romanticMovie,
-                      style: TextStyle(
-                          overflow: TextOverflow.ellipsis,
-                          fontSize: Dimensions.textSizeLarge,
-                          fontFamily: Constants.fontFamily,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.white),
-                    ),
-
-                    Text(Strings.seeAll,
-                      style: TextStyle(
-                          overflow: TextOverflow.ellipsis,
-                          fontSize: Dimensions.textSizeMedium,
-                          fontFamily: Constants.fontFamily,
-                          fontWeight: FontWeight.w400,
-                          color: AppColors.textSecondary),
-                    ),
-
-                  ],
-                ),
-                const SizedBox(height: 16,),
-                SizedBox(
-                  height: 162,
-                  child: ListView.separated(
-                    scrollDirection: Axis.horizontal,
-                    padding: EdgeInsets.zero,
-                    shrinkWrap: true,
-                    itemCount: 10,
-                    itemBuilder: (BuildContext context, int index) {
-                      return _romanticList(index);
-                    },
-                    separatorBuilder: (BuildContext context, int index) {
-                      return const SizedBox(
-                        width: 10,
-                      );
-                    },
-                  ),
-                ),
-                const SizedBox(height: 16,),
+                const SizedBox(height: 50,),
               ],
             ),
           )
@@ -424,135 +366,54 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _actionList(int index){
-    return Container(
-      decoration: BoxDecoration(
-          color: AppColors.containerBg,
-          borderRadius: BorderRadius.circular(10)
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: CachedNetworkImage(
-              height: 130,
-              width: 100,
-              imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBFz-2B5ao74f1IBlKFvDgarz9Rx-1kFwqcw&usqp=CAU",
-              fit: BoxFit.cover,
-              placeholder: (context, url) => Container(
-                color: Colors.black12,
-                alignment: Alignment.center,
-                child: Image.asset(
-                    "assets/images/user_placeholder.png"),
-              ),
-              errorWidget: (context, url, error) => Container(
-                color: Colors.black12,
-                alignment: Alignment.center,
-                child: Image.asset(
-                    "assets/images/user_placeholder.png"),
-              ),
-            ),),
-          const SizedBox(height: 5,),
+    return InkWell(
+      onTap: (){
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => HomeDetailPage(id: _categoryList?[index]?.library?.id,)));
+      },
+      child: Container(
+        decoration: BoxDecoration(
+            color: AppColors.containerBg,
+            borderRadius: BorderRadius.circular(10)
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: CachedNetworkImage(
+                height: 130,
+                width: 100,
+                imageUrl: _categoryList?[index]?.avatar??"",
+                fit: BoxFit.cover,
+                placeholder: (context, url) => Container(
+                  color: Colors.black12,
+                  alignment: Alignment.center,
+                  child: Image.asset(
+                      "assets/images/user_placeholder.png"),
+                ),
+                errorWidget: (context, url, error) => Container(
+                  color: Colors.black12,
+                  alignment: Alignment.center,
+                  child: Image.asset(
+                      "assets/images/user_placeholder.png"),
+                ),
+              ),),
+            const SizedBox(height: 5,),
 
-          const Text("Bad Blood",
-              style: TextStyle(
-                  fontSize: Dimensions.textSizeSmall,
-                  fontFamily: Constants.fontFamily,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.white)),
-
-        ],
-      ),
-    );
-  }
-
-  Widget _adventureList(int index){
-    return Container(
-      decoration: BoxDecoration(
-          color: AppColors.containerBg,
-          borderRadius: BorderRadius.circular(10)
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: CachedNetworkImage(
-              height: 130,
-              width: 100,
-              imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRxPaxjy_h_a4o4M0cWfdiRe25D-EZAbo4-w&usqp=CAU",
-              fit: BoxFit.cover,
-              placeholder: (context, url) => Container(
-                color: Colors.black12,
-                alignment: Alignment.center,
-                child: Image.asset(
-                    "assets/images/user_placeholder.png"),
-              ),
-              errorWidget: (context, url, error) => Container(
-                color: Colors.black12,
-                alignment: Alignment.center,
-                child: Image.asset(
-                    "assets/images/user_placeholder.png"),
-              ),
-            ),),
-          const SizedBox(height: 5,),
-
-          const Text("Bad Blood",
-              style: TextStyle(
-                  fontSize: Dimensions.textSizeSmall,
-                  fontFamily: Constants.fontFamily,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.white)),
-
-        ],
-      ),
-    );
-  }
-
-  Widget _romanticList(int index){
-    return Container(
-      decoration: BoxDecoration(
-          color: AppColors.containerBg,
-          borderRadius: BorderRadius.circular(10)
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: CachedNetworkImage(
-              height: 130,
-              width: 100,
-              imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGwCtb_x-r40cuFN5J2aZ-xBiOdDO0CJDhpg&usqp=CAU",
-              fit: BoxFit.cover,
-              placeholder: (context, url) => Container(
-                color: Colors.black12,
-                alignment: Alignment.center,
-                child: Image.asset(
-                    "assets/images/user_placeholder.png"),
-              ),
-              errorWidget: (context, url, error) => Container(
-                color: Colors.black12,
-                alignment: Alignment.center,
-                child: Image.asset(
-                    "assets/images/user_placeholder.png"),
-              ),
-            ),),
-          const SizedBox(height: 5,),
-
-          const SizedBox(
-            width: 80,
-            child: Text("Bad Blood",
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
+             Text(_categoryList?[index]?.title??"",
+                 maxLines: 1,
+                 overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
                     fontSize: Dimensions.textSizeSmall,
                     fontFamily: Constants.fontFamily,
                     fontWeight: FontWeight.w500,
                     color: AppColors.white)),
-          ),
 
-        ],
+          ],
+        ),
       ),
     );
   }

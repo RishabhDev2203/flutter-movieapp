@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase_ott/dto/category_dto.dart';
 import 'package:flutter_firebase_ott/util/component/back_button.dart';
 import 'package:flutter_firebase_ott/util/component/sub_title_text.dart';
 
@@ -9,9 +10,9 @@ import '../../util/constants.dart';
 import '../../util/dimensions.dart';
 
 class SeeAllPage extends StatefulWidget {
-  final String? type;
-
-  const SeeAllPage({Key? key, this.type}) : super(key: key);
+  final String type;
+  List<CategoryDto?>? seeAllList;
+   SeeAllPage({Key? key, required this.type,required this.seeAllList}) : super(key: key);
 
   @override
   State<SeeAllPage> createState() => _SeeAllPageState();
@@ -22,7 +23,7 @@ class _SeeAllPageState extends State<SeeAllPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: AppColors.containerBg,
+      backgroundColor: AppColors.bg,
       // backgroundColor:AppColors.bg,
       body: Padding(
         padding: EdgeInsets.only(
@@ -35,11 +36,7 @@ class _SeeAllPageState extends State<SeeAllPage> {
               children: [
                 const ButtonBack(),
                 SubTitleText(
-                  text: widget.type == "Action Movie"
-                      ? "Action Movie"
-                      : widget.type == "Adventure Movie"
-                          ? "Adventure Movie"
-                          : "Romantic Movie",
+                  text: widget.type,
                   color: AppColors.white,
                   fontSize: Dimensions.textSizeXLarge,
                 ),
@@ -53,6 +50,7 @@ class _SeeAllPageState extends State<SeeAllPage> {
               height: 30,
             ),
             movieListBody(),
+            const SizedBox(height: 50,),
           ],
         ),
       ),
@@ -68,54 +66,50 @@ class _SeeAllPageState extends State<SeeAllPage> {
               crossAxisSpacing: 10,
               mainAxisSpacing: 10,
               childAspectRatio: 4 / 5),
-          itemCount: 10,
+          itemCount: widget.seeAllList?.length ?? 0 ,
           itemBuilder: (BuildContext ctx, index) {
             return Container(
               decoration: BoxDecoration(
-                  color: AppColors.navyBlueContainerColor,
-                  borderRadius: BorderRadius.circular(10)),
+                  color: AppColors.containerBg,
+                  borderRadius: BorderRadius.circular(10)
+              ),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: CachedNetworkImage(
                       height: 190,
                       width: 190,
-                      imageUrl:
-                          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBFz-2B5ao74f1IBlKFvDgarz9Rx-1kFwqcw&usqp=CAU",
+                      imageUrl:widget.seeAllList?[index]?.avatar??"",
                       fit: BoxFit.cover,
-                      alignment: FractionalOffset.topCenter,
-                      /*for align image*/
                       placeholder: (context, url) => Container(
                         color: Colors.black12,
                         alignment: Alignment.center,
-                        child:
-                            Image.asset("assets/images/user_placeholder.png"),
+                        child: Image.asset(
+                            "assets/images/user_placeholder.png"),
                       ),
                       errorWidget: (context, url, error) => Container(
                         color: Colors.black12,
                         alignment: Alignment.center,
-                        child:
-                            Image.asset("assets/images/user_placeholder.png"),
+                        child: Image.asset(
+                            "assets/images/user_placeholder.png"),
                       ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  const Align(
-                    alignment: Alignment.center,
-                    child: Text("Bad Blood",
-                        style: TextStyle(
-                            fontSize: Dimensions.textSizeSmall,
-                            fontFamily: Constants.fontFamily,
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.white)),
-                  ),
+                    ),),
+                  const SizedBox(height: 5,),
+
+                   Text(widget.seeAllList?[index]?.title??"",
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                          fontSize: Dimensions.textSizeSmall,
+                          fontFamily: Constants.fontFamily,
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.white)),
                 ],
               ),
             );
+
           }),
     );
   }
