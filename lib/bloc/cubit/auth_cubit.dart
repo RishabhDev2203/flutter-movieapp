@@ -88,7 +88,7 @@ class AuthCubit extends Cubit<ResponseState> {
     emit(ResponseStateLoading());
     UserDto dto;
     try {
-      dto = (await _authRepository.update(context,data));
+      dto = (await _authRepository.update(context,data))!;
       AppSession().storeUserDetail(dto.toJson());
       emit(ResponseStateSuccess(dto));
     }
