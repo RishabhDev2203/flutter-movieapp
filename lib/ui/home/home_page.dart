@@ -25,11 +25,13 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
 
   HomeCubit? _bannerCubit;
+  HomeCubit? _categoryCubit;
   List<LibraryDto?>? _libraryList;
 
   @override
   void initState() {
     _bannerCubit = HomeCubit(HomeRepository());
+    _categoryCubit = HomeCubit(HomeRepository());
     getBannerMovieList();
     super.initState();
   }
@@ -38,6 +40,8 @@ class _HomePageState extends State<HomePage> {
   void dispose() {
     _bannerCubit?.close();
     _bannerCubit = null;
+    _categoryCubit?.close();
+    _categoryCubit = null;
     super.dispose();
   }
 
@@ -84,7 +88,8 @@ class _HomePageState extends State<HomePage> {
               children: [
                 InkWell(
                   onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfilePage()));
+                    getCategoryMovieList();
+                    // Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfilePage()));
                   },
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(50),
@@ -115,7 +120,8 @@ class _HomePageState extends State<HomePage> {
                     //   MaterialPageRoute(
                     //       builder: (context) => const HomeSearchPage()),
                     // );
-                    getBannerMovieList();
+                    // getBannerMovieList();
+                    getCategoryMovieList();
                   },
                   child: Image.asset(
                     "assets/images/search.png",
@@ -326,10 +332,10 @@ class _HomePageState extends State<HomePage> {
   Widget _getItem(int index) {
     return InkWell(
       onTap: (){
-        // Navigator.push(
-        //     context,
-        //     MaterialPageRoute(
-        //         builder: (context) => const HomeDetailPage()));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => HomeDetailPage(id: _libraryList?[index]?.id,)));
         print("_libraryList?[index]?.thumbnails?[0].url ?? "" ?????????? ${_libraryList?[index]?.videoContent?.outputUrl ?? ""}");
       },
       child: ClipRRect(
@@ -554,5 +560,9 @@ class _HomePageState extends State<HomePage> {
   getBannerMovieList(){
     // _bannerCubit = HomeCubit(HomeRepository());
     _bannerCubit?.getBannerMovies();
+  }
+
+  getCategoryMovieList(){
+    _categoryCubit?.getMovieCategory();
   }
 }

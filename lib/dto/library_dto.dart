@@ -12,6 +12,7 @@ String? libraryDtoToJson(LibraryDto data) => json.encode(data.toJson());
 
 class LibraryDto {
   LibraryDto({
+    this.id,
     this.content,
     this.createdAt,
     this.deletedAt,
@@ -29,6 +30,7 @@ class LibraryDto {
     this.title,
   });
 
+  String? id;
   DocumentReference? content;
   Timestamp? createdAt;
   dynamic deletedAt;

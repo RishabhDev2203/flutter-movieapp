@@ -2,7 +2,8 @@
     package="com.it.ottapp">
     <uses-permission android:name="android.permission.INTERNET" />
    <application
-        android:label="flutter_firebase_ott"
+       android:usesCleartextTraffic="true"
+       android:label="flutter_firebase_ott"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
