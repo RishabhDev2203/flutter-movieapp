@@ -3,17 +3,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_ott/util/component/back_button.dart';
 import 'package:flutter_firebase_ott/util/component/sub_title_text.dart';
-import 'package:flutter_firebase_ott/util/component/title_text.dart';
 
 import '../../util/app_colors.dart';
 import '../../util/constants.dart';
 import '../../util/dimensions.dart';
-import '../../util/strings.dart';
 
 class SeeAllPage extends StatefulWidget {
-  String? type;
+  final String? type;
 
-  SeeAllPage({Key? key, this.type}) : super(key: key);
+  const SeeAllPage({Key? key, this.type}) : super(key: key);
 
   @override
   State<SeeAllPage> createState() => _SeeAllPageState();

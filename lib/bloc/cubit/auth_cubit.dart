@@ -1,3 +1,4 @@
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_firebase_ott/dto/user_dto.dart';
@@ -77,6 +78,19 @@ class AuthCubit extends Cubit<ResponseState> {
     try {
       await _authRepository.forgotPassword(email);
       emit(ResponseStateSuccess(""));
+    }
+    on FirebaseException catch (error) {
+      emit(ResponseStateError(error.message?? ""));
+    }
+  }
+
+  void update(context,data) async {
+    emit(ResponseStateLoading());
+    UserDto dto;
+    try {
+      dto = (await _authRepository.update(context,data))!;
+      AppSession().storeUserDetail(dto.toJson());
+      emit(ResponseStateSuccess(dto));
     }
     on FirebaseException catch (error) {
       emit(ResponseStateError(error.message?? ""));

@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import '../dto/user_dto.dart' as user;
 import '../util/app_session.dart';
+import '../util/utility.dart';
 
 class AuthRepository {
 
@@ -132,4 +134,12 @@ class AuthRepository {
     }
     return dto;
   }
+
+  Future update(BuildContext context,Map<String, Object?> data) async {
+    final FirebaseAuth _auth = FirebaseAuth.instance;
+    String uid = _auth.currentUser?.uid ?? "";
+    print(">>>>>>>>>>>> uid $uid");
+    FirebaseFirestore.instance.collection('users').doc(uid).update(data);
+  }
+
 }
