@@ -111,7 +111,6 @@ class HomeRepository {
 
       list = querySnapshot.docs.map((d) async{
         var e = CategoryDto.fromJson(d.data().toJson());
-        e.library
 
         print(">>>>>>>>>>>>>>>>>>>>>>1 ${e.avatar}");
         return e;
