@@ -5,6 +5,8 @@ import 'package:flutter_firebase_ott/dto/category_dto.dart';
 import 'package:flutter_firebase_ott/dto/content_dto.dart';
 import 'package:flutter_firebase_ott/dto/library_dto.dart'as lib;
 
+import '../dto/library_dto.dart';
+
 class HomeRepository {
 
   Future<List<lib.LibraryDto?>?> getBannerMovies({bool enableMock = false}) async {
@@ -93,13 +95,10 @@ class HomeRepository {
 
   Future<List<CategoryDto?>?> getMovieCategory({bool enableMock = false}) async {
     var list;
-
     if(enableMock == true){
       return list;
     }
-
     try {
-
       var querySnapshot = await FirebaseFirestore.instance.collection('category')
           .withConverter<CategoryDto>(
           fromFirestore: (snapshot, _) {
@@ -108,11 +107,12 @@ class HomeRepository {
           },
           toFirestore: (model, _) => model.toJson())
           .get();
-
       list = querySnapshot.docs.map((d) async{
         var e = CategoryDto.fromJson(d.data().toJson());
-
-        print(">>>>>>>>>>>>>>>>>>>>>>1 ${e.avatar}");
+        var v = await getLibCategory(e.libraryId);
+        e.id = d.reference.id;
+        e.library=v;
+        print(">>>>>>>>>>>>>>>>>>>>>>1 ${v?.id}");
         return e;
       });
 
@@ -136,6 +136,8 @@ class HomeRepository {
   }
 
   Future<lib.LibraryDto?> getLibCategory(DocumentReference? doc,{bool enableMock = false}) async {
+
+    lib.LibraryDto? dto=LibraryDto();
     try {
       CollectionReference collRef =
       FirebaseFirestore.instance.collection('library');
@@ -148,7 +150,9 @@ class HomeRepository {
           },
           toFirestore: (model, _) => model.toJson())
           .get();
-      return docSnapshot.data();
+      dto=docSnapshot.data();
+      dto?.id=docSnapshot.reference.id;
+      return dto;
     } on FirebaseException catch (e) {
       rethrow;
     }

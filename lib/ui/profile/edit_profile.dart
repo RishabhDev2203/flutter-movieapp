@@ -256,7 +256,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
             userDto = value;
             _nameController.text = userDto?.name ?? "";
             _emailController.text = userDto?.email ?? "";
-            profilePicture = userDto?.avatar ?? "";
           })
         });
   }

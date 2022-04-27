@@ -50,7 +50,7 @@ dependencies:
   amazon_cognito_identity_dart_2: ^1.0.5
   permission_handler: ^9.2.0
   loader_overlay: ^2.0.6
-  better_player: ^0.0.81
+  better_player: ^0.0.82
   simple_animations: ^4.0.1
   tab_indicator_styler: ^2.0.0
   shimmer: ^2.0.0
