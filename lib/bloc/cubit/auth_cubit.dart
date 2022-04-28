@@ -13,10 +13,10 @@ class AuthCubit extends Cubit<ResponseState> {
 
   void createAccount(name, email, password) async {
     emit(ResponseStateLoading());
-    UserDto dto;
+    UserDto? dto;
     try {
-      dto = (await _authRepository.createAccount(name, email, password))!;
-      AppSession().storeUserDetail(dto.toJson());
+      dto = (await _authRepository.createAccount(name, email, password));
+      AppSession().storeUserDetail(dto?.toJson());
       emit(ResponseStateSuccess(dto));
     }
     on FirebaseException catch (error) {
@@ -25,10 +25,10 @@ class AuthCubit extends Cubit<ResponseState> {
   }
   void loginAccount(email, password) async {
     emit(ResponseStateLoading());
-    UserDto dto;
+    UserDto? dto;
     try {
-      dto = (await _authRepository.loginAccount(email, password))!;
-      AppSession().storeUserDetail(dto.toJson());
+      dto = (await _authRepository.loginAccount(email, password));
+      AppSession().storeUserDetail(dto?.toJson());
       emit(ResponseStateSuccess(dto));
     }
     on FirebaseException catch (error) {
@@ -60,10 +60,10 @@ class AuthCubit extends Cubit<ResponseState> {
 
   void apiGoogleLogin(String email,String name) async {
     emit(ResponseStateLoading());
-    UserDto dto;
+    UserDto? dto;
     try {
-      dto = (await _authRepository.apiGoogleLogin(email,name))!;
-      AppSession().storeUserDetail(dto.toJson());
+      dto = (await _authRepository.apiGoogleLogin(email,name));
+      AppSession().storeUserDetail(dto?.toJson());
       emit(ResponseStateSuccess(dto));
 
     }
@@ -84,11 +84,12 @@ class AuthCubit extends Cubit<ResponseState> {
     }
   }
 
-  void update(context,data) async {
+  void update(Map<String, Object?> data) async {
     emit(ResponseStateLoading());
     UserDto dto;
     try {
-      dto = (await _authRepository.update(context,data))!;
+      dto = (await _authRepository.update(data));
+      print("@@@@@ $dto");
       AppSession().storeUserDetail(dto.toJson());
       emit(ResponseStateSuccess(dto));
     }

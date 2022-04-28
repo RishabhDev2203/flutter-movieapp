@@ -75,6 +75,7 @@ class _ProfilePageState extends State<ProfilePage> {
     return Container(
       decoration: AppColors.bgGradientBoxDecoration(),
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: AppColors.transparent,
         body: Padding(
           padding: EdgeInsets.only(
@@ -291,4 +292,5 @@ class _ProfilePageState extends State<ProfilePage> {
           })
         });
   }
+
 }
