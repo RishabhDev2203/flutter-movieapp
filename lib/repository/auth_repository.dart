@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 import '../dto/user_dto.dart' as user;
 import '../util/app_session.dart';
 import '../util/utility.dart';
@@ -10,7 +11,7 @@ class AuthRepository {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   DocumentReference? connections;
-
+  var uuid = Uuid();
   Future<user.UserDto?> createAccount(String name, String email, String password, {bool enableMock = false}) async {
 
     user.UserDto dto = user.UserDto();
@@ -30,10 +31,16 @@ class AuthRepository {
           email: email, password: password);
 
       await _fireStore.collection('users').doc(_auth.currentUser?.uid).set({
-        "email": email,
-        "id": _auth.currentUser?.uid ?? "",
+        "id":uuid.v4(),
+        "authorizationId": _auth.currentUser?.uid ?? "",
         "name": name,
+        "email": email,
+        "avatar": null,
         "role": "user",
+        "status":"active",
+        "createdAt": Timestamp.now(),
+        "updatedAt":null,
+
       });
 
       dto = await firebaseGetUserDetail();
