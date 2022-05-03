@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_ott/ui/home/home_page.dart';
+import 'package:flutter_firebase_ott/util/app_colors.dart';
 import 'ui/auth/sign_in_page.dart';
 
 class Splash extends StatefulWidget {
@@ -23,13 +24,14 @@ class _SplashState extends State<Splash> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body:// Container()
+      backgroundColor: AppColors.bg,
+        body:
         Stack(
       children: [
         SizedBox(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
-          child: Image.asset("assets/images/background.png", fit: BoxFit.cover),
+         // child: Image.asset("assets/images/background.png", fit: BoxFit.cover),
         ),
         // Align(
         //   alignment: Alignment.center,
@@ -41,11 +43,15 @@ class _SplashState extends State<Splash> {
   }
 
   _goto(BuildContext context) {
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(
+            builder: (context) => const SignInPage()),
+            (Route<dynamic> route) => false);
 
-          if(FirebaseAuth.instance.currentUser== null){
-            Navigator.of(context).pushAndRemoveUntil(
+          /*if(FirebaseAuth.instance.currentUser== null){
+           Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
-                    builder: (context) => const /*HomePage()*/ SignInPage()),
+                    builder: (context) => const *//*HomePage()*//* SignInPage()),
 
                     (Route<dynamic> route) => false);
           }else{
@@ -55,7 +61,7 @@ class _SplashState extends State<Splash> {
 
                     (Route<dynamic> route) => false);
 
-          }
+          }*/
     }
   // _goto(BuildContext context) async {
   //   var dto = await AppSession().getUserDetail();

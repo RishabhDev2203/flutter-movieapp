@@ -3,10 +3,10 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_ideal_ott_api/dto/user_dto.dart';
+import 'package:flutter_ideal_ott_api/repository/auth_repository.dart';
 
 import '../../bloc/cubit/auth_cubit.dart';
-import '../../dto/user_dto.dart';
-import '../../repository/auth_repository.dart';
 import '../../util/app_colors.dart';
 import '../../util/app_session.dart';
 import '../../util/component/back_button.dart';

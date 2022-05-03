@@ -1,6 +1,6 @@
 import 'dart:convert';
+import 'package:flutter_ideal_ott_api/dto/user_dto.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../dto/user_dto.dart';
 
 class AppSession {
   static AppSession? _instance;

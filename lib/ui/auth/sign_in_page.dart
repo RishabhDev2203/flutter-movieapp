@@ -12,10 +12,10 @@ import 'package:flutter_firebase_ott/util/component/my_container.dart';
 import 'package:flutter_firebase_ott/util/component/title_text.dart';
 import 'package:flutter_firebase_ott/util/dimensions.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_ideal_ott_api/repository/auth_repository.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import '../../bloc/api_resp_state.dart';
 import '../../bloc/cubit/auth_cubit.dart';
-import '../../repository/auth_repository.dart';
 import '../../util/strings.dart';
 import '../../util/utility.dart';
 
