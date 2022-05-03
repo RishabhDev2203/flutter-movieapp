@@ -1,8 +1,9 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_ott/bloc/cubit/auth_cubit.dart';
-import 'package:flutter_firebase_ott/repository/auth_repository.dart';
 import 'package:flutter_firebase_ott/ui/auth/sign_in_page.dart';
+import 'package:flutter_ideal_ott_api/repository/auth_repository.dart';
+import 'package:uuid/uuid.dart';
 import '../../bloc/api_resp_state.dart';
 import '../../util/app_colors.dart';
 import '../../util/component/back_button.dart';
@@ -372,6 +373,7 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
 
   createAccount(){
     Utility.showLoader(context);
-    _authCubit?.createAccount(name, email, password);
+    var uuid = const Uuid();
+    _authCubit?.createAccount(name, email, password, uuid.v4());
   }
 }

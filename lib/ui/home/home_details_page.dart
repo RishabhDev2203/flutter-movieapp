@@ -1,13 +1,15 @@
-import 'package:better_player/better_player.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_ott/bloc/cubit/home_cubit.dart';
-import 'package:flutter_firebase_ott/dto/library_dto.dart';
-import 'package:flutter_firebase_ott/repository/home_repository.dart';
 import 'package:flutter_firebase_ott/util/component/back_button.dart';
+import 'package:flutter_ideal_ott_api/dto/library_dto.dart';
+import 'package:flutter_ideal_ott_api/repository/home_repository.dart';
+import 'package:video_viewer/domain/bloc/controller.dart';
+import 'package:video_viewer/video_viewer.dart';
 import '../../bloc/api_resp_state.dart';
 import '../../util/app_colors.dart';
 import '../../util/component/more_description.dart';
+import '../../util/component/video_player.dart';
 import '../../util/constants.dart';
 import '../../util/dimensions.dart';
 import '../../util/strings.dart';
@@ -16,8 +18,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeDetailPage extends StatefulWidget {
   String? id;
+  String? coverImage;
 
-  HomeDetailPage({Key? key, this.id}) : super(key: key);
+  HomeDetailPage({Key? key, this.id,this.coverImage}) : super(key: key);
 
   @override
   State<HomeDetailPage> createState() => _HomeDetailPageState();
@@ -27,7 +30,6 @@ class _HomeDetailPageState extends State<HomeDetailPage> {
   HomeCubit? _movieDetailCubit;
   LibraryDto? dto;
   bool isVideoPlay = false;
-
   @override
   void initState() {
     _movieDetailCubit = HomeCubit(HomeRepository());
@@ -83,41 +85,44 @@ class _HomeDetailPageState extends State<HomeDetailPage> {
                 height: 300,
                 width: MediaQuery.of(context).size.width,
                 alignment: FractionalOffset.topCenter,
-                child: BetterPlayer.network(
-                        dto?.videoContent?.outputUrl
-                                ?.replaceAll("https", "http") ??
-                            "",
-                        betterPlayerConfiguration:
-                            const BetterPlayerConfiguration(
-                          expandToFill: true,
-                          fit: BoxFit.cover,
-                          autoPlay: true,
-                        ),
-                      ),
+                child: MoviePlayer(url: dto?.videoContent?.outputUrl??"",)
+                // child: BetterPlayer.network(
+                //         dto?.videoContent?.outputUrl
+                //                 ?.replaceAll("https", "http") ??
+                //             "",
+                //         betterPlayerConfiguration:
+                //             const BetterPlayerConfiguration(
+                //           expandToFill: true,
+                //           fit: BoxFit.cover,
+                //           autoPlay: true,
+                //         ),
+                //       ),
                   )
                   : CachedNetworkImage(
                       height: 300,
                       width: MediaQuery.of(context).size.width,
-                      imageUrl: dto?.thumbnails?[0].url ?? "",
+                      imageUrl: widget.coverImage?? "",
                       fit: BoxFit.cover,
                       alignment: FractionalOffset.topCenter,
                       placeholder: (context, url) => Container(
-                        color: Colors.black12,
+                        height: 300,
+                        color: Colors.black38,
                         alignment: Alignment.center,
-                        child: Image.asset(
-                          "assets/images/user_placeholder.png",
-                          fit: BoxFit.cover,
-                          height: 300,
-                          width: MediaQuery.of(context).size.width,
-                        ),
+                        // child: Image.asset(
+                        //   "assets/images/user_placeholder.png",
+                        //   fit: BoxFit.cover,
+                        //   height: 300,
+                        //   width: MediaQuery.of(context).size.width,
+                        // ),
                       ),
                       errorWidget: (context, url, error) => Container(
-                        color: Colors.black12,
+                        height: 300,
+                        color: Colors.black38,
                         alignment: Alignment.center,
-                        child: Image.asset("assets/images/user_placeholder.png",
-                            fit: BoxFit.cover,
-                            height: 300,
-                            width: MediaQuery.of(context).size.width),
+                        // child: Image.asset("assets/images/user_placeholder.png",
+                        //     fit: BoxFit.cover,
+                        //     height: 300,
+                        //     width: MediaQuery.of(context).size.width),
                       ),
                     ),
             ),
@@ -299,14 +304,14 @@ class _HomeDetailPageState extends State<HomeDetailPage> {
                   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGwCtb_x-r40cuFN5J2aZ-xBiOdDO0CJDhpg&usqp=CAU",
               fit: BoxFit.cover,
               placeholder: (context, url) => Container(
-                color: Colors.black12,
+                color: Colors.black38,
                 alignment: Alignment.center,
-                child: Image.asset("assets/images/user_placeholder.png"),
+                // child: Image.asset("assets/images/user_placeholder.png"),
               ),
               errorWidget: (context, url, error) => Container(
-                color: Colors.black12,
+                color: Colors.black38,
                 alignment: Alignment.center,
-                child: Image.asset("assets/images/user_placeholder.png"),
+                // child: Image.asset("assets/images/user_placeholder.png"),
               ),
             ),
           ),

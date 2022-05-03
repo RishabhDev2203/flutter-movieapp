@@ -2,14 +2,14 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_ott/bloc/cubit/home_cubit.dart';
-import 'package:flutter_firebase_ott/dto/library_dto.dart';
-import 'package:flutter_firebase_ott/repository/home_repository.dart';
 import 'package:flutter_firebase_ott/ui/home/home_search_page.dart';
 import 'package:flutter_firebase_ott/ui/home/see_all_page.dart';
 import 'package:flutter_firebase_ott/ui/profile/profile_page.dart';
 import 'package:flutter_firebase_ott/util/strings.dart';
+import 'package:flutter_ideal_ott_api/dto/category_dto.dart';
+import 'package:flutter_ideal_ott_api/dto/library_dto.dart';
+import 'package:flutter_ideal_ott_api/repository/home_repository.dart';
 import '../../bloc/api_resp_state.dart';
-import '../../dto/category_dto.dart';
 import '../../util/app_colors.dart';
 import '../../util/constants.dart';
 import '../../util/dimensions.dart';
@@ -278,7 +278,7 @@ class _HomePageState extends State<HomePage> {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => HomeDetailPage(id: _libraryList?[index]?.id,)));
+                builder: (context) => HomeDetailPage(id: _libraryList?[index]?.id,coverImage:_libraryList?[index]?.thumbnails?[0].url ,)));
         print("_libraryList?[index]?.thumbnails?[0].url ?? "" ?????????? ${_libraryList?[index]?.videoContent?.outputUrl ?? ""}");
       },
       child: ClipRRect(
@@ -289,16 +289,16 @@ class _HomePageState extends State<HomePage> {
           imageUrl: _libraryList?[index]?.thumbnails?[0].url ?? "",
           fit: BoxFit.cover,
           placeholder: (context, url) => Container(
-            color: Colors.black12,
+            color: Colors.black38,
             alignment: Alignment.center,
-            child: Image.asset(
-                "assets/images/user_placeholder.png"),
+            // child: Image.asset(
+            //     "assets/images/user_placeholder.png"),
           ),
           errorWidget: (context, url, error) => Container(
-            color: Colors.black12,
+            color: Colors.black38,
             alignment: Alignment.center,
-            child: Image.asset(
-                "assets/images/user_placeholder.png"),
+            // child: Image.asset(
+            //     "assets/images/user_placeholder.png"),
           ),
         ),
       ),
@@ -316,16 +316,16 @@ class _HomePageState extends State<HomePage> {
             imageUrl: "https://variety.com/wp-content/uploads/2016/09/maleficent.jpg?w=681&h=383&crop=1",
             fit: BoxFit.cover,
             placeholder: (context, url) => Container(
-              color: Colors.black12,
+              color: Colors.black38,
               alignment: Alignment.center,
-              child: Image.asset(
-                  "assets/images/user_placeholder.png"),
+              // child: Image.asset(
+              //     "assets/images/user_placeholder.png"),
             ),
             errorWidget: (context, url, error) => Container(
-              color: Colors.black12,
+              color: Colors.black38,
               alignment: Alignment.center,
-              child: Image.asset(
-                  "assets/images/user_placeholder.png"),
+              // child: Image.asset(
+              //     "assets/images/user_placeholder.png"),
             ),
           ),
         ),
@@ -372,7 +372,7 @@ class _HomePageState extends State<HomePage> {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => HomeDetailPage(id: _categoryList?[index]?.library?.id,)));
+                builder: (context) => HomeDetailPage(id: _categoryList?[index]?.library?.id,coverImage:_libraryList?[index]?.thumbnails?[0].url)));
       },
       child: Container(
         decoration: BoxDecoration(
@@ -390,16 +390,16 @@ class _HomePageState extends State<HomePage> {
                 imageUrl: _categoryList?[index]?.avatar??"",
                 fit: BoxFit.cover,
                 placeholder: (context, url) => Container(
-                  color: Colors.black12,
+                  color: Colors.black38,
                   alignment: Alignment.center,
-                  child: Image.asset(
-                      "assets/images/user_placeholder.png"),
+                  // child: Image.asset(
+                  //     "assets/images/user_placeholder.png"),
                 ),
                 errorWidget: (context, url, error) => Container(
-                  color: Colors.black12,
+                  color: Colors.black38,
                   alignment: Alignment.center,
-                  child: Image.asset(
-                      "assets/images/user_placeholder.png"),
+                  // child: Image.asset(
+                  //     "assets/images/user_placeholder.png"),
                 ),
               ),),
             const SizedBox(height: 5,),

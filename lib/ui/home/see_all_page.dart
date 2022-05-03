@@ -1,9 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_firebase_ott/dto/category_dto.dart';
 import 'package:flutter_firebase_ott/util/component/back_button.dart';
 import 'package:flutter_firebase_ott/util/component/sub_title_text.dart';
+import 'package:flutter_ideal_ott_api/dto/category_dto.dart';
 
 import '../../util/app_colors.dart';
 import '../../util/constants.dart';
@@ -24,7 +24,6 @@ class _SeeAllPageState extends State<SeeAllPage> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: AppColors.bg,
-      // backgroundColor:AppColors.bg,
       body: Padding(
         padding: EdgeInsets.only(
             left: 16, right: 16, top: MediaQuery.of(context).padding.top + 30),
@@ -84,16 +83,16 @@ class _SeeAllPageState extends State<SeeAllPage> {
                       imageUrl:widget.seeAllList?[index]?.avatar??"",
                       fit: BoxFit.cover,
                       placeholder: (context, url) => Container(
-                        color: Colors.black12,
+                        color: Colors.black38,
                         alignment: Alignment.center,
-                        child: Image.asset(
-                            "assets/images/user_placeholder.png"),
+                        // child: Image.asset(
+                        //     "assets/images/user_placeholder.png"),
                       ),
                       errorWidget: (context, url, error) => Container(
-                        color: Colors.black12,
+                        color: Colors.black38,
                         alignment: Alignment.center,
-                        child: Image.asset(
-                            "assets/images/user_placeholder.png"),
+                        // child: Image.asset(
+                        //     "assets/images/user_placeholder.png"),
                       ),
                     ),),
                   const SizedBox(height: 5,),

@@ -1,9 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_firebase_ott/dto/category_dto.dart';
-import 'package:flutter_firebase_ott/dto/content_dto.dart';
-import 'package:flutter_firebase_ott/dto/library_dto.dart';
-import 'package:flutter_firebase_ott/repository/home_repository.dart';
+import 'package:flutter_ideal_ott_api/dto/category_dto.dart';
+import 'package:flutter_ideal_ott_api/dto/library_dto.dart';
+import 'package:flutter_ideal_ott_api/repository/home_repository.dart';
 import '../api_resp_state.dart';
 
 class HomeCubit extends Cubit<ResponseState> {

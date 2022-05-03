@@ -2,19 +2,20 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_firebase_ott/bloc/cubit/home_cubit.dart';
-import 'package:flutter_firebase_ott/repository/auth_repository.dart';
-import 'package:flutter_firebase_ott/repository/home_repository.dart';
 import 'package:flutter_firebase_ott/splash.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_firebase_ott/util/app_colors.dart';
 import 'package:flutter_firebase_ott/util/app_theme.dart';
 import 'package:flutter_firebase_ott/util/constants.dart';
+import 'package:flutter_ideal_ott_api/ideal_ott_api.dart';
+import 'package:flutter_ideal_ott_api/repository/auth_repository.dart';
+import 'package:flutter_ideal_ott_api/repository/home_repository.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'bloc/cubit/auth_cubit.dart';
 
 void main() async{
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+   WidgetsFlutterBinding.ensureInitialized();
+   await Firebase.initializeApp();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,

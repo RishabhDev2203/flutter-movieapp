@@ -24,7 +24,7 @@ class _HomeSearchPageState extends State<HomeSearchPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: AppColors.containerBg,
+      backgroundColor: AppColors.bg,
       // backgroundColor:AppColors.bg,
       body: Padding(
         padding: EdgeInsets.only(
@@ -133,7 +133,7 @@ class _HomeSearchPageState extends State<HomeSearchPage> {
           itemBuilder: (BuildContext ctx, index) {
             return Container(
               decoration: BoxDecoration(
-                  color: AppColors.navyBlueContainerColor,
+                  color: AppColors.containerBg,
                   borderRadius: BorderRadius.circular(10)),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -149,16 +149,16 @@ class _HomeSearchPageState extends State<HomeSearchPage> {
                       alignment: FractionalOffset.topCenter,
                       /*for align image*/
                       placeholder: (context, url) => Container(
-                        color: Colors.black12,
+                        color: Colors.black38,
                         alignment: Alignment.center,
-                        child:
-                            Image.asset("assets/images/user_placeholder.png"),
+                        // child:
+                        //     Image.asset("assets/images/user_placeholder.png"),
                       ),
                       errorWidget: (context, url, error) => Container(
-                        color: Colors.black12,
+                        color: Colors.black38,
                         alignment: Alignment.center,
-                        child:
-                            Image.asset("assets/images/user_placeholder.png"),
+                        // child:
+                        //     Image.asset("assets/images/user_placeholder.png"),
                       ),
                     ),
                   ),
