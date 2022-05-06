@@ -1,11 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_ott/bloc/cubit/home_cubit.dart';
+import 'package:flutter_firebase_ott/ui/home/video_controls/video_player_page.dart';
 import 'package:flutter_firebase_ott/util/component/back_button.dart';
 import 'package:flutter_ideal_ott_api/dto/library_dto.dart';
 import 'package:flutter_ideal_ott_api/repository/home_repository.dart';
-import 'package:video_viewer/domain/bloc/controller.dart';
-import 'package:video_viewer/video_viewer.dart';
+import 'package:video_player/video_player.dart';
 import '../../bloc/api_resp_state.dart';
 import '../../util/app_colors.dart';
 import '../../util/component/more_description.dart';
@@ -30,11 +30,18 @@ class _HomeDetailPageState extends State<HomeDetailPage> {
   HomeCubit? _movieDetailCubit;
   LibraryDto? dto;
   bool isVideoPlay = false;
+  late VideoPlayerController _controller;
   @override
   void initState() {
     _movieDetailCubit = HomeCubit(HomeRepository());
     getMovieDetails();
     super.initState();
+    _controller = VideoPlayerController.network(
+        "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4");
+    _controller.initialize().then((_) => setState(() {
+      //_controller.seekTo(Duration(minutes: 5));
+    }));
+    _controller.play();
   }
 
   @override
@@ -85,7 +92,8 @@ class _HomeDetailPageState extends State<HomeDetailPage> {
                 height: 300,
                 width: MediaQuery.of(context).size.width,
                 alignment: FractionalOffset.topCenter,
-                child: MoviePlayer(url: dto?.videoContent?.outputUrl??"",)
+                child:VideoPlayerPage()
+                //MoviePlayer(url: dto?.videoContent?.outputUrl??"",)
                 // child: BetterPlayer.network(
                 //         dto?.videoContent?.outputUrl
                 //                 ?.replaceAll("https", "http") ??
