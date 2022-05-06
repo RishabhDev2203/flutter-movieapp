@@ -437,8 +437,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: staging
-      resolved-ref: edec457fc29e11bd7bce9e88b5d68d762eff6e67
+      ref: "0aae5f1d95f73af75275cc6e070501723b0c556a"
+      resolved-ref: "0aae5f1d95f73af75275cc6e070501723b0c556a"
       url: "git@mygitlab.idealittechno.in:devsideal/flutter_ideal_ott_api.git"
     source: git
     version: "0.0.1"
@@ -480,13 +480,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.2"
-  gesture_x_detector:
-    dependency: transitive
-    description:
-      name: gesture_x_detector
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.1.0"
   glob:
     dependency: transitive
     description:
@@ -536,13 +529,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0"
-  helpers:
-    dependency: transitive
-    description:
-      name: helpers
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.1.4"
   html:
     dependency: transitive
     description:
@@ -1102,7 +1088,7 @@ packages:
     source: hosted
     version: "2.1.1"
   video_player:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: video_player
       url: "https://pub.dartlang.org"
@@ -1136,55 +1122,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.8"
-  video_viewer:
-    dependency: "direct main"
-    description:
-      name: video_viewer
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.2.7"
-  volume_watcher:
-    dependency: transitive
-    description:
-      name: volume_watcher
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.1"
-  wakelock:
-    dependency: transitive
-    description:
-      name: wakelock
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.5.6"
-  wakelock_macos:
-    dependency: transitive
-    description:
-      name: wakelock_macos
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.4.0"
-  wakelock_platform_interface:
-    dependency: transitive
-    description:
-      name: wakelock_platform_interface
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.3.0"
-  wakelock_web:
-    dependency: transitive
-    description:
-      name: wakelock_web
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.4.0"
-  wakelock_windows:
-    dependency: transitive
-    description:
-      name: wakelock_windows
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.2.0"
   watcher:
     dependency: transitive
     description:

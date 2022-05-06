@@ -10,11 +10,11 @@ class HomeCubit extends Cubit<ResponseState> {
 
   HomeCubit(this._homeRepository) : super(ResponseStateInitial());
 
-  void getBannerMovies({bool enableMock = false}) async {
+  void getBannerMovies() async {
     emit(ResponseStateLoading());
     List<LibraryDto?>? dto;
     try {
-      dto = await _homeRepository.getBannerMovies();
+      dto = await _homeRepository.getBannerMovies(enableMock:true);
       emit(ResponseStateSuccess(dto));
     }
     on FirebaseException catch (error) {
@@ -22,11 +22,11 @@ class HomeCubit extends Cubit<ResponseState> {
     }
   }
 
-  void getMoviesDetail(id,{bool enableMock = false}) async {
+  void getMoviesDetail(id) async {
     emit(ResponseStateLoading());
     LibraryDto? dto;
     try {
-      dto = await _homeRepository. getMovieDetails(id);
+      dto = await _homeRepository. getMovieDetails(id,enableMock:true);
       emit(ResponseStateSuccess(dto));
     }
     on FirebaseException catch (error) {
@@ -34,11 +34,11 @@ class HomeCubit extends Cubit<ResponseState> {
     }
   }
 
-  void getMovieCategory({bool enableMock = false}) async {
+  void getMovieCategory() async {
     emit(ResponseStateLoading());
     List<CategoryDto?>? dto;
     try {
-      dto = await _homeRepository.getMovieCategory();
+      dto = await _homeRepository.getMovieCategory(enableMock:true);
       print("dto>>>>>>>>>>>> ${dto?[0]?.avatar}");
       emit(ResponseStateSuccess(dto));
     }

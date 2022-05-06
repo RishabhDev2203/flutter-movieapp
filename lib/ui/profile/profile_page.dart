@@ -28,7 +28,6 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  String? _imagePath;
   AuthCubit? _authCubit;
   final AppSession _appSession = AppSession();
   UserDto? userDto;
@@ -122,10 +121,24 @@ class _ProfilePageState extends State<ProfilePage> {
               const SizedBox(
                 height: 50,
               ),
-              Stack(
-                children: [
-                  _imageView(_imagePath),
-                ],
+              ClipRRect(
+                borderRadius: BorderRadius.circular(50),
+                child: CachedNetworkImage(
+                  width: 100,
+                  height: 100,
+                  imageUrl:userDto?.avatar??"",
+                  fit: BoxFit.cover,
+                  placeholder: (context, url) => Container(
+                    color: Colors.transparent,
+                    alignment: Alignment.center,
+                    child: Image.asset("assets/images/user_placeholder.png"),
+                  ),
+                  errorWidget: (context, url, error) => Container(
+                    color: Colors.transparent,
+                    alignment: Alignment.center,
+                    child: Image.asset("assets/images/user_placeholder.png"),
+                  ),
+                ),
               ),
               const SizedBox(
                 height: 5,
@@ -255,34 +268,6 @@ class _ProfilePageState extends State<ProfilePage> {
   logoutAccount() {
     Utility.showLoader(context);
     _authCubit?.logoutAccount();
-  }
-
-  Widget _imageView(String? imagePath) {
-    return imagePath == null
-        ? ClipRRect(
-            borderRadius: BorderRadius.circular(50),
-            child: CachedNetworkImage(
-              width: 100,
-              height: 100,
-              imageUrl: "",
-              fit: BoxFit.cover,
-              placeholder: (context, url) => Container(
-                color: Colors.transparent,
-                alignment: Alignment.center,
-                child: Image.asset("assets/images/user_placeholder.png"),
-              ),
-              errorWidget: (context, url, error) => Container(
-                color: Colors.transparent,
-                alignment: Alignment.center,
-                child: Image.asset("assets/images/user_placeholder.png"),
-              ),
-            ),
-          )
-        : ClipRRect(
-            borderRadius: BorderRadius.circular(50),
-            child: Image.file(File(imagePath),
-                fit: BoxFit.cover, height: 100, width: 100),
-          );
   }
 
   getDetail() {

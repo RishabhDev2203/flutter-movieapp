@@ -1,21 +1,24 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_firebase_ott/bloc/cubit/home_cubit.dart';
-import 'package:flutter_firebase_ott/ui/home/home_search_page.dart';
 import 'package:flutter_firebase_ott/ui/home/see_all_page.dart';
-import 'package:flutter_firebase_ott/ui/profile/profile_page.dart';
-import 'package:flutter_firebase_ott/util/strings.dart';
 import 'package:flutter_ideal_ott_api/dto/category_dto.dart';
 import 'package:flutter_ideal_ott_api/dto/library_dto.dart';
+import 'package:flutter_ideal_ott_api/dto/user_dto.dart';
 import 'package:flutter_ideal_ott_api/repository/home_repository.dart';
 import '../../bloc/api_resp_state.dart';
+import '../../bloc/cubit/home_cubit.dart';
 import '../../util/app_colors.dart';
+import '../../util/app_session.dart';
 import '../../util/constants.dart';
 import '../../util/dimensions.dart';
+import '../../util/strings.dart';
 import '../../util/utility.dart';
+import '../profile/profile_page.dart';
 import 'home_details_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'home_search_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -29,10 +32,13 @@ class _HomePageState extends State<HomePage> {
   HomeCubit? _bannerCubit;
   HomeCubit? _categoryCubit;
   List<LibraryDto?>? _libraryList;
-  List<CategoryDto?>? _categoryList;
+  List<CategoryDto>? _categoryList;
+  UserDto _userDto = UserDto();
+  final AppSession _appSession = AppSession();
 
   @override
   void initState() {
+    _appSession.init().then((value) => getDetail());
     _bannerCubit = HomeCubit(HomeRepository());
     _categoryCubit = HomeCubit(HomeRepository());
     getBannerMovieList();
@@ -82,6 +88,10 @@ class _HomePageState extends State<HomePage> {
                 Utility.hideLoader(context);
                 if(state.data != null){
                   _categoryList = state.data;
+                  print(">>>>>>>>>>>>>>>>>>> : ${_categoryList?.length}");
+                  print(">>>>>>>>>>>>>>>>>>>0 : ${_categoryList?[0].library?.length}");
+                  print(">>>>>>>>>>>>>>>>>>>1 :  ${_categoryList?[1].library?.length}");
+                  print(">>>>>>>>>>>>>>>>>>>2 :  ${_categoryList?[2].library?.length}");
                   setState(() {});
                 }
               }
@@ -109,24 +119,27 @@ class _HomePageState extends State<HomePage> {
               children: [
                 InkWell(
                   onTap: (){
-
-                     Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfilePage()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfilePage())).then((value) => {
+                      _appSession.init().then((value) => getDetail()),
+                      getBannerMovieList(),
+                      getCategoryMovieList()
+                    });
                   },
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(50),
                     child: CachedNetworkImage(
                       width: 40,
                       height: 40,
-                      imageUrl: "https://www.salesforce.com/blog/wp-content/uploads/sites/2/2021/06/2021-12-360BlogHeader-SalesforceAdmin.V3-1500x844-1.png",
+                      imageUrl: _userDto.avatar ?? "",
                       fit: BoxFit.cover,
                       placeholder: (context, url) => Container(
-                        color: Colors.black12,
+                        color: Colors.black38,
                         alignment: Alignment.center,
                         child: Image.asset(
                             "assets/images/user_placeholder.png"),
                       ),
                       errorWidget: (context, url, error) => Container(
-                        color: Colors.black12,
+                        color: Colors.black38,
                         alignment: Alignment.center,
                         child: Image.asset(
                             "assets/images/user_placeholder.png"),
@@ -141,8 +154,6 @@ class _HomePageState extends State<HomePage> {
                       MaterialPageRoute(
                           builder: (context) => const HomeSearchPage()),
                     );
-                    // getBannerMovieList();
-                  //  getCategoryMovieList();
                   },
                   child: Image.asset(
                     "assets/images/search.png",
@@ -213,57 +224,75 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 const SizedBox(height: 16,),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children:  [
-                    const Text(Strings.actionMovie,
-                      style: TextStyle(
-                          overflow: TextOverflow.ellipsis,
-                          fontSize: Dimensions.textSizeLarge,
-                          fontFamily: Constants.fontFamily,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.white),
-                    ),
-
-                    InkWell(
-                      onTap: (){
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>  SeeAllPage(type: Strings.actionMovie,seeAllList: _categoryList,)),
-                        );
-                      },
-                      child: const Text(Strings.seeAll,
-                        style: TextStyle(
-                            overflow: TextOverflow.ellipsis,
-                            fontSize: Dimensions.textSizeMedium,
-                            fontFamily: Constants.fontFamily,
-                            fontWeight: FontWeight.w400,
-                            color: AppColors.textSecondary),
-                      ),
-                    ),
-
-                  ],
+                ListView.separated(
+                  padding: EdgeInsets.zero,
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: _categoryList != null && _categoryList!.isNotEmpty ?_categoryList?.length ?? 0 :0,
+                  itemBuilder: (BuildContext context, int categoryIndex) {
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children:  [
+                            Text(_categoryList?[categoryIndex].title ?? "",
+                              style: const TextStyle(
+                                  overflow: TextOverflow.ellipsis,
+                                  fontSize: Dimensions.textSizeLarge,
+                                  fontFamily: Constants.fontFamily,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.white),
+                            ),
+                            InkWell(
+                              onTap: (){
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>  SeeAllPage(type: _categoryList?[categoryIndex].title ?? "",seeAllList: _categoryList,)),
+                                );
+                              },
+                              child: const Text(Strings.seeAll,
+                                style: TextStyle(
+                                    overflow: TextOverflow.ellipsis,
+                                    fontSize: Dimensions.textSizeMedium,
+                                    fontFamily: Constants.fontFamily,
+                                    fontWeight: FontWeight.w400,
+                                    color: AppColors.textSecondary),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 20,),
+                        SizedBox(
+                          height: 162,
+                          child: ListView.separated(
+                            scrollDirection: Axis.horizontal,
+                            padding: EdgeInsets.zero,
+                            shrinkWrap: true,
+                            itemCount: _categoryList![categoryIndex].library?.length ?? 0,
+                            itemBuilder: (BuildContext context, int index) {
+                              return _categoryListView(_categoryList?[categoryIndex].library?[index]);
+                            },
+                            separatorBuilder: (BuildContext context, int index) {
+                              return const SizedBox(
+                                width: 10,
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                  separatorBuilder: (BuildContext context, int categoryIndex) {
+                    return const SizedBox(
+                      height: 20,
+                    );
+                  },
                 ),
-                const SizedBox(height: 20,),
-                SizedBox(
-                  height: 162,
-                  child: ListView.separated(
-                    scrollDirection: Axis.horizontal,
-                    padding: EdgeInsets.zero,
-                    shrinkWrap: true,
-                    itemCount: _categoryList?.length ?? 0,
-                    itemBuilder: (BuildContext context, int index) {
-                      return _actionList(index);
-                    },
-                    separatorBuilder: (BuildContext context, int index) {
-                      return const SizedBox(
-                        width: 10,
-                      );
-                    },
-                  ),
-                ),
-                const SizedBox(height: 50,),
+                // const SizedBox(height: 50,),
               ],
             ),
           )
@@ -278,7 +307,7 @@ class _HomePageState extends State<HomePage> {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => HomeDetailPage(id: _libraryList?[index]?.id,coverImage:_libraryList?[index]?.thumbnails?[0].url ,)));
+                builder: (context) => HomeDetailPage(id: _libraryList?[index]?.libraryId,coverImage: _libraryList?[index]?.thumbnails?[0].url,)));
         print("_libraryList?[index]?.thumbnails?[0].url ?? "" ?????????? ${_libraryList?[index]?.videoContent?.outputUrl ?? ""}");
       },
       child: ClipRRect(
@@ -366,15 +395,16 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _actionList(int index){
+  Widget _categoryListView(LibraryDto? dto){
     return InkWell(
       onTap: (){
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => HomeDetailPage(id: _categoryList?[index]?.library?.id,coverImage:_libraryList?[index]?.thumbnails?[0].url)));
+                builder: (context) => HomeDetailPage(id: dto?.libraryId ?? "",coverImage: dto?.thumbnails?[0].url,)));
       },
       child: Container(
+        padding: EdgeInsets.zero,
         decoration: BoxDecoration(
             color: AppColors.containerBg,
             borderRadius: BorderRadius.circular(10)
@@ -387,40 +417,51 @@ class _HomePageState extends State<HomePage> {
               child: CachedNetworkImage(
                 height: 130,
                 width: 100,
-                imageUrl: _categoryList?[index]?.avatar??"",
+                imageUrl: dto?.thumbnails != null && dto!.thumbnails!.isNotEmpty ? dto.thumbnails![0].url ?? "" : "",
                 fit: BoxFit.cover,
                 placeholder: (context, url) => Container(
                   color: Colors.black38,
-                  alignment: Alignment.center,
+                  height: 130,
+                  width: 100,
                   // child: Image.asset(
                   //     "assets/images/user_placeholder.png"),
                 ),
                 errorWidget: (context, url, error) => Container(
                   color: Colors.black38,
-                  alignment: Alignment.center,
+                  height: 130,
+                  width: 100,
                   // child: Image.asset(
                   //     "assets/images/user_placeholder.png"),
                 ),
               ),),
             const SizedBox(height: 5,),
-
-             Text(_categoryList?[index]?.title??"",
-                 maxLines: 1,
-                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                    fontSize: Dimensions.textSizeSmall,
-                    fontFamily: Constants.fontFamily,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.white)),
-
+            SizedBox(
+              width: 80,
+              child: Text(dto?.title??"",
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                      fontSize: Dimensions.textSizeSmall,
+                      fontFamily: Constants.fontFamily,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.white)),
+            ),
           ],
         ),
       ),
     );
   }
 
+  getDetail() {
+    _appSession.getUserDetail().then((value) => {
+      setState(() {
+        if(value != null){
+          _userDto = value;
+        }
+      })
+    });
+  }
+
   getBannerMovieList(){
-    // _bannerCubit = HomeCubit(HomeRepository());
     _bannerCubit?.getBannerMovies();
   }
 
