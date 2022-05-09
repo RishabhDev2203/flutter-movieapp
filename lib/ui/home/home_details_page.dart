@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_ott/bloc/cubit/home_cubit.dart';
-import 'package:flutter_firebase_ott/ui/home/video_controls/video_player_page.dart';
 import 'package:flutter_firebase_ott/util/component/back_button.dart';
 import 'package:flutter_ideal_ott_api/dto/library_dto.dart';
 import 'package:flutter_ideal_ott_api/repository/home_repository.dart';
@@ -9,12 +8,13 @@ import 'package:video_player/video_player.dart';
 import '../../bloc/api_resp_state.dart';
 import '../../util/app_colors.dart';
 import '../../util/component/more_description.dart';
-import '../../util/component/video_player.dart';
 import '../../util/constants.dart';
 import '../../util/dimensions.dart';
 import '../../util/strings.dart';
 import '../../util/utility.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../util/videoplayer/video_player_page.dart';
 
 class HomeDetailPage extends StatefulWidget {
   String? id;
@@ -92,19 +92,7 @@ class _HomeDetailPageState extends State<HomeDetailPage> {
                 height: 300,
                 width: MediaQuery.of(context).size.width,
                 alignment: FractionalOffset.topCenter,
-                child:VideoPlayerPage()
-                //MoviePlayer(url: dto?.videoContent?.outputUrl??"",)
-                // child: BetterPlayer.network(
-                //         dto?.videoContent?.outputUrl
-                //                 ?.replaceAll("https", "http") ??
-                //             "",
-                //         betterPlayerConfiguration:
-                //             const BetterPlayerConfiguration(
-                //           expandToFill: true,
-                //           fit: BoxFit.cover,
-                //           autoPlay: true,
-                //         ),
-                //       ),
+                child:const VideoPlayerPage()
                   )
                   : CachedNetworkImage(
                       height: 300,

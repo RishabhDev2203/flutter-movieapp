@@ -1,17 +1,22 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_firebase_ott/util/videoplayer/full_screen_player_page.dart';
 import 'package:video_player/video_player.dart';
+import 'dart:async';
+import '../app_colors.dart';
+import '../constants.dart';
 
-class FullScreenPlayerPage extends StatefulWidget {
-  int? duration;
-  FullScreenPlayerPage({Key? key,this.duration}) : super(key: key);
+class VideoPlayerPage extends StatefulWidget {
+  const VideoPlayerPage({Key? key}) : super(key: key);
 
   @override
-  State<FullScreenPlayerPage> createState() => _FullScreenPlayerPageState();
+  _VideoPlayerPageState createState() => _VideoPlayerPageState();
 }
 
-class _FullScreenPlayerPageState extends State<FullScreenPlayerPage> {
-  late VideoPlayerController _controller;
+class _VideoPlayerPageState extends State<VideoPlayerPage> {
+  VideoPlayerController? _controller;
+  VideoPlayerController? _adsController;
   static const _examplePlaybackRates = [
     0.25,
     0.5,
@@ -22,37 +27,57 @@ class _FullScreenPlayerPageState extends State<FullScreenPlayerPage> {
     5.0,
     10.0,
   ];
+  bool isSkipped = false;
 
   @override
   void initState() {
     super.initState();
-    SystemChrome.setPreferredOrientations(
-        [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]);
-    _controller = VideoPlayerController.network("https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4");
-    _controller.setLooping(true);
-    _controller.initialize().then((_) => setState(() {
-      _controller.seekTo(Duration(seconds: widget.duration ?? 0));
-      _controller.play();
+    _adsController = VideoPlayerController.network("https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4");
+    _adsController?.initialize().then((_) => setState(() {
     }));
+    _adsController?.play();
+
+    _controller = VideoPlayerController.network("https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4");
+    _controller?.initialize().then((_) => setState(() {
+    }));
+
+    // Timer.periodic(const Duration(seconds: 5), (timer)async {
+    //   Duration? duration = await _controller?.position;
+    //   String twoDigits(int n) => n.toString().padLeft(2, "0");
+    //   var sec = int.parse(twoDigits(duration?.inSeconds.remainder(60) ?? 0));
+    //   if(sec > 10){
+    //     isSkipped = false;
+    //     _controller?.pause();
+    //     _adsController = VideoPlayerController.network("https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4");
+    //     _adsController?.initialize().then((_) => setState(() {
+    //     }));
+    //     _adsController?.play();
+    //   }
+    // });
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    _controller?.dispose();
+    _adsController?.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
+    return SingleChildScrollView(
+      child: Stack(
         alignment: Alignment.bottomCenter,
         children: [
           Stack(
             children: [
-              VideoPlayer(_controller),
+              SizedBox(
+                child: VideoPlayer(isSkipped == false ? _adsController! : _controller!),
+                height: 300,
+                width: MediaQuery.of(context).size.width,
+              ),
               Padding(
-                padding: const EdgeInsets.only(top: 40,right: 60),
+                padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top+6,right: 8.0),
                 child: Align(
                   alignment: Alignment.topRight,
                   child: PopupMenuButton<double>(
@@ -60,7 +85,7 @@ class _FullScreenPlayerPageState extends State<FullScreenPlayerPage> {
                       borderRadius: BorderRadius.circular(12),
                     ),
                     onSelected: (speed) {
-                      _controller.setPlaybackSpeed(speed);
+                      _controller?.setPlaybackSpeed(speed);
                     },
                     itemBuilder: (context) {
                       return [
@@ -80,36 +105,41 @@ class _FullScreenPlayerPageState extends State<FullScreenPlayerPage> {
                     ),
                   ),
                 ),
-              ),
+              )
+            ],
+          ),
+          isSkipped == false
+              ? InkWell(
+                onTap: (){
 
-              Padding(
-                padding: const EdgeInsets.only(top: 20),
-                child: MaterialButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Icon(
-                    Icons.arrow_back_outlined,
-                    color: Colors.white,
-                    size: 25.0,
-                  ),
+                  setState(() {
+                    isSkipped = true;});
+                  _adsController?.dispose();
+                  _controller?.play();
+
+
+                },
+                child: Container(
+                  alignment: Alignment.bottomRight,
+                  padding: const EdgeInsets.only(right: 10,bottom: 20),
+                  child: const Text("Skip ads",
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontFamily: Constants.fontFamily,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.white)),
                 ),
-              ),
-            ],
-          ),
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              customControls(_controller),
-              VideoProgressIndicator(_controller, allowScrubbing: true),
-            ],
-          ),
+              )
+              : _controlsOverlay(_controller!),
+          /*isSkipped == false
+              ?VideoProgressIndicator(_controller!, allowScrubbing: true)
+              :*/VideoProgressIndicator(_controller!, allowScrubbing: true),
         ],
       ),
     );
   }
 
-  customControls(VideoPlayerController controller){
+  _controlsOverlay(VideoPlayerController controller){
     return Column(
       children: [
         Row(
@@ -129,8 +159,10 @@ class _FullScreenPlayerPageState extends State<FullScreenPlayerPage> {
                       MaterialButton(
                         onPressed: () async {
                           var position = await controller.position;
-
                           controller.seekTo(Duration(seconds: position!.inSeconds - 5));
+                          setState(() {
+
+                          });
                         },
                         child: const Icon(
                           Icons.replay_5,
@@ -149,6 +181,9 @@ class _FullScreenPlayerPageState extends State<FullScreenPlayerPage> {
                           controller.value.isPlaying
                               ? controller.pause()
                               : controller.play();
+                          setState(() {
+
+                          });
                         },
                       )
                           : MaterialButton(
@@ -161,6 +196,9 @@ class _FullScreenPlayerPageState extends State<FullScreenPlayerPage> {
                           controller.value.isPlaying
                               ? controller.pause()
                               : controller.play();
+                          setState(() {
+
+                          });
                         },
                       ),
                       const SizedBox(
@@ -169,8 +207,8 @@ class _FullScreenPlayerPageState extends State<FullScreenPlayerPage> {
                       MaterialButton(
                         onPressed: () async {
                           var position = await controller.position;
-
                           controller.seekTo(Duration(seconds: position!.inSeconds + 5));
+                          setState(() {});
                         },
                         child: const Icon(
                           Icons.forward_5,
@@ -180,17 +218,21 @@ class _FullScreenPlayerPageState extends State<FullScreenPlayerPage> {
                       ),
                       InkWell(
                         onTap: () async {
-                          var sec = await timer();
-                          Navigator.pop(context,sec);
+                          // getRandomTimer();
+                         var sec = await timer();
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => FullScreenPlayerPage(duration: sec,controller: _controller!,))).then((value) => {
+                          _controller = value,
+                          SystemChrome.setPreferredOrientations(
+                          [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]),});
                         },
                         child: const Icon(
-                          // ? Icons.fullscreen_exit
-                          //     :
                           Icons.fullscreen,
                           color: Colors.white,
                         ),
                       ),
-
                     ],
                   ),
                 ),
@@ -198,13 +240,12 @@ class _FullScreenPlayerPageState extends State<FullScreenPlayerPage> {
             ),
           ],
         ),
-
       ],
     );
   }
 
   timer() async {
-    Duration? duration = await _controller.position;
+    Duration? duration = await _controller?.position;
     String twoDigits(int n) => n.toString().padLeft(2, "0");
     int twoDigitMinutes = int.parse(twoDigits(duration!.inMinutes.remainder(60)));
     int twoDigitSeconds = int.parse(twoDigits(duration.inSeconds.remainder(60)));
@@ -212,4 +253,19 @@ class _FullScreenPlayerPageState extends State<FullScreenPlayerPage> {
     var sec = twoDigitSeconds + min;
     return sec;
   }
+
+  getRandomTimer(){
+    int ads = 3;
+    List<int> time =[];
+    Random random = Random();
+    for(int i=0;i<ads;i++){
+      int randomNumber = random.nextInt(100);
+      time.add(randomNumber);
+    }
+    print(">>>>>>>>>>>>time : $time");
+  }
+
+
+
 }
+
