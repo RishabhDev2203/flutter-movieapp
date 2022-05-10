@@ -433,12 +433,33 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.3.0"
+  flutter_facebook_auth:
+    dependency: transitive
+    description:
+      name: flutter_facebook_auth
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.3.3"
+  flutter_facebook_auth_platform_interface:
+    dependency: transitive
+    description:
+      name: flutter_facebook_auth_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.1.2"
+  flutter_facebook_auth_web:
+    dependency: transitive
+    description:
+      name: flutter_facebook_auth_web
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.1.2"
   flutter_ideal_ott_api:
     dependency: "direct main"
     description:
       path: "."
-      ref: "0aae5f1d95f73af75275cc6e070501723b0c556a"
-      resolved-ref: "0aae5f1d95f73af75275cc6e070501723b0c556a"
+      ref: a784ce477e2958198d8c2b5aa877f4503258920d
+      resolved-ref: a784ce477e2958198d8c2b5aa877f4503258920d
       url: "git@mygitlab.idealittechno.in:devsideal/flutter_ideal_ott_api.git"
     source: git
     version: "0.0.1"

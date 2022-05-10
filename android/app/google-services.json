@@ -8,17 +8,17 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:73104713976:android:c00f972f716405d383330d",
+        "mobilesdk_app_id": "1:73104713976:android:f046abba5c804af583330d",
         "android_client_info": {
-          "package_name": "com.it.ottapp"
+          "package_name": "com.it.idealottapi.sample"
         }
       },
       "oauth_client": [
         {
-          "client_id": "73104713976-gcn25073ivtri3ulo07h7balu8gl079o.apps.googleusercontent.com",
+          "client_id": "73104713976-9o7961kaeftd198q724eu28hgfebvo2l.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.it.ottapp",
+            "package_name": "com.it.idealottapi.sample",
             "certificate_hash": "96609fac8cb096ec5371a5664063bd07e30cade3"
           }
         },
@@ -38,6 +38,153 @@
             {
               "client_id": "73104713976-r2u13vpsa4egltpj8ja8561kuen93uka.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "73104713976-4g31rcq50103vtqn133chkkogrjhp9sj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.it.idealottapi.sample"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:73104713976:android:71507a97fa09df0a83330d",
+        "android_client_info": {
+          "package_name": "com.it.movieapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "73104713976-8v7f61h4b30l642m73dc8nojahqt8e1s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.it.movieapp",
+            "certificate_hash": "96609fac8cb096ec5371a5664063bd07e30cade3"
+          }
+        },
+        {
+          "client_id": "73104713976-r2u13vpsa4egltpj8ja8561kuen93uka.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDIc0WzLBl-QchcmTdSScZxx9F-3e-r2oA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "73104713976-r2u13vpsa4egltpj8ja8561kuen93uka.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "73104713976-4g31rcq50103vtqn133chkkogrjhp9sj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.it.idealottapi.sample"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:73104713976:android:6129437c8b16b7f483330d",
+        "android_client_info": {
+          "package_name": "com.it.movieapp.tv"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "73104713976-76psk2iqchbqo7totji4l11o0p4lklk9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.it.movieapp.tv",
+            "certificate_hash": "96609fac8cb096ec5371a5664063bd07e30cade3"
+          }
+        },
+        {
+          "client_id": "73104713976-r2u13vpsa4egltpj8ja8561kuen93uka.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDIc0WzLBl-QchcmTdSScZxx9F-3e-r2oA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "73104713976-r2u13vpsa4egltpj8ja8561kuen93uka.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "73104713976-4g31rcq50103vtqn133chkkogrjhp9sj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.it.idealottapi.sample"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:73104713976:android:c00f972f716405d383330d",
+        "android_client_info": {
+          "package_name": "com.it.ottapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "73104713976-gcn25073ivtri3ulo07h7balu8gl079o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.it.ottapp",
+            "certificate_hash": "96609fac8cb096ec5371a5664063bd07e30cade3"
+          }
+        },
+        {
+          "client_id": "73104713976-omncqn3ps1j4gs0pt97cg58u39ebva4d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.it.ottapp",
+            "certificate_hash": "095f24f2174b21e545f852076a5bcca5776cd584"
+          }
+        },
+        {
+          "client_id": "73104713976-r2u13vpsa4egltpj8ja8561kuen93uka.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDIc0WzLBl-QchcmTdSScZxx9F-3e-r2oA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "73104713976-r2u13vpsa4egltpj8ja8561kuen93uka.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "73104713976-4g31rcq50103vtqn133chkkogrjhp9sj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.it.idealottapi.sample"
+              }
             }
           ]
         }

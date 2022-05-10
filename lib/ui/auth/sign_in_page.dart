@@ -32,6 +32,7 @@ class _SignInPageState extends State<SignInPage> {
   bool _isHiddenPassword = true;
   AuthCubit? _authCubit;
   AuthCubit? _authGoogleCubit;
+  AuthCubit? _authFacebookCubit;
   GoogleSignInAccount? _currentUser;
   var googleAccessToken = "";
   final GoogleSignIn _googleSignIn = GoogleSignIn(
@@ -43,7 +44,6 @@ class _SignInPageState extends State<SignInPage> {
   void initState() {
     _authCubit = AuthCubit(AuthRepository());
     _authGoogleCubit = AuthCubit(AuthRepository());
-    initGoogleLogin();
     super.initState();
   }
 
@@ -51,8 +51,10 @@ class _SignInPageState extends State<SignInPage> {
   void dispose() {
     _authCubit?.close();
     _authGoogleCubit?.close();
+    _authFacebookCubit?.close();
     _authCubit = null;
     _authGoogleCubit = null;
+    _authFacebookCubit = null;
     super.dispose();
   }
 
@@ -73,7 +75,7 @@ class _SignInPageState extends State<SignInPage> {
                 Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const HomePage(),
+                      builder: (context) => HomePage(),
                     ));
               }
             },
@@ -91,7 +93,25 @@ class _SignInPageState extends State<SignInPage> {
                 Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const HomePage(),
+                      builder: (context) => HomePage(),
+                    ));
+              }
+            },
+          ),
+          BlocListener<AuthCubit, ResponseState>(
+            bloc: _authFacebookCubit,
+            listener: (context, state) {
+              if (state is ResponseStateLoading) {
+              } else if (state is ResponseStateError) {
+                Utility.hideLoader(context);
+                var error  = state.errorMessage;
+                Utility.showAlertDialog(context, error);
+              } else if (state is ResponseStateSuccess) {
+                Utility.hideLoader(context);
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => HomePage(),
                     ));
               }
             },
@@ -225,68 +245,109 @@ class _SignInPageState extends State<SignInPage> {
                         }
                       }),
                   const SizedBox(height: 30),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  Column(
                     children: [
-                      Expanded(
-                        child: InkWell(
-                          onTap: (){
-                           _handleSignIn();
-                          },
-                          child: SizedBox(
-                            height: 40,
-                            child: MyContainer(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Image.asset(
-                                    "assets/images/google.png",
-                                    height: 24,
-                                    width: 20,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: InkWell(
+                              onTap: (){
+                                _authGoogleCubit?.apiGoogleLogin();
+                              },
+                              child: SizedBox(
+                                height: 40,
+                                child: MyContainer(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Image.asset(
+                                        "assets/images/google.png",
+                                        height: 24,
+                                        width: 20,
+                                      ),
+                                      const SizedBox(width: 10),
+                                      const Text(
+                                        Strings.google,
+                                        style: TextStyle(
+                                            color: AppColors.white,
+                                            fontSize: Dimensions.textSizeMedium,
+                                            fontWeight: FontWeight.w400),
+                                      ),
+                                    ],
                                   ),
-                                  const SizedBox(width: 10),
-                                  const Text(
-                                    Strings.google,
-                                    style: TextStyle(
-                                        color: AppColors.white,
-                                        fontSize: Dimensions.textSizeMedium,
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
+                          const SizedBox(
+                            width: 15,
+                          ),
+                          Expanded(
+                            child: SizedBox(
+                              height: 40,
+                              child: MyContainer(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Image.asset(
+                                        "assets/images/apple.png",
+                                        height: 24,
+                                        width: 20,
+                                      ),
+                                      const SizedBox(width: 10),
+                                      const Text(Strings.apple,
+                                          style: TextStyle(
+                                              color: AppColors.white,
+                                              fontSize: Dimensions.textSizeMedium,
+                                              fontWeight: FontWeight.w400)),
+                                    ],
+                                  )),
+                            ),
+                          ),
+                        ],
                       ),
                       const SizedBox(
-                        width: 15,
+                        height: 15,
                       ),
-                      Expanded(
+                      InkWell(
+                        onTap: (){
+                          _authFacebookCubit?.signInWithFacebook();
+                        },
                         child: SizedBox(
                           height: 40,
                           child: MyContainer(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Image.asset(
-                                    "assets/images/apple.png",
-                                    height: 24,
-                                    width: 20,
-                                  ),
-                                  const SizedBox(width: 10),
-                                  const Text(Strings.apple,
-                                      style: TextStyle(
-                                          color: AppColors.white,
-                                          fontSize: Dimensions.textSizeMedium,
-                                          fontWeight: FontWeight.w400)),
-                                ],
-                              )),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  "assets/images/facebook.png",
+                                  height: 24,
+                                  width: 20,
+                                ),
+                                const SizedBox(width: 10),
+                                const Text(
+                                  Strings.facebook,
+                                  style: TextStyle(
+                                      color: AppColors.white,
+                                      fontSize: Dimensions.textSizeMedium,
+                                      fontWeight: FontWeight.w400),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
                       ),
                     ],
                   ),
                   const SizedBox(height: 50),
-                  ButtonOutline(text: Strings.asAGuestUser, onPressed: () {}),
+                  ButtonOutline(text: Strings.asAGuestUser, onPressed: () {
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => HomePage(userType: "guest"),
+                        ));
+                  }),
                   const Spacer(),
                   const SizedBox(
                     height: 20,
@@ -328,6 +389,7 @@ class _SignInPageState extends State<SignInPage> {
       ),
     );
   }
+
   loginAccount(){
     Utility.showLoader(context);
     _authCubit?.loginAccount(email, password);
@@ -338,56 +400,11 @@ class _SignInPageState extends State<SignInPage> {
       _isHiddenPassword = !_isHiddenPassword;
     });
   }
-  initGoogleLogin() {
-    _googleSignIn.signOut();
-    _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount? account) {
-      setState(() {
-        _currentUser = account;
-      });
-      if (_currentUser != null) {
-        _handleGetContact(_currentUser!);
-      }
-    });
-  }
-
-  Future<void> _handleSignIn() async {
-    try {
-      _googleSignIn.signOut();
-      await _googleSignIn.signIn();
-    } catch (error) {
-      print(">>>>>>>>>>>>>>>>>>>>>>>..." + error.toString());
-    }
-  }
-  Future<void> _handleGetContact(GoogleSignInAccount user) async {
-    print('People API>>>>>>>>>>>>>>>>>response: ${user.displayName}');
-    print('People API>>>>>>>>>>>>>>>>>response: ${user.email}');
-    print('People API>>>>>>>>>>>>>>>>>response: ${user.id.toString()}');
-    user.authentication.then((googleKey) {
-      print(">>>>>>>>>>>>>>>>>>>>" + googleKey.accessToken.toString());
-      googleAccessToken = googleKey.idToken.toString();
-      if (user.id.isNotEmpty) {
-        apiGoogleLoginData(user);
-      }
-    }).catchError((err) {
-      print('inner error');
-    });
-  }
-  void apiGoogleLoginData(GoogleSignInAccount user) {
-    var accessToken = googleAccessToken;
-    var socialKey = "google";
-    var email = user.email;
-    var name = user.displayName;
-    print("googleaccesstoken>>>>>>>>>>>>>>>>>>>>>>>>" + googleAccessToken);
-
-
-    _authGoogleCubit?.apiGoogleLogin(email,name!);
-
-  }
 
   bool validate() {
     var valid = true;
     var emailValid = RegExp(
-            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
         .hasMatch(email);
     List<String>? messages = [];
     if (email.isEmpty) {
@@ -417,33 +434,4 @@ class _SignInPageState extends State<SignInPage> {
     }
     return valid;
   }
-
-  /*// function to implement the google signin
-
-// creating firebase instance
-  final FirebaseAuth auth = FirebaseAuth.instance;
-
-  Future<void> signup(BuildContext context) async {
-    final GoogleSignIn googleSignIn = GoogleSignIn();
-    final GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
-    if (googleSignInAccount != null) {
-      final GoogleSignInAuthentication googleSignInAuthentication =
-      await googleSignInAccount.authentication;
-      final AuthCredential authCredential = GoogleAuthProvider.credential(
-          idToken: googleSignInAuthentication.idToken,
-          accessToken: googleSignInAuthentication.accessToken);
-
-      // Getting users credential
-      UserCredential result = await auth.signInWithCredential(authCredential);
-      User? user = result.user;
-
-      if (result != null) {
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => HomePage()));
-      } // if result not null we simply call the MaterialpageRoute,
-      // for go to the HomePage screen
-    }
-  }*/
-
-
 }

@@ -93,7 +93,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const EditProfilePage()));
+                              builder: (context) => const EditProfilePage())).then((value) => {
+                      _appSession.init().then((value) => getDetail())
+                      });
                     },
                     child: Padding(
                       padding: const EdgeInsets.only(top: 10.0),

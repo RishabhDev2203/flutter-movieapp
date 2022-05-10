@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_firebase_ott/util/app_colors.dart';
 import 'package:video_player/video_player.dart';
 
-import 'full_screen_player_page.dart';
-
-class VideoPlayerPage extends StatefulWidget {
-  const VideoPlayerPage({Key? key}) : super(key: key);
+class FullScreenPlayerPage extends StatefulWidget {
+  int? duration;
+  VideoPlayerController controller;
+  FullScreenPlayerPage({Key? key,this.duration,required this.controller}) : super(key: key);
 
   @override
-  _VideoPlayerPageState createState() => _VideoPlayerPageState();
+  State<FullScreenPlayerPage> createState() => _FullScreenPlayerPageState();
 }
 
-class _VideoPlayerPageState extends State<VideoPlayerPage> {
+class _FullScreenPlayerPageState extends State<FullScreenPlayerPage> {
   late VideoPlayerController _controller;
-  late Future<void> initalizeVideoPlayerFuture;
   static const _examplePlaybackRates = [
     0.25,
     0.5,
@@ -25,19 +23,20 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
     5.0,
     10.0,
   ];
-  
+
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.network("https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4");
-    _controller.addListener(() {
-      setState(() {});
-    });
-    initalizeVideoPlayerFuture = _controller.initialize();
-    _controller.setLooping(true);
-    _controller.initialize().then((_) => setState(() {
-    }));
-    _controller.play();
+    SystemChrome.setPreferredOrientations(
+        [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]);
+    // SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.top]);
+
+    // _controller = VideoPlayerController.network("https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4");
+    // _controller.setLooping(true);
+    // _controller.initialize().then((_) => setState(() {
+    //   _controller.seekTo(Duration(seconds: widget.duration ?? 0));
+    //   _controller.play();
+    // }));
   }
 
   @override
@@ -49,69 +48,70 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.secondBg,
-      body:  FutureBuilder(
-        future: initalizeVideoPlayerFuture,
-        builder: (context, snapshot) {
-      if (snapshot.connectionState == ConnectionState.done) {
-        return SingleChildScrollView(
-        child: Stack(
-          alignment: Alignment.bottomCenter,
-          children: [
-            Stack(
-              children: [
-                SizedBox(
-                  child: VideoPlayer(_controller),
-                  height: 280,
-                  width: MediaQuery.of(context).size.width,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 30,right: 20),
-                  child: Align(
-                    alignment: Alignment.topRight,
-                    child: PopupMenuButton<double>(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      onSelected: (speed) {
-                        _controller.setPlaybackSpeed(speed);
-                      },
-                      itemBuilder: (context) {
-                        return [
-                          for (final speed in _examplePlaybackRates)
-                            PopupMenuItem(
-                              value: speed,
-                              child: Text(
-                                '${speed}x',
-                              ),
-                            )
-                        ];
-                      },
-                      child: const Icon(
-                        Icons.more_vert,
-                        color: Colors.white,
-                        size: 25.0,
-                      ),
+      body: Stack(
+        alignment: Alignment.bottomCenter,
+        children: [
+          Stack(
+            children: [
+              VideoPlayer(widget.controller),
+              Padding(
+                padding: const EdgeInsets.only(top: 34,left: 8.0,right: 8,bottom: 8),
+                child: Align(
+                  alignment: Alignment.topRight,
+                  child: PopupMenuButton<double>(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    onSelected: (speed) {
+                      widget.controller.setPlaybackSpeed(speed);
+                    },
+                    itemBuilder: (context) {
+                      return [
+                        for (final speed in _examplePlaybackRates)
+                          PopupMenuItem(
+                            value: speed,
+                            child: Text(
+                              '${speed}x',
+                            ),
+                          )
+                      ];
+                    },
+                    child: const Icon(
+                      Icons.more_vert,
+                      color: Colors.white,
+                      size: 25.0,
                     ),
                   ),
-                )
-              ],
-            ),
-            _controlsOverlay(_controller),
-            VideoProgressIndicator(_controller, allowScrubbing: true),
-          ],
-        ),
-      );
-      } else {
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
-      }
-        }),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: MaterialButton(
+                  onPressed: () {
+                    Navigator.pop(context,widget.controller);
+                  },
+                  child: const Icon(
+                    Icons.arrow_back_outlined,
+                    color: Colors.white,
+                    size: 25.0,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              customControls(widget.controller),
+              VideoProgressIndicator(widget.controller, allowScrubbing: true),
+            ],
+          ),
+        ],
+      ),
     );
   }
 
-  _controlsOverlay(VideoPlayerController controller){
+  customControls(VideoPlayerController controller){
     return Column(
       children: [
         Row(
@@ -182,24 +182,17 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
                       ),
                       InkWell(
                         onTap: () async {
-                         var sec = await timer();
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => FullScreenPlayerPage(duration: sec))).then((value) => {
-                          _controller.initialize().then((_) => setState(() {
-                            _controller.seekTo(Duration(seconds: value ?? 0));
-                            _controller.play();
-                          })),
-                          SystemChrome.setPreferredOrientations(
-                          [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]),
-                          });
+                          // var sec = await timer();
+                          Navigator.pop(context,widget.controller);
                         },
                         child: const Icon(
+                          // ? Icons.fullscreen_exit
+                          //     :
                           Icons.fullscreen,
                           color: Colors.white,
                         ),
                       ),
+
                     ],
                   ),
                 ),
@@ -207,6 +200,7 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
             ),
           ],
         ),
+
       ],
     );
   }
@@ -221,4 +215,3 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
     return sec;
   }
 }
-

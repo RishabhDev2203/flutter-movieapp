@@ -1,4 +1,4 @@
-package com.it.ottapp
+package com.it.movieapp
 import android.os.Build
 import android.os.Bundle
 import androidx.core.view.WindowCompat

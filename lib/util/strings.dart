@@ -22,6 +22,7 @@ class Strings {
   static const login = "Login";
   static const google = "Google";
   static const apple = "Apple";
+  static const facebook = "Facebook";
   static const asAGuestUser = "As a Guest User";
   static const doNotHaveAnAccount = "Don’t have an account? ";
   static const alreadyHaveAnAccount = "Already have an account? ";

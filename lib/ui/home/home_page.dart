@@ -21,7 +21,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'home_search_page.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  String userType;
+  HomePage({Key? key,this.userType = ""}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -42,7 +43,7 @@ class _HomePageState extends State<HomePage> {
     _bannerCubit = HomeCubit(HomeRepository());
     _categoryCubit = HomeCubit(HomeRepository());
     getBannerMovieList();
-    getCategoryMovieList();
+    getFeaturedLists();
     super.initState();
   }
 
@@ -88,10 +89,6 @@ class _HomePageState extends State<HomePage> {
                 Utility.hideLoader(context);
                 if(state.data != null){
                   _categoryList = state.data;
-                  print(">>>>>>>>>>>>>>>>>>> : ${_categoryList?.length}");
-                  print(">>>>>>>>>>>>>>>>>>>0 : ${_categoryList?[0].library?.length}");
-                  print(">>>>>>>>>>>>>>>>>>>1 :  ${_categoryList?[1].library?.length}");
-                  print(">>>>>>>>>>>>>>>>>>>2 :  ${_categoryList?[2].library?.length}");
                   setState(() {});
                 }
               }
@@ -122,7 +119,7 @@ class _HomePageState extends State<HomePage> {
                     Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfilePage())).then((value) => {
                       _appSession.init().then((value) => getDetail()),
                       getBannerMovieList(),
-                      getCategoryMovieList()
+                      getFeaturedLists()
                     });
                   },
                   child: ClipRRect(
@@ -251,7 +248,7 @@ class _HomePageState extends State<HomePage> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) =>  SeeAllPage(type: _categoryList?[categoryIndex].title ?? "",seeAllList: _categoryList,)),
+                                      builder: (context) =>  SeeAllPage(type: _categoryList?[categoryIndex].title ?? "",id: _categoryList?[categoryIndex].categoryId,)),
                                 );
                               },
                               child: const Text(Strings.seeAll,
@@ -401,7 +398,7 @@ class _HomePageState extends State<HomePage> {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => HomeDetailPage(id: dto?.libraryId ?? "",coverImage: dto?.thumbnails?[0].url,)));
+                builder: (context) => HomeDetailPage(id: dto?.libraryId ?? "",coverImage: dto?.thumbnails != null && dto!.thumbnails!.isNotEmpty ? dto.thumbnails![0].url : "",)));
       },
       child: Container(
         padding: EdgeInsets.zero,
@@ -437,7 +434,7 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(height: 5,),
             SizedBox(
               width: 80,
-              child: Text(dto?.title??"",
+              child: Text(Utility.capitalized(dto?.title??""),
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                       fontSize: Dimensions.textSizeSmall,
@@ -465,7 +462,7 @@ class _HomePageState extends State<HomePage> {
     _bannerCubit?.getBannerMovies();
   }
 
-  getCategoryMovieList(){
-    _categoryCubit?.getMovieCategory();
+  getFeaturedLists(){
+    _categoryCubit?.getFeaturedList();
   }
 }
