@@ -29,14 +29,6 @@ class _FullScreenPlayerPageState extends State<FullScreenPlayerPage> {
     super.initState();
     SystemChrome.setPreferredOrientations(
         [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]);
-    // SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.top]);
-
-    // _controller = VideoPlayerController.network("https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4");
-    // _controller.setLooping(true);
-    // _controller.initialize().then((_) => setState(() {
-    //   _controller.seekTo(Duration(seconds: widget.duration ?? 0));
-    //   _controller.play();
-    // }));
   }
 
   @override
@@ -131,7 +123,6 @@ class _FullScreenPlayerPageState extends State<FullScreenPlayerPage> {
                       MaterialButton(
                         onPressed: () async {
                           var position = await controller.position;
-
                           controller.seekTo(Duration(seconds: position!.inSeconds - 5));
                         },
                         child: const Icon(
@@ -151,6 +142,7 @@ class _FullScreenPlayerPageState extends State<FullScreenPlayerPage> {
                           controller.value.isPlaying
                               ? controller.pause()
                               : controller.play();
+                          setState(() {});
                         },
                       )
                           : MaterialButton(
@@ -163,6 +155,7 @@ class _FullScreenPlayerPageState extends State<FullScreenPlayerPage> {
                           controller.value.isPlaying
                               ? controller.pause()
                               : controller.play();
+                          setState(() {});
                         },
                       ),
                       const SizedBox(
