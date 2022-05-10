@@ -131,9 +131,9 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
                 ),
               )
               : _controlsOverlay(_controller!),
-          /*isSkipped == false
-              ?VideoProgressIndicator(_controller!, allowScrubbing: true)
-              :*/VideoProgressIndicator(_controller!, allowScrubbing: true),
+          isSkipped == false
+              ?Container()
+              :VideoProgressIndicator(_controller!, allowScrubbing: true),
         ],
       ),
     );
