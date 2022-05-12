@@ -5,6 +5,7 @@ import 'package:flutter_firebase_ott/util/component/back_button.dart';
 import 'package:flutter_ideal_ott_api/dto/library_dto.dart';
 import 'package:flutter_ideal_ott_api/repository/home_repository.dart';
 import 'package:video_player/video_player.dart';
+import '../../locale/application_localizations.dart';
 import '../../bloc/api_resp_state.dart';
 import '../../util/app_colors.dart';
 import '../../util/component/more_description.dart';
@@ -205,7 +206,7 @@ class _HomeDetailPageState extends State<HomeDetailPage> {
           child: ListView(
             padding: const EdgeInsets.only(left: 16, right: 16),
             children: [
-              const Text("Storyline",
+               Text( ApplicationLocalizations.of(context)!.translate("storyLine")!,
                   style: TextStyle(
                       fontSize: Dimensions.textSizeMedium,
                       fontFamily: Constants.fontFamily,
@@ -219,8 +220,8 @@ class _HomeDetailPageState extends State<HomeDetailPage> {
                 trimLines: 3,
                 colorClickableText: AppColors.red,
                 trimMode: TrimMode.Line,
-                trimCollapsedText: ' Read More',
-                trimExpandedText: ' Less',
+                trimCollapsedText:  ApplicationLocalizations.of(context)!.translate("readMore")!,
+                trimExpandedText:  ApplicationLocalizations.of(context)!.translate("less")!,
                 style: const TextStyle(
                     fontSize: Dimensions.textSizeSmall,
                     fontFamily: Constants.fontFamily,
@@ -232,9 +233,9 @@ class _HomeDetailPageState extends State<HomeDetailPage> {
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
+                children:  [
                   Text(
-                    Strings.recommended,
+                    ApplicationLocalizations.of(context)!.translate("recommended")!,
                     style: TextStyle(
                         overflow: TextOverflow.ellipsis,
                         fontSize: Dimensions.textSizeLarge,
@@ -243,7 +244,7 @@ class _HomeDetailPageState extends State<HomeDetailPage> {
                         color: AppColors.white),
                   ),
                   Text(
-                    Strings.seeAll,
+                    ApplicationLocalizations.of(context)!.translate("seeAll")!,
                     style: TextStyle(
                         overflow: TextOverflow.ellipsis,
                         fontSize: Dimensions.textSizeMedium,

@@ -44,5 +44,10 @@ class Strings {
   static const editName = "Edit name";
   static const editEmail = "Edit Email";
   static const editProfile = "Edit Profile";
+  // static const emailValidation1="Enter Email id.";
+  // static const emailValidation2="Enter Email id.";
+  // static const passwordValidation1="Please enter password.";
+  // static const passwordValidation2="Password must contain at least 6 characters.";
+  static const logout = "Logout";
 
 }

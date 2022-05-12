@@ -6,6 +6,7 @@ import 'package:flutter_ideal_ott_api/dto/category_dto.dart';
 import 'package:flutter_ideal_ott_api/dto/library_dto.dart';
 import 'package:flutter_ideal_ott_api/dto/user_dto.dart';
 import 'package:flutter_ideal_ott_api/repository/home_repository.dart';
+import '../../locale/application_localizations.dart';
 import '../../bloc/api_resp_state.dart';
 import '../../bloc/cubit/home_cubit.dart';
 import '../../util/app_colors.dart';
@@ -181,8 +182,8 @@ class _HomePageState extends State<HomePage> {
                 const SizedBox(height: 16,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
-                    Text(Strings.continueWatching,
+                  children:  [
+                    Text(ApplicationLocalizations.of(context)!.translate("continueWatching")!,
                       style: TextStyle(
                           overflow: TextOverflow.ellipsis,
                           fontSize: Dimensions.textSizeLarge,
@@ -191,7 +192,7 @@ class _HomePageState extends State<HomePage> {
                           color: AppColors.white),
                     ),
 
-                    Text(Strings.seeAll,
+                    Text(ApplicationLocalizations.of(context)!.translate("seeAll")!,
                       style: TextStyle(
                           overflow: TextOverflow.ellipsis,
                           fontSize: Dimensions.textSizeMedium,
@@ -251,7 +252,7 @@ class _HomePageState extends State<HomePage> {
                                       builder: (context) =>  SeeAllPage(type: _categoryList?[categoryIndex].title ?? "",id: _categoryList?[categoryIndex].categoryId,)),
                                 );
                               },
-                              child: const Text(Strings.seeAll,
+                              child:  Text(ApplicationLocalizations.of(context)!.translate("seeAll")!,
                                 style: TextStyle(
                                     overflow: TextOverflow.ellipsis,
                                     fontSize: Dimensions.textSizeMedium,

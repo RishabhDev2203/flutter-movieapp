@@ -11,7 +11,10 @@ import 'package:flutter_ideal_ott_api/ideal_ott_api.dart';
 import 'package:flutter_ideal_ott_api/repository/auth_repository.dart';
 import 'package:flutter_ideal_ott_api/repository/home_repository.dart';
 import 'package:loader_overlay/loader_overlay.dart';
+import 'locale/application_localizations.dart';
 import 'bloc/cubit/auth_cubit.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+// import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() async{
    WidgetsFlutterBinding.ensureInitialized();
@@ -40,7 +43,31 @@ class MyApp extends StatelessWidget {
       child: GlobalLoaderOverlay(
         overlayOpacity: 0.1,
         child: MaterialApp(
+
             title: '',
+
+            supportedLocales: [
+              Locale( 'en' , 'US' ),
+              Locale( 'es' , 'ES' ),
+              Locale( 'fr' , 'FR' ),
+              Locale( 'hdi' , 'HDI' ),
+              Locale( 'ja' , 'JA' ),
+            ],
+
+            localizationsDelegates: [
+              ApplicationLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+            ],
+            localeResolutionCallback: (locale, supportedLocales) {
+              for (var supportedLocaleLanguage in supportedLocales) {
+                if (supportedLocaleLanguage.languageCode == locale?.languageCode &&
+                    supportedLocaleLanguage.countryCode == locale?.countryCode) {
+                  return supportedLocaleLanguage;
+                }
+              }
+              return supportedLocales.first;
+            },
             scrollBehavior: MyBehavior(),
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
@@ -60,7 +87,7 @@ class MyApp extends StatelessWidget {
 class MyBehavior extends ScrollBehavior {
   @override
   Widget buildViewportChrome(
-      BuildContext context, Widget child, AxisDirection axisDirection) {
+      BuildContext context, Widget child, AxisDirection axisDirection){
     return child;
   }
 }

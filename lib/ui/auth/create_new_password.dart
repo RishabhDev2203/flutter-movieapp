@@ -4,6 +4,7 @@ import 'package:flutter_firebase_ott/ui/auth/create_new_account.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_firebase_ott/ui/auth/sign_in_page.dart';
 import 'package:flutter_ideal_ott_api/repository/auth_repository.dart';
+import '../../locale/application_localizations.dart';
 import '../../bloc/api_resp_state.dart';
 import '../../bloc/cubit/auth_cubit.dart';
 import '../../util/app_colors.dart';
@@ -89,7 +90,7 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
                     ),
                     const SizedBox(height: 20),
                     TitleText(
-                      text: widget.title??"",
+                      text: ApplicationLocalizations.of(context)!.translate("changePassword")!,
                       fontSize: 28,
                     ),
                     const SizedBox(height: 25),
@@ -99,7 +100,7 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
                           textAlignVertical: TextAlignVertical.center,
                           obscureText: _isHiddenPassword,
                           decoration: InputDecoration(
-                            hintText: Strings.currentPassword,
+                            hintText: ApplicationLocalizations.of(context)!.translate("currentPassword")!,
                             prefixIcon: IconButton(
                               icon: Image.asset(
                                 "assets/images/lock.png",
@@ -147,7 +148,7 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
                           textAlignVertical: TextAlignVertical.center,
                           obscureText: _isHiddenConfirmPassword,
                           decoration: InputDecoration(
-                            hintText: Strings.newPassword,
+                            hintText: ApplicationLocalizations.of(context)!.translate("newPassword")!,
                             prefixIcon: IconButton(
                               icon: Image.asset(
                                 "assets/images/lock.png",
@@ -190,7 +191,7 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
                       height: 30,
                     ),
                     ButtonFill(
-                        text: Strings.savePassword,
+                        text: ApplicationLocalizations.of(context)!.translate("savePassword")!,
                         onPressed: () {
                           if(validate()) {
                             changePassword();
@@ -220,11 +221,11 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
     List<String>? messages = [];
     if (currentPassword.isEmpty) {
       valid = false;
-      messages.add("Enter current password");
+      messages.add(ApplicationLocalizations.of(context)!.translate("enterCurrentPassword")!);
     }
     if (newPassword.isEmpty) {
       valid = false;
-      messages.add("Enter new password.");
+      messages.add(ApplicationLocalizations.of(context)!.translate("enterNewPassword")!);
     }
     // else if (currentPassword.length < 6) {
     //   valid = false;
