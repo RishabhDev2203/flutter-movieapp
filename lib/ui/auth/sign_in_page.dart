@@ -14,6 +14,7 @@ import 'package:flutter_firebase_ott/util/dimensions.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ideal_ott_api/repository/auth_repository.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import '../../locale/application_localizations.dart';
 import '../../bloc/api_resp_state.dart';
 import '../../bloc/cubit/auth_cubit.dart';
 import '../../util/strings.dart';
@@ -137,10 +138,7 @@ class _SignInPageState extends State<SignInPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const TitleText(
-                    text: Strings.loginToYourProfile,
-                    fontSize: 28,
-                  ),
+                   Text(ApplicationLocalizations.of(context)!.translate("loginToYourProfile")!,style:TextStyle(fontSize: 28,color: Colors.white)),
                   const SizedBox(height: 30),
                   MyContainer(
                       padding: const EdgeInsets.only(right: 10),
@@ -148,7 +146,7 @@ class _SignInPageState extends State<SignInPage> {
                         keyboardType: TextInputType.emailAddress,
                         textAlignVertical: TextAlignVertical.center,
                         decoration: InputDecoration(
-                          hintText: Strings.email,
+                          hintText: ApplicationLocalizations.of(context)!.translate("email"),
                           prefixIcon: IconButton(
                             icon: Image.asset(
                               "assets/images/sms.png",
@@ -178,7 +176,7 @@ class _SignInPageState extends State<SignInPage> {
                         obscureText: _isHiddenPassword,
                         textAlignVertical: TextAlignVertical.center,
                         decoration: InputDecoration(
-                          hintText: Strings.password,
+                          hintText: ApplicationLocalizations.of(context)!.translate("password"),
                           prefixIcon: IconButton(
                             icon: Image.asset(
                               "assets/images/lock.png",
@@ -227,8 +225,8 @@ class _SignInPageState extends State<SignInPage> {
                                 const RecoverPasswordScreen(),
                               ));
                         },
-                        child: const Text(
-                          Strings.forgotPassword,
+                        child: Text(
+                            ApplicationLocalizations.of(context)!.translate("forgotPassword")!,
                           style: TextStyle(
                               color: AppColors.lightYellowColor,
                               fontWeight: FontWeight.w500,
@@ -238,7 +236,7 @@ class _SignInPageState extends State<SignInPage> {
                   const SizedBox(height: 25),
                   // ButtonFill(text: Strings.login, onPressed: () {}),
                   ButtonFill(
-                      text: Strings.login,
+                      text: ApplicationLocalizations.of(context)!.translate("login")!,
                       onPressed: () {
                         if (validate()) {
                           loginAccount();
@@ -341,7 +339,8 @@ class _SignInPageState extends State<SignInPage> {
                     ],
                   ),
                   const SizedBox(height: 50),
-                  ButtonOutline(text: Strings.asAGuestUser, onPressed: () {
+                  ButtonOutline(text: ApplicationLocalizations.of(context)!.translate("asAGuestUser")!,
+                      onPressed: () {
                     Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
@@ -357,14 +356,14 @@ class _SignInPageState extends State<SignInPage> {
                       child: RichText(
                         textAlign: TextAlign.center,
                         text: TextSpan(children: <TextSpan>[
-                          const TextSpan(
-                              text: Strings.doNotHaveAnAccount,
+                           TextSpan(
+                              text: ApplicationLocalizations.of(context)!.translate("doNotHaveAnAccount"),
                               style: TextStyle(
                                   color: Colors.grey,
                                   fontSize: Dimensions.textSizeSmall,
                                   fontWeight: FontWeight.w500)),
                           TextSpan(
-                              text: Strings.signUp,
+                              text: ApplicationLocalizations.of(context)!.translate("signUp"),
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
                                   Navigator.push(
@@ -409,17 +408,17 @@ class _SignInPageState extends State<SignInPage> {
     List<String>? messages = [];
     if (email.isEmpty) {
       valid = false;
-      messages.add("Enter Email id.");
+      messages.add(ApplicationLocalizations.of(context)!.translate("emailValidation1")!);
     } else if (!emailValid) {
       valid = false;
-      messages.add("Enter valid email.");
+      messages.add(ApplicationLocalizations.of(context)!.translate("emailValidation2")!);
     }
     if (password.isEmpty) {
       valid = false;
-      messages.add("Please enter password.");
+      messages.add(ApplicationLocalizations.of(context)!.translate("passwordValidation1")!);
     } else if (password.length < 6) {
       valid = false;
-      messages.add("Password must contain at least 6 characters.");
+      messages.add(ApplicationLocalizations.of(context)!.translate("passwordValidation2")!);
     }
     if (!valid) {
       var msg = "";

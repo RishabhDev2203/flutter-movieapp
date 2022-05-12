@@ -5,6 +5,7 @@ import 'package:flutter_firebase_ott/util/component/back_button.dart';
 import 'package:flutter_firebase_ott/util/component/sub_title_text.dart';
 import 'package:flutter_firebase_ott/util/component/title_text.dart';
 
+import '../../locale/application_localizations.dart';
 import '../../util/app_colors.dart';
 import '../../util/constants.dart';
 import '../../util/dimensions.dart';
@@ -28,16 +29,16 @@ class _HomeSearchPageState extends State<HomeSearchPage> {
       // backgroundColor:AppColors.bg,
       body: Padding(
         padding: EdgeInsets.only(
-            left: 16, right: 16, top: MediaQuery.of(context).padding.top+10 ),
+            left:16, right: 16, top: MediaQuery.of(context).padding.top+10 ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
+              children:  [
                 ButtonBack(),
                 SubTitleText(
-                  text: Strings.search,
+                  text: ApplicationLocalizations.of(context)!.translate("search")!,
                   fontSize: Dimensions.textSizeXLarge,
                   color: AppColors.white,
                 ),
@@ -54,8 +55,8 @@ class _HomeSearchPageState extends State<HomeSearchPage> {
             const SizedBox(
               height: 20,
             ),
-            const SubTitleText(
-              text: 'All Movies',
+             SubTitleText(
+              text: ApplicationLocalizations.of(context)!.translate("allMovies")!,
               color: AppColors.grey,
               fontSize: Dimensions.textSizeLarge,
               fontWeight: FontWeight.w500,
@@ -81,7 +82,7 @@ class _HomeSearchPageState extends State<HomeSearchPage> {
         textAlignVertical: TextAlignVertical.center,
         textCapitalization: TextCapitalization.sentences,
         decoration: InputDecoration(
-          hintText: Strings.search,
+          hintText: ApplicationLocalizations.of(context)!.translate("search")!,
           prefixIcon: IconButton(
             icon: Image.asset(
               "assets/images/search.png",

@@ -4,6 +4,7 @@ import 'package:flutter_firebase_ott/ui/auth/sign_in_page.dart';
 import 'package:flutter_firebase_ott/util/component/back_button.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ideal_ott_api/repository/auth_repository.dart';
+import '../../locale/application_localizations.dart';
 import '../../bloc/api_resp_state.dart';
 import '../../bloc/cubit/auth_cubit.dart';
 import '../../util/app_colors.dart';
@@ -83,8 +84,8 @@ class _RecoverPasswordScreenState extends State<RecoverPasswordScreen> {
                       child: ButtonBack(),
                     ),
                     const SizedBox(height: 20),
-                    const TitleText(
-                      text: Strings.recoverYourPassword,
+                     TitleText(
+                      text: ApplicationLocalizations.of(context)!.translate("recoverYourPassword")!,
                       fontSize: 28,
                     ),
                     const SizedBox(height: 25),
@@ -94,7 +95,7 @@ class _RecoverPasswordScreenState extends State<RecoverPasswordScreen> {
                           keyboardType: TextInputType.emailAddress,
                           textAlignVertical: TextAlignVertical.center,
                           decoration: InputDecoration(
-                            hintText: Strings.email,
+                            hintText:  ApplicationLocalizations.of(context)!.translate("email")!,
                             prefixIcon: IconButton(
                               icon: Image.asset(
                                 "assets/images/sms.png",
@@ -123,7 +124,7 @@ class _RecoverPasswordScreenState extends State<RecoverPasswordScreen> {
                       height: 30,
                     ),
                     ButtonFill(
-                        text: Strings.next,
+                        text:ApplicationLocalizations.of(context)!.translate("next")!,
                         onPressed: () {
                           if(validate()) {
                             forgotPassword();
@@ -145,10 +146,10 @@ class _RecoverPasswordScreenState extends State<RecoverPasswordScreen> {
     List<String>? messages = [];
     if (email.isEmpty) {
       valid = false;
-      messages.add("Enter Email id.");
+      messages.add(ApplicationLocalizations.of(context)!.translate("emailValidation1")!,);
     } else if (!emailValid) {
       valid = false;
-      messages.add("Enter valid email.");
+      messages.add(ApplicationLocalizations.of(context)!.translate("emailValidation2")!);
     }
     if (!valid) {
       var msg = "";

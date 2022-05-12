@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:package_info/package_info.dart';
+import '../locale/application_localizations.dart';
 import 'app_colors.dart';
 import 'dimensions.dart';
 import 'package:intl/intl.dart';
@@ -121,8 +122,8 @@ class Utility {
                   onTap: () {
                     Navigator.pop(context);
                   },
-                  child: const Text(
-                    'Ok',
+                  child:  Text(
+                      ApplicationLocalizations.of(context)!.translate("ok")!,
                     style: TextStyle(
                         color: AppColors.primary,
                         fontSize: Dimensions.textSizeMedium),

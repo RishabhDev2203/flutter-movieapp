@@ -9,6 +9,7 @@ import 'package:flutter_firebase_ott/util/dimensions.dart';
 import 'package:flutter_firebase_ott/util/strings.dart';
 import 'package:flutter_ideal_ott_api/dto/user_dto.dart';
 import 'package:flutter_ideal_ott_api/repository/auth_repository.dart';
+import '../../locale/application_localizations.dart';
 import '../../bloc/api_resp_state.dart';
 import '../../bloc/cubit/auth_cubit.dart';
 import '../../util/app_session.dart';
@@ -101,17 +102,17 @@ class _ProfilePageState extends State<ProfilePage> {
                       padding: const EdgeInsets.only(top: 10.0),
                       child: Container(
                         height: 36,
-                        width: 90,
+                        width: 120,
                         decoration: BoxDecoration(
                           color: AppColors.red,
                           // border: Border.all(color: AppColors.containerBorder),
                           borderRadius: BorderRadius.circular(
                               Dimensions.cornerRadiusMedium),
                         ),
-                        child: const Center(
+                        child:  Center(
                             child: Text(
-                          "Edit Profile",
-                          style: TextStyle(
+                              ApplicationLocalizations.of(context)!.translate("editProfile")!,
+                              style: TextStyle(
                               color: AppColors.white,
                               fontWeight: FontWeight.w500),
                         )),
@@ -209,8 +210,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             const SizedBox(
                               width: 20,
                             ),
-                            const Text(
-                              "Change Password",
+                             Text(
+                              ApplicationLocalizations.of(context)!.translate("changePassword")!,
                               style: TextStyle(
                                   color: AppColors.white,
                                   fontSize: Dimensions.textSizeMedium,
@@ -247,8 +248,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             const SizedBox(
                               width: 20,
                             ),
-                            const Text(
-                              "Logout",
+                            Text(
+                              ApplicationLocalizations.of(context)!.translate("logout")!,
                               style: TextStyle(
                                   color: AppColors.white,
                                   fontSize: Dimensions.textSizeMedium,
