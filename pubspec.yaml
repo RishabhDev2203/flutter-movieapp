@@ -32,7 +32,7 @@ dependencies:
   flutter_ideal_ott_api:
     git:
       url: git@mygitlab.idealittechno.in:devsideal/flutter_ideal_ott_api.git
-      ref: a784ce477e2958198d8c2b5aa877f4503258920d
+      ref: 99df10cf84b4e823145cdbac38d12f7e4c224a26
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

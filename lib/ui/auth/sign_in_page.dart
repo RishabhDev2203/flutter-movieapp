@@ -345,7 +345,7 @@ class _SignInPageState extends State<SignInPage> {
                     Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => HomePage(userType: "guest"),
+                          builder: (context) => const HomePage(),
                         ));
                   }),
                   const Spacer(),
