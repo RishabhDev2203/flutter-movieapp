@@ -84,7 +84,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
           decoration: AppColors.bgGradientBoxDecoration(),
           child: Scaffold(
             resizeToAvoidBottomInset: false,
-            backgroundColor: AppColors.transparent,
+            backgroundColor: Theme.of(context).backgroundColor,
             body: _getBody(),
           ),
         )

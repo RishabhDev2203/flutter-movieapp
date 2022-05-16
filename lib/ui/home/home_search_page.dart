@@ -25,7 +25,7 @@ class _HomeSearchPageState extends State<HomeSearchPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: AppColors.bg,
+      backgroundColor: Theme.of(context).backgroundColor,
       // backgroundColor:AppColors.bg,
       body: Padding(
         padding: EdgeInsets.only(
@@ -37,10 +37,9 @@ class _HomeSearchPageState extends State<HomeSearchPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children:  [
                 ButtonBack(),
-                SubTitleText(
-                  text: ApplicationLocalizations.of(context)!.translate("search")!,
-                  fontSize: Dimensions.textSizeXLarge,
-                  color: AppColors.white,
+                Text(
+                  ApplicationLocalizations.of(context)!.translate("search")!,
+                    style: Theme.of(context).textTheme.labelMedium
                 ),
                 SizedBox(
                   height: 32,
@@ -55,12 +54,11 @@ class _HomeSearchPageState extends State<HomeSearchPage> {
             const SizedBox(
               height: 20,
             ),
-             SubTitleText(
-              text: ApplicationLocalizations.of(context)!.translate("allMovies")!,
-              color: AppColors.grey,
-              fontSize: Dimensions.textSizeLarge,
-              fontWeight: FontWeight.w500,
-            ),
+             Text(
+              ApplicationLocalizations.of(context)!.translate("allMovies")!,
+                 style: Theme.of(context).textTheme.headline4
+
+             ),
             const SizedBox(
               height: 10,
             ),

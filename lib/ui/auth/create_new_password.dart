@@ -73,7 +73,7 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
     return  Container(
       decoration: AppColors.bgGradientBoxDecoration(),
       child: Scaffold(
-          backgroundColor: AppColors.transparent,
+          backgroundColor: Theme.of(context).backgroundColor,
           body: Container(
               padding: const EdgeInsets.only(
                 left: Dimensions.marginMedium,
@@ -89,9 +89,10 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
                       child: ButtonBack(),
                     ),
                     const SizedBox(height: 20),
-                    TitleText(
-                      text: ApplicationLocalizations.of(context)!.translate("changePassword")!,
-                      fontSize: 28,
+                    Text(
+                      ApplicationLocalizations.of(context)!.translate("changePassword")!,
+                        style: Theme.of(context).textTheme.headline1
+
                     ),
                     const SizedBox(height: 25),
                     MyContainer(

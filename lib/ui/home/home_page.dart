@@ -97,7 +97,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
         child: Scaffold(
-            backgroundColor: AppColors.bg,
+            backgroundColor: Theme.of(context).backgroundColor,
             body: _getBody()
         )
     );
@@ -131,7 +131,7 @@ class _HomePageState extends State<HomePage> {
                       imageUrl: _userDto.avatar ?? "",
                       fit: BoxFit.cover,
                       placeholder: (context, url) => Container(
-                        color: Colors.black38,
+                        color: Colors.black87,
                         alignment: Alignment.center,
                         child: Image.asset(
                             "assets/images/user_placeholder.png"),
@@ -184,21 +184,12 @@ class _HomePageState extends State<HomePage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children:  [
                     Text(ApplicationLocalizations.of(context)!.translate("continueWatching")!,
-                      style: TextStyle(
-                          overflow: TextOverflow.ellipsis,
-                          fontSize: Dimensions.textSizeLarge,
-                          fontFamily: Constants.fontFamily,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.white),
+                    style: Theme.of(context).textTheme.headline4
                     ),
 
                     Text(ApplicationLocalizations.of(context)!.translate("seeAll")!,
-                      style: TextStyle(
-                          overflow: TextOverflow.ellipsis,
-                          fontSize: Dimensions.textSizeMedium,
-                          fontFamily: Constants.fontFamily,
-                          fontWeight: FontWeight.w400,
-                          color: AppColors.textSecondary),
+                      style: Theme.of(context).textTheme.headline5
+
                     ),
 
                   ],
@@ -237,12 +228,8 @@ class _HomePageState extends State<HomePage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children:  [
                             Text(_categoryList?[categoryIndex].title ?? "",
-                              style: const TextStyle(
-                                  overflow: TextOverflow.ellipsis,
-                                  fontSize: Dimensions.textSizeLarge,
-                                  fontFamily: Constants.fontFamily,
-                                  fontWeight: FontWeight.w600,
-                                  color: AppColors.white),
+                                style: Theme.of(context).textTheme.headline4
+
                             ),
                             InkWell(
                               onTap: (){
@@ -253,12 +240,7 @@ class _HomePageState extends State<HomePage> {
                                 );
                               },
                               child:  Text(ApplicationLocalizations.of(context)!.translate("seeAll")!,
-                                style: TextStyle(
-                                    overflow: TextOverflow.ellipsis,
-                                    fontSize: Dimensions.textSizeMedium,
-                                    fontFamily: Constants.fontFamily,
-                                    fontWeight: FontWeight.w400,
-                                    color: AppColors.textSecondary),
+                                  style: Theme.of(context).textTheme.headline5
                               ),
                             ),
                           ],

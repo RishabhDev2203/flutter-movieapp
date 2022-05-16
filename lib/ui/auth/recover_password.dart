@@ -68,7 +68,7 @@ class _RecoverPasswordScreenState extends State<RecoverPasswordScreen> {
     return  Container(
       decoration: AppColors.bgGradientBoxDecoration(),
       child: Scaffold(
-          backgroundColor: AppColors.transparent,
+          backgroundColor: Theme.of(context).backgroundColor,
           body: Container(
               padding: const EdgeInsets.only(
                 left: Dimensions.marginMedium,
@@ -84,9 +84,9 @@ class _RecoverPasswordScreenState extends State<RecoverPasswordScreen> {
                       child: ButtonBack(),
                     ),
                     const SizedBox(height: 20),
-                     TitleText(
-                      text: ApplicationLocalizations.of(context)!.translate("recoverYourPassword")!,
-                      fontSize: 28,
+                     Text(
+                      ApplicationLocalizations.of(context)!.translate("recoverYourPassword")!,
+                         style: Theme.of(context).textTheme.headline1
                     ),
                     const SizedBox(height: 25),
                     MyContainer(

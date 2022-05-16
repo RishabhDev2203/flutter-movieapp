@@ -17,7 +17,7 @@ class _ButtonBackState extends State<ButtonBack> {
       },
         child: Padding(
           padding: const EdgeInsets.only(right: 20),
-          child: Image.asset("assets/images/arrow_left.png",height: 20,width: 20,color: AppColors.white,),
+          child: Image.asset("assets/images/arrow_left.png",height: 20,width: 20,color:Theme.of(context).buttonColor),
         ));
   }
 }
