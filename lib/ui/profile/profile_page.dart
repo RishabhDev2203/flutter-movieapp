@@ -1,8 +1,8 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_firebase_ott/ui/auth/sign_in_page.dart';
+import 'package:flutter_firebase_ott/theme/change_theme.dart';
 import 'package:flutter_firebase_ott/util/app_colors.dart';
 import 'package:flutter_firebase_ott/util/component/back_button.dart';
 import 'package:flutter_firebase_ott/util/component/my_container.dart';
@@ -12,9 +12,9 @@ import 'package:flutter_ideal_ott_api/dto/user_dto.dart';
 import 'package:flutter_ideal_ott_api/repository/auth_repository.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../locale/application_localizations.dart';
 import '../../bloc/api_resp_state.dart';
 import '../../bloc/cubit/auth_cubit.dart';
+import '../../locale/application_localizations.dart';
 import '../../main.dart';
 import '../../theme/apptheme.dart';
 import '../../theme/theme_models.dart';
@@ -38,7 +38,6 @@ class _ProfilePageState extends State<ProfilePage> {
   AuthCubit? _authCubit;
   final AppSession _appSession = AppSession();
   UserDto? userDto;
-  var _darkTheme = true;
 
   @override
   void initState() {
@@ -46,6 +45,12 @@ class _ProfilePageState extends State<ProfilePage> {
     _appSession.init().then((value) => getDetail());
     super.initState();
   }
+  @override
+  setSelectedRadio(int val) {
+    setState(() {
+    });
+  }
+
 
   @override
   void dispose() {
@@ -79,8 +84,6 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   _getBody() {
-    final themeNotifier = Provider.of<ThemeNotifier>(context);
-    _darkTheme = (themeNotifier.getTheme() == darkTheme);
     return Container(
       decoration: AppColors.bgGradientBoxDecoration(),
       child: Scaffold(
@@ -222,11 +225,11 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
                              Text(
                               ApplicationLocalizations.of(context)!.translate("changePassword")!,
-                              style: TextStyle(
-                                  color: AppColors.white,
-                                  fontSize: Dimensions.textSizeMedium,
-                                  fontFamily: Constants.fontFamily,
-                                  fontWeight: FontWeight.w500),
+                               style: TextStyle(
+                                   color: AppColors.white,
+                                   fontSize: Dimensions.textSizeMedium,
+                                   fontFamily: Constants.fontFamily,
+                                   fontWeight: FontWeight.w500),
                             ),
                           ],
                         ),
@@ -242,6 +245,13 @@ class _ProfilePageState extends State<ProfilePage> {
                         height: 10,
                       ),
                       InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ChangeTheme(),
+                              ));
+                        },
                         child: Row(
                           children: [
                             const SizedBox(
@@ -263,16 +273,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                   fontFamily: Constants.fontFamily,
                                   fontWeight: FontWeight.w500),
                             ),
-                          Container(margin: EdgeInsets.only(left: 180),
-                            child: Switch(value: _darkTheme, onChanged: (val)
-                            {
-                              setState(() {
-                                _darkTheme=val;
-                              });
-                              onThemeChanged(val, themeNotifier);
-                            }),
-                          )
-
                           ],
                         ),
                       ),
@@ -336,12 +336,13 @@ class _ProfilePageState extends State<ProfilePage> {
           })
         });
   }
-  void onThemeChanged(bool value, ThemeNotifier themeNotifier) async {
-    (value)
-        ? themeNotifier.setTheme(darkTheme)
-        : themeNotifier.setTheme(lightTheme);
-    var prefs = await SharedPreferences.getInstance();
-    prefs.setBool('darkMode', value);
-  }
+
+
+
+
+// Changes the selected value on 'onChanged' click on each radio button
 
 }
+
+
+

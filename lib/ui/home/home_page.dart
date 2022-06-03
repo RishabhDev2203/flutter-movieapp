@@ -6,9 +6,9 @@ import 'package:flutter_ideal_ott_api/dto/category_dto.dart';
 import 'package:flutter_ideal_ott_api/dto/library_dto.dart';
 import 'package:flutter_ideal_ott_api/dto/user_dto.dart';
 import 'package:flutter_ideal_ott_api/repository/home_repository.dart';
-import '../../locale/application_localizations.dart';
 import '../../bloc/api_resp_state.dart';
 import '../../bloc/cubit/home_cubit.dart';
+import '../../locale/application_localizations.dart';
 import '../../util/app_colors.dart';
 import '../../util/app_session.dart';
 import '../../util/constants.dart';
@@ -449,3 +449,5 @@ class _HomePageState extends State<HomePage> {
     _categoryCubit?.getFeaturedList();
   }
 }
+
+

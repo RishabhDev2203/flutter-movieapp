@@ -17,9 +17,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ideal_ott_api/repository/auth_repository.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
-import '../../locale/application_localizations.dart';
 import '../../bloc/api_resp_state.dart';
 import '../../bloc/cubit/auth_cubit.dart';
+import '../../locale/application_localizations.dart';
 import '../../theme/theme_models.dart';
 import '../../util/strings.dart';
 import '../../util/utility.dart';
@@ -131,6 +131,7 @@ class _SignInPageState extends State<SignInPage> with WidgetsBindingObserver{
         child: _getBody());
   }
   _getBody(){
+    // final text=MediaQuery.of(context).platformBrightness==Brightness.dark ? 'DarkTheme':'LightTheme';
     return  Container(
       decoration: AppColors.bgGradientBoxDecoration(),
       child: Scaffold(
@@ -152,7 +153,8 @@ class _SignInPageState extends State<SignInPage> with WidgetsBindingObserver{
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                   Text(ApplicationLocalizations.of(context)!.translate("loginToYourProfile")!,style: Theme.of(context).textTheme.headline1,
+                   Text(ApplicationLocalizations.of(context)!.translate("loginToYourProfile")!,
+                     style: Theme.of(context).textTheme.headline1,
                    ),
                   const SizedBox(height: 30),
                   MyContainer(

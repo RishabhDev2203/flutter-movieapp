@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 
 
+
 class ThemeNotifier with ChangeNotifier {
-  ThemeData _themeData;
+  // ThemeMode themeMode=ThemeMode.system;
+  ThemeMode _themeMode;
 
-  ThemeNotifier(this._themeData);
+  ThemeNotifier(this._themeMode);
 
-  getTheme() => _themeData;
+  getThemeMode() => _themeMode;
 
-  setTheme(ThemeData themeData) async {
-    _themeData = themeData;
+  setThemeMode(ThemeMode themeMode) async {
+    _themeMode = themeMode;
     notifyListeners();
   }
 }

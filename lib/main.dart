@@ -6,6 +6,7 @@ import 'package:flutter_firebase_ott/splash.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_firebase_ott/theme/apptheme.dart';
 import 'package:flutter_firebase_ott/theme/theme_models.dart';
+import 'package:flutter_firebase_ott/ui/home/home_page.dart';
 import 'package:flutter_firebase_ott/util/app_colors.dart';
 import 'package:flutter_firebase_ott/util/app_theme.dart';
 import 'package:flutter_firebase_ott/util/constants.dart';
@@ -15,10 +16,10 @@ import 'package:flutter_ideal_ott_api/repository/home_repository.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'locale/application_localizations.dart';
 import 'bloc/cubit/auth_cubit.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-// import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import 'locale/application_localizations.dart';
 
 void main() async{
    WidgetsFlutterBinding.ensureInitialized();
@@ -28,10 +29,10 @@ void main() async{
     DeviceOrientation.portraitDown,
   ]).then((_) {
     SharedPreferences.getInstance().then((prefs) {
-      var darkModeOn = prefs.getBool('lightMode') ?? true;
+      var themeMode = prefs.getInt('themeMode')  ?? 0;
       runApp(
         ChangeNotifierProvider<ThemeNotifier>(
-          create: (_) => ThemeNotifier(darkModeOn ?  lightTheme: darkTheme),
+          create: (_) =>   ThemeNotifier(ThemeMode.values[themeMode]),
           child: MyApp(),
         ),
       );
@@ -45,6 +46,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeNotifier = Provider.of<ThemeNotifier>(context);
+
     return MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -83,18 +85,9 @@ class MyApp extends StatelessWidget {
             },
             scrollBehavior: MyBehavior(),
             debugShowCheckedModeBanner: false,
-            theme: themeNotifier.getTheme(),
-            themeMode: ThemeMode.system,
-
-            // theme: Provider.of<ThemeModel>(context).toggleTheme(),
-            // theme: ThemeData(
-            //     primarySwatch:
-            //     AppTheme.createMaterialColor(Colors.blue),
-            //     fontFamily: Constants.fontFamily,
-            //     splashColor: Colors.transparent,
-            //     highlightColor: Colors.transparent,
-            //     textSelectionTheme: const TextSelectionThemeData(
-            //         cursorColor: AppColors.red)),
+            theme: Themes.lightTheme,
+            darkTheme: Themes.darkTheme,
+            themeMode: themeNotifier.getThemeMode(),
             home: const Splash()),
       ),
     );
