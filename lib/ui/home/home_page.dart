@@ -131,7 +131,7 @@ class _HomePageState extends State<HomePage> {
 
   _getBody(){
     return Padding(
-      padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top,),
+      padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top,bottom: MediaQuery.of(context).padding.bottom),
       child: Column(
         children: [
           Container(
@@ -265,7 +265,7 @@ class _HomePageState extends State<HomePage> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
+                        _categoryList?[categoryIndex].library != null && _categoryList![categoryIndex].library!.isNotEmpty ?Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children:  [
                             Text(_categoryList?[categoryIndex].title ?? "",
@@ -294,9 +294,9 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ),
                           ],
-                        ),
-                        const SizedBox(height: 20,),
-                        SizedBox(
+                        ):Container(),
+                        _categoryList?[categoryIndex].library != null && _categoryList![categoryIndex].library!.isNotEmpty ?const SizedBox(height: 20,):Container(),
+                        _categoryList?[categoryIndex].library != null && _categoryList![categoryIndex].library!.isNotEmpty ?SizedBox(
                           height: 162,
                           child: ListView.separated(
                             scrollDirection: Axis.horizontal,
@@ -312,13 +312,13 @@ class _HomePageState extends State<HomePage> {
                               );
                             },
                           ),
-                        ),
+                        ):Container(),
                       ],
                     );
                   },
                   separatorBuilder: (BuildContext context, int categoryIndex) {
-                    return const SizedBox(
-                      height: 20,
+                    return SizedBox(
+                      height: _categoryList?[categoryIndex].library != null && _categoryList![categoryIndex].library!.isNotEmpty ?20:0,
                     );
                   },
                 ),
