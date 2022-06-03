@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_firebase_ott/bloc/api_resp_state.dart';
 import 'package:flutter_ideal_ott_api/dto/category_dto.dart';
+import 'package:flutter_ideal_ott_api/dto/continue_watching_dto.dart';
 import 'package:flutter_ideal_ott_api/dto/library_dto.dart';
 import 'package:flutter_ideal_ott_api/repository/home_repository.dart';
 
@@ -14,7 +15,7 @@ class HomeCubit extends Cubit<ResponseState> {
     emit(ResponseStateLoading());
     List<LibraryDto>? dto;
     try {
-      dto = await _homeRepository.getBannerMovies(enableMock: true);
+      dto = await _homeRepository.getBannerMovies(enableMock: false);
       emit(ResponseStateSuccess(dto));
     }
     on FirebaseException catch (error) {
@@ -26,7 +27,7 @@ class HomeCubit extends Cubit<ResponseState> {
     emit(ResponseStateLoading());
     LibraryDto? dto;
     try {
-      dto = await _homeRepository. getMovieDetails(id,enableMock: true);
+      dto = await _homeRepository. getMovieDetails(id,enableMock: false);
       emit(ResponseStateSuccess(dto));
     }
     on FirebaseException catch (error) {
@@ -38,7 +39,7 @@ class HomeCubit extends Cubit<ResponseState> {
     emit(ResponseStateLoading());
     List<CategoryDto>? dto;
     try {
-      dto = await _homeRepository.getFeaturedList(enableMock: true);
+      dto = await _homeRepository.getFeaturedList(enableMock: false);
       emit(ResponseStateSuccess(dto));
     }
     on FirebaseException catch (error) {
@@ -50,8 +51,55 @@ class HomeCubit extends Cubit<ResponseState> {
     emit(ResponseStateLoading());
     CategoryDto? dto;
     try {
-      dto = await _homeRepository.getSeeAllCategory(id,enableMock: true);
+      dto = await _homeRepository.getSeeAllCategory(id,enableMock: false);
       emit(ResponseStateSuccess(dto));
+    }
+    on FirebaseException catch (error) {
+      emit(ResponseStateError(error.message?? ""));
+    }
+  }
+
+  void getSubCategory(id,{bool enableMock = false}) async {
+    emit(ResponseStateLoading());
+    List<CategoryDto>? dto;
+    try {
+      dto = await _homeRepository.getSubCategory(id);
+      emit(ResponseStateSuccess(dto));
+    }
+    on FirebaseException catch (error) {
+      emit(ResponseStateError(error.message?? ""));
+    }
+  }
+
+  void getContinueWatching({bool enableMock = false}) async {
+    emit(ResponseStateLoading());
+    List<ContinueWatchingDto>? dto;
+    try {
+      dto = await _homeRepository.getContinueWatching();
+      emit(ResponseStateSuccess(dto));
+    }
+    on FirebaseException catch (error) {
+      emit(ResponseStateError(error.message?? ""));
+    }
+  }
+
+  void deleteContinueWatching(id) async {
+    emit(ResponseStateLoading());
+    try {
+      print(">>>>>>>>>>>>>>>>>> : delete");
+      await _homeRepository.deleteContinueWatching(id);
+      emit(const ResponseStateSuccess(""));
+    }
+    on FirebaseException catch (error) {
+      emit(ResponseStateError(error.message?? ""));
+    }
+  }
+
+  void addVideo(reference,int time) async {
+    emit(ResponseStateLoading());
+    try {
+      await _homeRepository.addVideo(reference, time);
+      emit(const ResponseStateSuccess(""));
     }
     on FirebaseException catch (error) {
       emit(ResponseStateError(error.message?? ""));
