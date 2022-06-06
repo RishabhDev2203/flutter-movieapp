@@ -1,24 +1,22 @@
-import 'dart:io';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter_firebase_ott/ui/auth/sign_in_page.dart';
-import 'package:flutter_firebase_ott/util/app_colors.dart';
-import 'package:flutter_firebase_ott/util/component/back_button.dart';
-import 'package:flutter_firebase_ott/util/component/my_container.dart';
-import 'package:flutter_firebase_ott/util/dimensions.dart';
-import 'package:flutter_firebase_ott/util/strings.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ideal_ott_api/dto/user_dto.dart';
 import 'package:flutter_ideal_ott_api/repository/auth_repository.dart';
+
 import '../../bloc/api_resp_state.dart';
 import '../../bloc/cubit/auth_cubit.dart';
+import '../../util/app_colors.dart';
 import '../../util/app_session.dart';
-import '../../util/component/photo_action_bottom_sheet.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../util/component/back_button.dart';
 import '../../util/constants.dart';
+import '../../util/dimensions.dart';
+import '../../util/strings.dart';
 import '../../util/utility.dart';
 import '../auth/create_new_password.dart';
+import '../auth/sign_in_page.dart';
 import 'edit_profile.dart';
+import 'link_with_tv_page.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -29,12 +27,16 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   AuthCubit? _authCubit;
+  AuthCubit? _googleSignOutCubit;
+  AuthCubit? _fbSignOutCubit;
   final AppSession _appSession = AppSession();
   UserDto? userDto;
 
   @override
   void initState() {
     _authCubit = AuthCubit(AuthRepository());
+    _googleSignOutCubit = AuthCubit(AuthRepository());
+    _fbSignOutCubit = AuthCubit(AuthRepository());
     _appSession.init().then((value) => getDetail());
     super.initState();
   }
@@ -42,7 +44,11 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   void dispose() {
     _authCubit?.close();
+    _googleSignOutCubit?.close();
+    _fbSignOutCubit?.close();
     _authCubit = null;
+    _googleSignOutCubit = null;
+    _fbSignOutCubit = null;
     super.dispose();
   }
 
@@ -59,11 +65,47 @@ class _ProfilePageState extends State<ProfilePage> {
             Utility.showAlertDialog(context, error);
           } else if (state is ResponseStateSuccess) {
             Utility.hideLoader(context);
-            Navigator.pushReplacement(
-                context,
+            AppSession().removeUserDetail();
+            Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
-                  builder: (context) => const SignInPage(),
-                ));
+                    builder: (context) => const /*HomePage()*/ SignInPage()),
+                (Route<dynamic> route) => false);
+          }
+        },
+      ),
+      BlocListener<AuthCubit, ResponseState>(
+        bloc: _googleSignOutCubit,
+        listener: (context, state) {
+          if (state is ResponseStateLoading) {
+          } else if (state is ResponseStateError) {
+            Utility.hideLoader(context);
+            var error = state.errorMessage;
+            Utility.showAlertDialog(context, error);
+          } else if (state is ResponseStateSuccess) {
+            Utility.hideLoader(context);
+            AppSession().removeUserDetail();
+            Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(
+                    builder: (context) => const /*HomePage()*/ SignInPage()),
+                (Route<dynamic> route) => false);
+          }
+        },
+      ),
+      BlocListener<AuthCubit, ResponseState>(
+        bloc: _fbSignOutCubit,
+        listener: (context, state) {
+          if (state is ResponseStateLoading) {
+          } else if (state is ResponseStateError) {
+            Utility.hideLoader(context);
+            var error = state.errorMessage;
+            Utility.showAlertDialog(context, error);
+          } else if (state is ResponseStateSuccess) {
+            Utility.hideLoader(context);
+            AppSession().removeUserDetail();
+            Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(
+                    builder: (context) => const /*HomePage()*/ SignInPage()),
+                (Route<dynamic> route) => false);
           }
         },
       ),
@@ -93,9 +135,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const EditProfilePage())).then((value) => {
-                      _appSession.init().then((value) => getDetail())
-                      });
+                              builder: (context) =>
+                                  const EditProfilePage())).then((value) =>
+                          {_appSession.init().then((value) => getDetail())});
                     },
                     child: Padding(
                       padding: const EdgeInsets.only(top: 10.0),
@@ -123,25 +165,7 @@ class _ProfilePageState extends State<ProfilePage> {
               const SizedBox(
                 height: 50,
               ),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(50),
-                child: CachedNetworkImage(
-                  width: 100,
-                  height: 100,
-                  imageUrl:userDto?.avatar??"",
-                  fit: BoxFit.cover,
-                  placeholder: (context, url) => Container(
-                    color: Colors.transparent,
-                    alignment: Alignment.center,
-                    child: Image.asset("assets/images/user_placeholder.png"),
-                  ),
-                  errorWidget: (context, url, error) => Container(
-                    color: Colors.transparent,
-                    alignment: Alignment.center,
-                    child: Image.asset("assets/images/user_placeholder.png"),
-                  ),
-                ),
-              ),
+              _imageView(),
               const SizedBox(
                 height: 5,
               ),
@@ -220,19 +244,54 @@ class _ProfilePageState extends State<ProfilePage> {
                           ],
                         ),
                       ),
-                      const SizedBox(
-                        height: 10,
+                      const Divider(
+                        color: AppColors.black,
+                        thickness: 1,
+                        height: 30,
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    LinkWithTV(title: Strings.linkWithTV),
+                              ));
+                        },
+                        child: Row(
+                          children: const [
+                            SizedBox(
+                              width: 20,
+                            ),
+                            Icon(
+                              Icons.connected_tv,
+                              size: 20,
+                              color: Colors.white,
+                            ),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            Text(
+                              Strings.linkWithTV,
+                              style: TextStyle(
+                                  color: AppColors.white,
+                                  fontSize: Dimensions.textSizeMedium,
+                                  fontFamily: Constants.fontFamily,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                          ],
+                        ),
                       ),
                       const Divider(
                         color: AppColors.black,
-                        thickness: 1.3,
-                      ),
-                      const SizedBox(
-                        height: 10,
+                        thickness: 1,
+                        height: 30,
                       ),
                       InkWell(
                         onTap: () {
                           logoutAccount();
+                          apiSignOutGoogle();
+                          apiSignOutFacebook();
                         },
                         child: Row(
                           children: [
@@ -272,6 +331,38 @@ class _ProfilePageState extends State<ProfilePage> {
     _authCubit?.logoutAccount();
   }
 
+  apiSignOutGoogle() {
+    // Utility.showLoader(context);
+    _googleSignOutCubit?.signOutGoogle();
+  }
+
+  apiSignOutFacebook() {
+    // Utility.showLoader(context);
+    _fbSignOutCubit?.signOutWithFacebook();
+  }
+
+  Widget _imageView() {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(50),
+      child: CachedNetworkImage(
+        width: 100,
+        height: 100,
+        imageUrl: userDto?.avatar ?? "",
+        fit: BoxFit.cover,
+        placeholder: (context, url) => Container(
+          color: Colors.transparent,
+          alignment: Alignment.center,
+          child: Image.asset("assets/images/user_placeholder.png"),
+        ),
+        errorWidget: (context, url, error) => Container(
+          color: Colors.transparent,
+          alignment: Alignment.center,
+          child: Image.asset("assets/images/user_placeholder.png"),
+        ),
+      ),
+    );
+  }
+
   getDetail() {
     _appSession.getUserDetail().then((value) => {
           setState(() {
@@ -279,5 +370,4 @@ class _ProfilePageState extends State<ProfilePage> {
           })
         });
   }
-
 }

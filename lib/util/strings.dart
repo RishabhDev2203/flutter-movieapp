@@ -44,5 +44,7 @@ class Strings {
   static const editName = "Edit name";
   static const editEmail = "Edit Email";
   static const editProfile = "Edit Profile";
-
+  static const linkWithTV = "Link with TV";
+  static const getConnect = "Get Connect";
+  static const enter6dCode = "Enter 6-digit Code";
 }

@@ -304,7 +304,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
       "updatedAt": Timestamp.now()
     };
     Future.delayed(const Duration(seconds: 1), () {
-      _authCubit?.update(data);
+      _authCubit?.updateUser(data);
     });
   }
 

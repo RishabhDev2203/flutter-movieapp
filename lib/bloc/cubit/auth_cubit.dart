@@ -93,11 +93,11 @@ class AuthCubit extends Cubit<ResponseState> {
     }
   }
 
-  void update(Map<String, Object?> data) async {
+  void updateUser(Map<String, Object?> data) async {
     emit(ResponseStateLoading());
     UserDto dto;
     try {
-      dto = (await _authRepository.update(data));
+      dto = (await _authRepository.updateUser(data));
       AppSession().storeUserDetail(dto.toJson());
       emit(ResponseStateSuccess(dto));
     }
@@ -126,6 +126,17 @@ class AuthCubit extends Cubit<ResponseState> {
       await _authRepository.signOutWithFacebook();
       print("dto>>>>>>>>>>>>>>>>>>>>>>> : out");
       emit(const ResponseStateSuccess(""));
+    }
+    on FirebaseException catch (error) {
+      emit(ResponseStateError(error.message?? ""));
+    }
+  }
+
+  void verifyAuthCode(String userAuthId, String authCode) async {
+    emit(ResponseStateLoading());
+    try {
+      bool b = await _authRepository.verifyAuthCode(userAuthId, authCode);
+      emit( ResponseStateSuccess(b));
     }
     on FirebaseException catch (error) {
       emit(ResponseStateError(error.message?? ""));
