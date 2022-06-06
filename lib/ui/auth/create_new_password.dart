@@ -4,9 +4,9 @@ import 'package:flutter_firebase_ott/ui/auth/create_new_account.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_firebase_ott/ui/auth/sign_in_page.dart';
 import 'package:flutter_ideal_ott_api/repository/auth_repository.dart';
-import '../../locale/application_localizations.dart';
 import '../../bloc/api_resp_state.dart';
 import '../../bloc/cubit/auth_cubit.dart';
+import '../../locale/application_localizations.dart';
 import '../../util/app_colors.dart';
 import '../../util/component/back_button.dart';
 import '../../util/component/button_fill.dart';
@@ -73,7 +73,7 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
     return  Container(
       decoration: AppColors.bgGradientBoxDecoration(),
       child: Scaffold(
-          backgroundColor: AppColors.transparent,
+          backgroundColor: Theme.of(context).backgroundColor,
           body: Container(
               padding: const EdgeInsets.only(
                 left: Dimensions.marginMedium,
@@ -89,9 +89,10 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
                       child: ButtonBack(),
                     ),
                     const SizedBox(height: 20),
-                    TitleText(
-                      text: ApplicationLocalizations.of(context)!.translate("changePassword")!,
-                      fontSize: 28,
+                    Text(
+                      ApplicationLocalizations.of(context)!.translate("changePassword")!,
+                        style: Theme.of(context).textTheme.headline1
+
                     ),
                     const SizedBox(height: 25),
                     MyContainer(

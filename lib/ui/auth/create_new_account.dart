@@ -4,8 +4,8 @@ import 'package:flutter_firebase_ott/bloc/cubit/auth_cubit.dart';
 import 'package:flutter_firebase_ott/ui/auth/sign_in_page.dart';
 import 'package:flutter_ideal_ott_api/repository/auth_repository.dart';
 import 'package:uuid/uuid.dart';
-import '../../locale/application_localizations.dart';
 import '../../bloc/api_resp_state.dart';
+import '../../locale/application_localizations.dart';
 import '../../util/app_colors.dart';
 import '../../util/component/back_button.dart';
 import '../../util/component/button_fill.dart';
@@ -76,7 +76,7 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
     return Container(
       decoration: AppColors.bgGradientBoxDecoration(),
       child: Scaffold(
-          backgroundColor: AppColors.transparent,
+          backgroundColor: Theme.of(context).backgroundColor,
           body: Container(
               padding: EdgeInsets.only(
                   left: Dimensions.marginMedium,
@@ -93,9 +93,9 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
                         const Align(
                             alignment: Alignment.topLeft, child: ButtonBack()),
                         const SizedBox(height: 20),
-                         TitleText(
-                          text: ApplicationLocalizations.of(context)!.translate("createNewAccount")!,
-                          fontSize: 28,
+                         Text(
+                          ApplicationLocalizations.of(context)!.translate("createNewAccount")!,
+                             style: Theme.of(context).textTheme.headline1
                         ),
                         const SizedBox(height: 25),
                         MyContainer(
@@ -264,10 +264,7 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
                         ),
                          Text(
                            ApplicationLocalizations.of(context)!.translate("bothPasswordSame")!,
-                          style: TextStyle(
-                              color: AppColors.lightYellowColor,
-                              fontWeight: FontWeight.w400,
-                              fontSize: Dimensions.textSizeSmall),
+                             style: Theme.of(context).textTheme.bodyText1
                         ),
                         const SizedBox(
                           height: 30,
@@ -281,17 +278,14 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
                               }
                             }),
                         const Spacer(),
-                        const SizedBox(height: 20,),
+                        const SizedBox(height: 50,),
                         Center(
                           child: RichText(
                             textAlign: TextAlign.center,
                             text: TextSpan(children: <TextSpan>[
                                TextSpan(
                                   text: ApplicationLocalizations.of(context)!.translate("alreadyHaveAnAccount")!,
-                                  style: TextStyle(
-                                      color: Colors.grey,
-                                      fontSize: Dimensions.textSizeMedium,
-                                      fontWeight: FontWeight.w500)),
+                                   style: Theme.of(context).textTheme.headline2),
                               TextSpan(
                                   text: ApplicationLocalizations.of(context)!.translate("login")!,
                                   recognizer: TapGestureRecognizer()
@@ -302,10 +296,7 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
                                               builder: (context) =>
                                                   const SignInPage()));
                                     },
-                                  style: const TextStyle(
-                                      color: AppColors.white,
-                                      fontSize: Dimensions.textSizeMedium,
-                                      fontWeight: FontWeight.w700)),
+                                  style: Theme.of(context).textTheme.headline3),
                             ]),
                           ),
                         ),

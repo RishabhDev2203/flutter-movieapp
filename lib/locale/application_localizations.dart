@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import 'application_localizations_delegate.dart';
 
 class ApplicationLocalizations {

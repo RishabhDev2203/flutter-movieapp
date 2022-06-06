@@ -62,6 +62,7 @@ dependencies:
   google_sign_in: ^5.0.5
   #video_viewer: ^1.2.7
   video_player: ^2.4.0
+  provider: ^6.0.0
 
 dev_dependencies:
   flutter_test:
@@ -73,11 +74,6 @@ dev_dependencies:
   equatable: ^2.0.3
   flutter_aws_s3_client:
 
-  # The "flutter_lints" package below contains a set of recommended lints to
-  # encourage good coding practices. The lint set provided by the package is
-  # activated in the `analysis_options.yaml` file located at the root of your
-  # package. See that file for information about deactivating specific lint
-  # rules and activating additional ones.
   flutter_lints: ^1.0.0
 
 

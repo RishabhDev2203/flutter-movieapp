@@ -7,10 +7,10 @@ import 'package:flutter_ideal_ott_api/dto/user_dto.dart';
 import 'package:flutter_ideal_ott_api/repository/auth_repository.dart';
 import 'package:flutter_ideal_ott_api/util/main_utility.dart';
 
-import '../../locale/application_localizations.dart';
 import '../../bloc/api_resp_state.dart';
 import '../../bloc/cubit/auth_cubit.dart';
 import '../../bloc/cubit/home_cubit.dart';
+import '../../locale/application_localizations.dart';
 import '../../util/app_colors.dart';
 import '../../util/app_session.dart';
 import '../../util/component/back_button.dart';
@@ -84,7 +84,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
           decoration: AppColors.bgGradientBoxDecoration(),
           child: Scaffold(
             resizeToAvoidBottomInset: false,
-            backgroundColor: AppColors.transparent,
+            backgroundColor: Theme.of(context).backgroundColor,
             body: _getBody(),
           ),
         )

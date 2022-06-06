@@ -65,7 +65,7 @@ class _SeeAllPageState extends State<SeeAllPage> {
         ],
         child: Scaffold(
           resizeToAvoidBottomInset: false,
-          backgroundColor: AppColors.bg,
+          backgroundColor: Theme.of(context).backgroundColor,
           body: _getBody(),
         )
     );

@@ -1,7 +1,9 @@
 import 'dart:io';
+import 'dart:ui';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+// import 'package:flutter_firebase_ott/theme/theme_mode.dart';
 import 'package:flutter_firebase_ott/ui/auth/create_new_account.dart';
 import 'package:flutter_firebase_ott/ui/auth/recover_password.dart';
 import 'package:flutter_firebase_ott/ui/home/home_page.dart';
@@ -14,9 +16,11 @@ import 'package:flutter_firebase_ott/util/dimensions.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ideal_ott_api/repository/auth_repository.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import '../../locale/application_localizations.dart';
+import 'package:provider/provider.dart';
 import '../../bloc/api_resp_state.dart';
 import '../../bloc/cubit/auth_cubit.dart';
+import '../../locale/application_localizations.dart';
+import '../../theme/theme_models.dart';
 import '../../util/strings.dart';
 import '../../util/utility.dart';
 
@@ -27,7 +31,7 @@ class SignInPage extends StatefulWidget {
   State<SignInPage> createState() => _SignInPageState();
 }
 
-class _SignInPageState extends State<SignInPage> {
+class _SignInPageState extends State<SignInPage> with WidgetsBindingObserver{
   String email = "";
   String password = "";
   bool _isHiddenPassword = true;
@@ -41,12 +45,17 @@ class _SignInPageState extends State<SignInPage> {
           ? "353066966745-t5dsfql1ef04n48c96ld22eomnkr0g3f.apps.googleusercontent.com"
           : "353066966745-11asbh25dddcqn21gop89kpnaf8u501g.apps.googleusercontent.com"
   );
+
+
   @override
   void initState() {
     _authCubit = AuthCubit(AuthRepository());
     _authGoogleCubit = AuthCubit(AuthRepository());
+
     super.initState();
+
   }
+
 
   @override
   void dispose() {
@@ -61,6 +70,7 @@ class _SignInPageState extends State<SignInPage> {
 
   @override
   Widget build(BuildContext context) {
+
     return  MultiBlocListener(
         listeners: [
           BlocListener<AuthCubit, ResponseState>(
@@ -121,24 +131,31 @@ class _SignInPageState extends State<SignInPage> {
         child: _getBody());
   }
   _getBody(){
+    // final text=MediaQuery.of(context).platformBrightness==Brightness.dark ? 'DarkTheme':'LightTheme';
     return  Container(
       decoration: AppColors.bgGradientBoxDecoration(),
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        backgroundColor: AppColors.transparent,
+        backgroundColor: Theme.of(context).backgroundColor,
+
+        // backgroundColor: themeNotifier.getTheme(),
         body: Container(
+
           padding: EdgeInsets.only(
               left: Dimensions.marginMedium,
               right: Dimensions.marginMedium,
               top: MediaQuery.of(context).padding.top + 30,
               bottom: Dimensions.marginLarge),
           child: CustomScrollView(slivers: [
+
             SliverFillRemaining(
               hasScrollBody: false,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                   Text(ApplicationLocalizations.of(context)!.translate("loginToYourProfile")!,style:TextStyle(fontSize: 28,color: Colors.white)),
+                   Text(ApplicationLocalizations.of(context)!.translate("loginToYourProfile")!,
+                     style: Theme.of(context).textTheme.headline1,
+                   ),
                   const SizedBox(height: 30),
                   MyContainer(
                       padding: const EdgeInsets.only(right: 10),
@@ -227,10 +244,7 @@ class _SignInPageState extends State<SignInPage> {
                         },
                         child: Text(
                             ApplicationLocalizations.of(context)!.translate("forgotPassword")!,
-                          style: TextStyle(
-                              color: AppColors.lightYellowColor,
-                              fontWeight: FontWeight.w500,
-                              fontSize: Dimensions.textSizeSmall),
+                          style: Theme.of(context).textTheme.bodyText1
                         ),
                       )),
                   const SizedBox(height: 25),
@@ -358,10 +372,7 @@ class _SignInPageState extends State<SignInPage> {
                         text: TextSpan(children: <TextSpan>[
                            TextSpan(
                               text: ApplicationLocalizations.of(context)!.translate("doNotHaveAnAccount"),
-                              style: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: Dimensions.textSizeSmall,
-                                  fontWeight: FontWeight.w500)),
+                               style: Theme.of(context).textTheme.headline2),
                           TextSpan(
                               text: ApplicationLocalizations.of(context)!.translate("signUp"),
                               recognizer: TapGestureRecognizer()
@@ -372,10 +383,7 @@ class _SignInPageState extends State<SignInPage> {
                                           builder: (context) =>
                                           const CreateNewAccountScreen()));
                                 },
-                              style: const TextStyle(
-                                  color: AppColors.white,
-                                  fontSize: Dimensions.textSizeSmall,
-                                  fontWeight: FontWeight.w600)),
+                              style: Theme.of(context).textTheme.headline3),
                         ]),
                       ),
                     ),
@@ -433,4 +441,6 @@ class _SignInPageState extends State<SignInPage> {
     }
     return valid;
   }
+
+
 }
