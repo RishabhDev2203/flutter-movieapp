@@ -1,11 +1,12 @@
+import 'dart:async';
 import 'dart:math';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_firebase_ott/bloc/cubit/home_cubit.dart';
 import 'package:flutter_firebase_ott/util/videoplayer/full_screen_player_page.dart';
 import 'package:flutter_ideal_ott_api/repository/home_repository.dart';
 import 'package:video_player/video_player.dart';
-import 'dart:async';
 import '../app_colors.dart';
 import '../constants.dart';
 
@@ -14,7 +15,10 @@ class VideoPlayerPage extends StatefulWidget {
   bool? showAds;
   int? startedAt;
   String? id;
-  VideoPlayerPage({Key? key,required this.url,this.showAds,this.startedAt = 0,this.id}) : super(key: key);
+
+  VideoPlayerPage(
+      {Key? key, required this.url, this.showAds, this.startedAt = 0, this.id})
+      : super(key: key);
 
   @override
   _VideoPlayerPageState createState() => _VideoPlayerPageState();
@@ -36,26 +40,34 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
   bool isSkipped = false;
   HomeCubit? addVideoCubit;
   HomeCubit? deleteVideoCubit;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  int totalLength = 0;
 
   @override
   void initState() {
     super.initState();
     addVideoCubit = HomeCubit(HomeRepository());
     deleteVideoCubit = HomeCubit(HomeRepository());
-    _adsController = VideoPlayerController.network("https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4");
-    _adsController?.initialize().then((_) => setState(() {
-    }));
+    _adsController = VideoPlayerController.network(
+        "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4");
+    _adsController?.initialize().then((_) => setState(() {}));
     _adsController?.play();
     _controller = VideoPlayerController.network(widget.url);
     _controller?.initialize().then((_) => setState(() {
-      if(widget.startedAt != 0 ){
-        _controller?.seekTo(Duration(seconds: widget.startedAt??0 ));
-      }
-      if(widget.showAds == false){
-        _controller?.play();
-      }
-    }));
-
+          String twoDigits(int n) => n.toString().padLeft(2, "0");
+          int twoDigitMinutes = int.parse(
+              twoDigits(_controller!.value.duration.inMinutes.remainder(60)));
+          int twoDigitSeconds = int.parse(
+              twoDigits(_controller!.value.duration.inSeconds.remainder(60)));
+          var min = (twoDigitMinutes) * 60;
+          totalLength = twoDigitSeconds + min;
+          if (widget.startedAt != 0) {
+            _controller?.seekTo(Duration(seconds: widget.startedAt ?? 0));
+          }
+          if (widget.showAds == false) {
+            _controller?.play();
+          }
+        }));
 
     // Timer.periodic(const Duration(seconds: 5), (timer)async {
     //   Duration? duration = await _controller?.position;
@@ -73,7 +85,7 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
   }
 
   @override
-  Future<void> dispose() async{
+  Future<void> dispose() async {
     timer();
     _controller?.dispose();
     _adsController?.dispose();
@@ -93,12 +105,15 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
           Stack(
             children: [
               SizedBox(
-                child: VideoPlayer(isSkipped == false && widget.showAds == true ? _adsController! : _controller!),
+                child: VideoPlayer(isSkipped == false && widget.showAds == true
+                    ? _adsController!
+                    : _controller!),
                 height: 300,
                 width: MediaQuery.of(context).size.width,
               ),
               Padding(
-                padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top+6,right: 8.0),
+                padding: EdgeInsets.only(
+                    top: MediaQuery.of(context).padding.top + 6, right: 8.0),
                 child: Align(
                   alignment: Alignment.topRight,
                   child: PopupMenuButton<double>(
@@ -131,33 +146,34 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
           ),
           isSkipped == false && widget.showAds == true
               ? InkWell(
-            onTap: (){
-              setState(() {
-                isSkipped = true;});
-              _adsController?.dispose();
-              _controller?.play();
-            },
-            child: Container(
-              alignment: Alignment.bottomRight,
-              padding: const EdgeInsets.only(right: 10,bottom: 20),
-              child: const Text("Skip ads",
-                  style: TextStyle(
-                      fontSize: 16,
-                      fontFamily: Constants.fontFamily,
-                      fontWeight: FontWeight.w500,
-                      color: AppColors.white)),
-            ),
-          )
+                  onTap: () {
+                    setState(() {
+                      isSkipped = true;
+                    });
+                    _adsController?.dispose();
+                    _controller?.play();
+                  },
+                  child: Container(
+                    alignment: Alignment.bottomRight,
+                    padding: const EdgeInsets.only(right: 10, bottom: 20),
+                    child: const Text("Skip ads",
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontFamily: Constants.fontFamily,
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.white)),
+                  ),
+                )
               : _controlsOverlay(_controller!),
           isSkipped == false && widget.showAds == true
-              ?Container()
-              :VideoProgressIndicator(_controller!, allowScrubbing: true),
+              ? Container()
+              : VideoProgressIndicator(_controller!, allowScrubbing: true),
         ],
       ),
     );
   }
 
-  _controlsOverlay(VideoPlayerController controller){
+  _controlsOverlay(VideoPlayerController controller) {
     return Column(
       children: [
         Row(
@@ -177,7 +193,8 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
                       MaterialButton(
                         onPressed: () async {
                           var position = await controller.position;
-                          controller.seekTo(Duration(seconds: position!.inSeconds - 5));
+                          controller.seekTo(
+                              Duration(seconds: position!.inSeconds - 5));
                           setState(() {});
                         },
                         child: const Icon(
@@ -188,38 +205,39 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
                       ),
                       controller.value.isPlaying
                           ? MaterialButton(
-                        child: const Icon(
-                          Icons.pause,
-                          color: Colors.white,
-                          size: 30.0,
-                        ),
-                        onPressed: () {
-                          controller.value.isPlaying
-                              ? controller.pause()
-                              : controller.play();
-                          setState(() {});
-                        },
-                      )
+                              child: const Icon(
+                                Icons.pause,
+                                color: Colors.white,
+                                size: 30.0,
+                              ),
+                              onPressed: () {
+                                controller.value.isPlaying
+                                    ? controller.pause()
+                                    : controller.play();
+                                setState(() {});
+                              },
+                            )
                           : MaterialButton(
-                        child: const Icon(
-                          Icons.play_arrow,
-                          color: Colors.white,
-                          size: 30.0,
-                        ),
-                        onPressed: () {
-                          controller.value.isPlaying
-                              ? controller.pause()
-                              : controller.play();
-                          setState(() {});
-                        },
-                      ),
+                              child: const Icon(
+                                Icons.play_arrow,
+                                color: Colors.white,
+                                size: 30.0,
+                              ),
+                              onPressed: () {
+                                controller.value.isPlaying
+                                    ? controller.pause()
+                                    : controller.play();
+                                setState(() {});
+                              },
+                            ),
                       const SizedBox(
                         width: 10,
                       ),
                       MaterialButton(
                         onPressed: () async {
                           var position = await controller.position;
-                          controller.seekTo(Duration(seconds: position!.inSeconds + 5));
+                          controller.seekTo(
+                              Duration(seconds: position!.inSeconds + 5));
                           setState(() {});
                         },
                         child: const Icon(
@@ -234,10 +252,16 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => FullScreenPlayerPage(duration: sec,controller: _controller!,))).then((value) => {
-                            _controller = value,
-                            SystemChrome.setPreferredOrientations(
-                                [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]),});
+                                  builder: (context) => FullScreenPlayerPage(
+                                        duration: sec,
+                                        controller: _controller!,
+                                      ))).then((value) => {
+                                _controller = value,
+                                SystemChrome.setPreferredOrientations([
+                                  DeviceOrientation.portraitDown,
+                                  DeviceOrientation.portraitUp
+                                ]),
+                              });
                         },
                         child: const Icon(
                           Icons.fullscreen,
@@ -258,31 +282,28 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
   timer() async {
     Duration? duration = await _controller?.position;
     String twoDigits(int n) => n.toString().padLeft(2, "0");
-    int twoDigitMinutes = int.parse(twoDigits(duration!.inMinutes.remainder(60)));
-    int twoDigitSeconds = int.parse(twoDigits(duration.inSeconds.remainder(60)));
-    var min = (twoDigitMinutes)*60;
+    int twoDigitMinutes =
+        int.parse(twoDigits(duration!.inMinutes.remainder(60)));
+    int twoDigitSeconds =
+        int.parse(twoDigits(duration.inSeconds.remainder(60)));
+    var min = (twoDigitMinutes) * 60;
     var sec = twoDigitSeconds + min;
-    print(">>>>>>>>>>>> : ${_controller?.value.position}");
-    if(_controller?.value.position == _controller?.value.duration) {
-      print('video Ended');
-      deleteVideoCubit?.deleteContinueWatching(widget.id);
-    }else{
-      addVideoCubit?.addVideo(widget.id, sec);
+    if (_controller?.value.position == _controller?.value.duration) {
+      deleteVideoCubit?.deleteContinueWatching(
+          widget.id, _auth.currentUser?.uid);
+    } else {
+      addVideoCubit?.addVideo(
+          widget.id, sec, _auth.currentUser?.uid, totalLength);
     }
   }
 
-  getRandomTimer(){
+  getRandomTimer() {
     int ads = 3;
-    List<int> time =[];
+    List<int> time = [];
     Random random = Random();
-    for(int i=0;i<ads;i++){
+    for (int i = 0; i < ads; i++) {
       int randomNumber = random.nextInt(100);
       time.add(randomNumber);
     }
-    print(">>>>>>>>>>>>time : $time");
   }
-
-
-
 }
-

@@ -71,11 +71,11 @@ class HomeCubit extends Cubit<ResponseState> {
     }
   }
 
-  void getContinueWatching({bool enableMock = false}) async {
+  void getContinueWatching(uid,{bool enableMock = false}) async {
     emit(ResponseStateLoading());
     List<ContinueWatchingDto>? dto;
     try {
-      dto = await _homeRepository.getContinueWatching();
+      dto = await _homeRepository.getContinueWatching(uid);
       emit(ResponseStateSuccess(dto));
     }
     on FirebaseException catch (error) {
@@ -83,11 +83,11 @@ class HomeCubit extends Cubit<ResponseState> {
     }
   }
 
-  void deleteContinueWatching(id) async {
+  void deleteContinueWatching(id,uid) async {
     emit(ResponseStateLoading());
     try {
       print(">>>>>>>>>>>>>>>>>> : delete");
-      await _homeRepository.deleteContinueWatching(id);
+      await _homeRepository.deleteContinueWatching(id,uid);
       emit(const ResponseStateSuccess(""));
     }
     on FirebaseException catch (error) {
@@ -95,10 +95,10 @@ class HomeCubit extends Cubit<ResponseState> {
     }
   }
 
-  void addVideo(reference,int time) async {
+  void addVideo(reference,int time,uid,totalLength) async {
     emit(ResponseStateLoading());
     try {
-      await _homeRepository.addVideo(reference, time);
+      await _homeRepository.addVideo(reference, time, uid ,totalLength);
       emit(const ResponseStateSuccess(""));
     }
     on FirebaseException catch (error) {
@@ -106,4 +106,15 @@ class HomeCubit extends Cubit<ResponseState> {
     }
   }
 
+  void getSearchList(search) async {
+    emit(ResponseStateLoading());
+    List<LibraryDto>? dto;
+    try {
+      dto = await _homeRepository.getSearchList(search);
+      emit(ResponseStateSuccess(dto));
+    }
+    on FirebaseException catch (error) {
+      emit(ResponseStateError(error.message?? ""));
+    }
+  }
 }

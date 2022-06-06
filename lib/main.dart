@@ -18,7 +18,6 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'bloc/cubit/auth_cubit.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-
 import 'locale/application_localizations.dart';
 
 void main() async{

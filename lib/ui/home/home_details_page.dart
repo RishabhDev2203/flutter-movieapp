@@ -22,8 +22,9 @@ class HomeDetailPage extends StatefulWidget {
   String? id;
   String? coverImage;
   ContinueWatchingDto? watchingDto;
+  String? heroTag;
 
-  HomeDetailPage({Key? key, this.id, this.coverImage,this.watchingDto}) : super(key: key);
+  HomeDetailPage({Key? key, this.id, this.coverImage,this.watchingDto,this.heroTag}) : super(key: key);
 
   @override
   State<HomeDetailPage> createState() => _HomeDetailPageState();
@@ -100,33 +101,36 @@ class _HomeDetailPageState extends State<HomeDetailPage> {
                     startedAt: widget.watchingDto?.watchDurationInSec,
                     id: dto?.libraryId ?? "",
                   ))
-                  : CachedNetworkImage(
+                  : Hero(
+                tag: widget.heroTag ?? "",
+                    child: CachedNetworkImage(
                 height: 300,
                 width: MediaQuery.of(context).size.width,
                 imageUrl: widget.coverImage ?? "",
                 fit: BoxFit.cover,
                 alignment: FractionalOffset.topCenter,
                 placeholder: (context, url) => Container(
-                  color: Colors.black38,
-                  alignment: Alignment.center,
-                  height: 300,
-                  // child: Image.asset(
-                  //   "assets/images/user_placeholder.png",
-                  //   fit: BoxFit.cover,
-                  //   height: 300,
-                  //   width: MediaQuery.of(context).size.width,
-                  // ),
+                    color: Colors.black38,
+                    alignment: Alignment.center,
+                    height: 300,
+                    // child: Image.asset(
+                    //   "assets/images/user_placeholder.png",
+                    //   fit: BoxFit.cover,
+                    //   height: 300,
+                    //   width: MediaQuery.of(context).size.width,
+                    // ),
                 ),
                 errorWidget: (context, url, error) => Container(
-                  color: Colors.black38,
-                  alignment: Alignment.center,
-                  height: 300,
-                  // child: Image.asset("assets/images/user_placeholder.png",
-                  //     fit: BoxFit.cover,
-                  //     height: 300,
-                  //     width: MediaQuery.of(context).size.width),
+                    color: Colors.black38,
+                    alignment: Alignment.center,
+                    height: 300,
+                    // child: Image.asset("assets/images/user_placeholder.png",
+                    //     fit: BoxFit.cover,
+                    //     height: 300,
+                    //     width: MediaQuery.of(context).size.width),
                 ),
               ),
+                  ),
             ),
             isVideoPlay == false
                 ?AppColors.gradientOverlay(

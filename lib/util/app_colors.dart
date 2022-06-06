@@ -110,4 +110,29 @@ class AppColors {
           colors: [Color(0xFFFCFFEE),Color(0xFFFFFFFF)]
       );
   }
+
+ /* static Widget gradientOverlay(double h, double w, double cornerRadius) {
+    return Container(
+      width: w,
+      height: h,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(cornerRadius),
+        gradient: LinearGradient(
+          // Where the linear gradient begins and ends
+          begin: Alignment.topRight,
+          end: Alignment.bottomLeft,
+          // Add one stop for each color. Stops should increase from 0 to 1
+          stops: [-1, 0.2,0.7],
+          colors: [
+            // Colors are easy thanks to Flutter's Colors class.
+            Colors.transparent,
+            Colors.transparent,
+            Colors.black.withOpacity(0.8),
+          ],
+        ),
+      ),
+    );
+  }
+*/
 }
+

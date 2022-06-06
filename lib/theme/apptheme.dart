@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../util/app_colors.dart';
+
 class Themes {
   static const double APPBAR_ELEVATION = 10;
   static ThemeData darkTheme = ThemeData(
@@ -24,8 +26,8 @@ class Themes {
           color: Colors.white,
           overflow: TextOverflow.ellipsis),
       headline5: TextStyle(fontSize: 15.0,
-          fontWeight: FontWeight.w600,
-          color: Colors.grey,
+          fontWeight: FontWeight.w400,
+          color: AppColors.textSecondary,
           overflow: TextOverflow.ellipsis),
       labelMedium: TextStyle(
           fontSize: 18.0, fontWeight: FontWeight.bold, color: Colors.white),
