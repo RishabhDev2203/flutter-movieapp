@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import '../../locale/application_localizations.dart';
 import '../app_colors.dart';
 import '../dimensions.dart';
 import 'my_container.dart';
@@ -52,8 +53,8 @@ class PhotoActionBottomSheet {
                         color: AppColors.containerBorder),
                   ),
                   const SizedBox(height: 20),
-                  const Text(
-                    "Choose An Action",
+                   Text(
+                      ApplicationLocalizations.of(context)!.translate("chooseAnAction")!,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: AppColors.containerBorder,
@@ -64,7 +65,7 @@ class PhotoActionBottomSheet {
                   MyContainer(
                     padding: EdgeInsets.zero,
                     child: TextButton.icon(
-                      label: const Text("Take Photo"),
+                      label:  Text(ApplicationLocalizations.of(context)!.translate("takePhoto")!,),
                       icon: const Icon(
                         Icons.photo_camera_outlined,
                         color: AppColors.white,
@@ -91,7 +92,7 @@ class PhotoActionBottomSheet {
                   MyContainer(
                     padding: EdgeInsets.zero,
                     child: TextButton.icon(
-                      label: const Text("Choose From Gallery"),
+                      label:  Text(ApplicationLocalizations.of(context)!.translate("chooseFromGallery")!,),
                       icon: const Icon(
                         Icons.photo_library_outlined,
                         color: AppColors.white,

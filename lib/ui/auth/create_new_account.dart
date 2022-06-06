@@ -5,6 +5,7 @@ import 'package:flutter_firebase_ott/ui/auth/sign_in_page.dart';
 import 'package:flutter_ideal_ott_api/repository/auth_repository.dart';
 import 'package:uuid/uuid.dart';
 import '../../bloc/api_resp_state.dart';
+import '../../locale/application_localizations.dart';
 import '../../util/app_colors.dart';
 import '../../util/component/back_button.dart';
 import '../../util/component/button_fill.dart';
@@ -75,7 +76,7 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
     return Container(
       decoration: AppColors.bgGradientBoxDecoration(),
       child: Scaffold(
-          backgroundColor: AppColors.transparent,
+          backgroundColor: Theme.of(context).backgroundColor,
           body: Container(
               padding: EdgeInsets.only(
                   left: Dimensions.marginMedium,
@@ -92,9 +93,9 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
                         const Align(
                             alignment: Alignment.topLeft, child: ButtonBack()),
                         const SizedBox(height: 20),
-                        const TitleText(
-                          text: Strings.createNewAccount,
-                          fontSize: 28,
+                         Text(
+                          ApplicationLocalizations.of(context)!.translate("createNewAccount")!,
+                             style: Theme.of(context).textTheme.headline1
                         ),
                         const SizedBox(height: 25),
                         MyContainer(
@@ -104,7 +105,7 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
                               textAlignVertical: TextAlignVertical.center,
                               textCapitalization: TextCapitalization.words,
                               decoration: InputDecoration(
-                                hintText: Strings.fullName,
+                                hintText: ApplicationLocalizations.of(context)!.translate("fullName")!,
                                 prefixIcon: IconButton(
                                   icon: Image.asset(
                                     "assets/images/profile.png",
@@ -138,7 +139,7 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
                               keyboardType: TextInputType.emailAddress,
                               textAlignVertical: TextAlignVertical.center,
                               decoration: InputDecoration(
-                                hintText: Strings.email,
+                                hintText: ApplicationLocalizations.of(context)!.translate("email")!,
                                 prefixIcon: IconButton(
                                   icon: Image.asset(
                                     "assets/images/sms.png",
@@ -172,7 +173,7 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
                               textAlignVertical: TextAlignVertical.center,
                               obscureText: _isHiddenPassword,
                               decoration: InputDecoration(
-                                hintText: Strings.password,
+                                hintText: ApplicationLocalizations.of(context)!.translate("password")!,
                                 prefixIcon: IconButton(
                                   icon: Image.asset(
                                     "assets/images/lock.png",
@@ -220,7 +221,7 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
                               textAlignVertical: TextAlignVertical.center,
                               obscureText: _isHiddenConfirmPassword,
                               decoration: InputDecoration(
-                                hintText: Strings.confirmPassword,
+                                hintText: ApplicationLocalizations.of(context)!.translate("confirmPassword")!,
                                 prefixIcon: IconButton(
                                   icon: Image.asset(
                                     "assets/images/lock.png",
@@ -261,18 +262,15 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
                         const SizedBox(
                           height: 10,
                         ),
-                        const Text(
-                          Strings.bothPasswordSame,
-                          style: TextStyle(
-                              color: AppColors.lightYellowColor,
-                              fontWeight: FontWeight.w400,
-                              fontSize: Dimensions.textSizeSmall),
+                         Text(
+                           ApplicationLocalizations.of(context)!.translate("bothPasswordSame")!,
+                             style: Theme.of(context).textTheme.bodyText1
                         ),
                         const SizedBox(
                           height: 30,
                         ),
                         ButtonFill(
-                            text: Strings.signUp,
+                            text:ApplicationLocalizations.of(context)!.translate("signUp")!,
                             onPressed: () {
                               if(validate())
                               {
@@ -280,19 +278,16 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
                               }
                             }),
                         const Spacer(),
-                        const SizedBox(height: 20,),
+                        const SizedBox(height: 50,),
                         Center(
                           child: RichText(
                             textAlign: TextAlign.center,
                             text: TextSpan(children: <TextSpan>[
-                              const TextSpan(
-                                  text: Strings.alreadyHaveAnAccount,
-                                  style: TextStyle(
-                                      color: Colors.grey,
-                                      fontSize: Dimensions.textSizeMedium,
-                                      fontWeight: FontWeight.w500)),
+                               TextSpan(
+                                  text: ApplicationLocalizations.of(context)!.translate("alreadyHaveAnAccount")!,
+                                   style: Theme.of(context).textTheme.headline2),
                               TextSpan(
-                                  text: Strings.login,
+                                  text: ApplicationLocalizations.of(context)!.translate("login")!,
                                   recognizer: TapGestureRecognizer()
                                     ..onTap = () {
                                       Navigator.pushReplacement(
@@ -301,10 +296,7 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
                                               builder: (context) =>
                                                   const SignInPage()));
                                     },
-                                  style: const TextStyle(
-                                      color: AppColors.white,
-                                      fontSize: Dimensions.textSizeMedium,
-                                      fontWeight: FontWeight.w700)),
+                                  style: Theme.of(context).textTheme.headline3),
                             ]),
                           ),
                         ),
@@ -333,29 +325,29 @@ class _CreateNewAccountScreenState extends State<CreateNewAccountScreen> {
     List<String>? messages = [];
     if (name.isEmpty) {
       valid = false;
-      messages.add("Enter Name");
+      messages.add(ApplicationLocalizations.of(context)!.translate("nameValidation")!,);
     }
     if (email.isEmpty) {
       valid = false;
-      messages.add("Enter email id.");
+      messages.add(ApplicationLocalizations.of(context)!.translate("emailValidation1")!);
     } else if (!emailValid) {
       valid = false;
-      messages.add("Enter valid email.");
+      messages.add(ApplicationLocalizations.of(context)!.translate("emailValidation2")!);
     }
     if (password.isEmpty) {
       valid = false;
-      messages.add("Enter password");
+      messages.add(ApplicationLocalizations.of(context)!.translate("passwordValidation1")!);
     }
     if (confirmPassword.isEmpty) {
       valid = false;
-      messages.add("Please enter confirm password.");
+      messages.add(ApplicationLocalizations.of(context)!.translate("confirmPasswordValidation")!);
     } else if (confirmPassword.length < 6) {
       valid = false;
-      messages.add("Password must contain at least 6 characters.");
+      messages.add(ApplicationLocalizations.of(context)!.translate("passwordValidation2")!);
     }
     if (password != confirmPassword) {
       valid = false;
-      messages.add("Password and confirm password not match.");
+      messages.add(ApplicationLocalizations.of(context)!.translate("bothPasswordValidation")!);
     }
     if (!valid) {
       var msg = "";

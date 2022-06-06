@@ -10,6 +10,7 @@ import 'package:flutter_ideal_ott_api/util/main_utility.dart';
 import '../../bloc/api_resp_state.dart';
 import '../../bloc/cubit/auth_cubit.dart';
 import '../../bloc/cubit/home_cubit.dart';
+import '../../locale/application_localizations.dart';
 import '../../util/app_colors.dart';
 import '../../util/app_session.dart';
 import '../../util/component/back_button.dart';
@@ -74,7 +75,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
               } else if (state is ResponseStateSuccess) {
                 Utility.hideLoader(context);
                 _hideKeyboard();
-                Utility.showAlertDialog(context, "Profile update successfully.");
+                Utility.showAlertDialog(context,ApplicationLocalizations.of(context)!.translate("profileUpdatedSuccessfully")!,);
               }
             },
           ),
@@ -83,7 +84,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
           decoration: AppColors.bgGradientBoxDecoration(),
           child: Scaffold(
             resizeToAvoidBottomInset: false,
-            backgroundColor: AppColors.transparent,
+            backgroundColor: Theme.of(context).backgroundColor,
             body: _getBody(),
           ),
         )
@@ -111,15 +112,15 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   },
                   child: Container(
                     height: 36,
-                    width: 80,
+                    width: 90,
                     decoration: BoxDecoration(
                       color: AppColors.red,
                       borderRadius: BorderRadius.circular(
                           Dimensions.cornerRadiusMedium),
                     ),
-                    child: const Center(
+                    child:  Center(
                         child: Text(
-                          "Update",
+                          ApplicationLocalizations.of(context)!.translate("update")!,
                           style: TextStyle(
                               color: AppColors.white,
                               fontWeight: FontWeight.w500),
@@ -182,7 +183,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
               textAlignVertical: TextAlignVertical.center,
               textCapitalization: TextCapitalization.sentences,
               decoration: InputDecoration(
-                hintText: Strings.editName,
+                hintText: ApplicationLocalizations.of(context)!.translate("editName")!,
                 prefixIcon: IconButton(
                   icon: Image.asset(
                     "assets/images/profile.png",
@@ -222,7 +223,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
               textAlignVertical: TextAlignVertical.center,
               textCapitalization: TextCapitalization.sentences,
               decoration: InputDecoration(
-                hintText: Strings.editEmail,
+                hintText: ApplicationLocalizations.of(context)!.translate("editEmail")!,
                 prefixIcon: IconButton(
                   icon: Image.asset(
                     "assets/images/sms.png",

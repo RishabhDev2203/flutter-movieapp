@@ -1,16 +1,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_firebase_ott/util/component/back_button.dart';
 import 'package:flutter_ideal_ott_api/dto/library_dto.dart';
 import 'package:flutter_ideal_ott_api/repository/home_repository.dart';
 import '../../bloc/api_resp_state.dart';
 import '../../bloc/cubit/home_cubit.dart';
+import '../../locale/application_localizations.dart';
 import '../../util/app_colors.dart';
 import '../../util/component/back_button.dart';
-import '../../util/component/sub_title_text.dart';
 import '../../util/constants.dart';
 import '../../util/dimensions.dart';
-import '../../util/strings.dart';
 import '../../util/utility.dart';
 
 class HomeSearchPage extends StatefulWidget {
@@ -35,73 +35,71 @@ class _HomeSearchPageState extends State<HomeSearchPage> {
   @override
   Widget build(BuildContext context) {
     return MultiBlocListener(
-        listeners: [
-          BlocListener<HomeCubit, ResponseState>(
-            bloc: _searchCubit,
-            listener: (context, state) {
-              if (state is ResponseStateLoading) {
-              } else if (state is ResponseStateError) {
-                Utility.hideLoader(context);
-                var error  = state.errorMessage;
-                Utility.showAlertDialog(context, error);
-              } else if (state is ResponseStateSuccess) {
-                Utility.hideLoader(context);
-                _searchList?.clear();
-                if(state.data != null){
-                  _searchList = state.data;
-                  print(">>_searchList : ${_searchList?.length}");
-                  setState(() {});
-                }
+      listeners: [
+        BlocListener<HomeCubit, ResponseState>(
+          bloc: _searchCubit,
+          listener: (context, state) {
+            if (state is ResponseStateLoading) {
+            } else if (state is ResponseStateError) {
+              Utility.hideLoader(context);
+              var error = state.errorMessage;
+              Utility.showAlertDialog(context, error);
+            } else if (state is ResponseStateSuccess) {
+              Utility.hideLoader(context);
+              _searchList?.clear();
+              if (state.data != null) {
+                _searchList = state.data;
+                print(">>_searchList : ${_searchList?.length}");
+                setState(() {});
               }
-            },
+            }
+          },
+        ),
+      ],
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        backgroundColor: AppColors.containerBg,
+        // backgroundColor:AppColors.bg,
+        body: Padding(
+          padding: EdgeInsets.only(
+              left: 16,
+              right: 16,
+              top: MediaQuery.of(context).padding.top + 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const ButtonBack(),
+                  Text(
+                      ApplicationLocalizations.of(context)!
+                          .translate("search")!,
+                      style: Theme.of(context).textTheme.labelMedium),
+                  const SizedBox(
+                    height: 32,
+                    width: 20,
+                  )
+                ],
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              searchView(),
+              const SizedBox(
+                height: 20,
+              ),
+              Text(
+                  ApplicationLocalizations.of(context)!.translate("allMovies")!,
+                  style: Theme.of(context).textTheme.headline4),
+              const SizedBox(
+                height: 10,
+              ),
+              movieListBody(),
+            ],
           ),
-        ],
-        child: Scaffold(
-          resizeToAvoidBottomInset: false,
-          backgroundColor: AppColors.containerBg,
-          // backgroundColor:AppColors.bg,
-          body: Padding(
-            padding: EdgeInsets.only(
-                left: 16, right: 16, top: MediaQuery.of(context).padding.top+10 ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
-                    ButtonBack(),
-                    SubTitleText(
-                      text: Strings.search,
-                      fontSize: Dimensions.textSizeXLarge,
-                      color: AppColors.white,
-                    ),
-                    SizedBox(
-                      height: 32,
-                      width: 20,
-                    )
-                  ],
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                searchView(),
-                const SizedBox(
-                  height: 20,
-                ),
-                const SubTitleText(
-                  text: 'All Movies',
-                  color: AppColors.grey,
-                  fontSize: Dimensions.textSizeLarge,
-                  fontWeight: FontWeight.w500,
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                movieListBody(),
-              ],
-            ),
-          ),
-        )
+        ),
+      ),
     );
   }
 
@@ -116,7 +114,7 @@ class _HomeSearchPageState extends State<HomeSearchPage> {
         textAlignVertical: TextAlignVertical.center,
         textCapitalization: TextCapitalization.sentences,
         decoration: InputDecoration(
-          hintText: Strings.search,
+          hintText: ApplicationLocalizations.of(context)!.translate("search")!,
           prefixIcon: IconButton(
             icon: Image.asset(
               "assets/images/search.png",
@@ -179,7 +177,10 @@ class _HomeSearchPageState extends State<HomeSearchPage> {
                     child: CachedNetworkImage(
                       height: 190,
                       width: 190,
-                      imageUrl: _searchList?[index]?.thumbnails != null && _searchList![index]!.thumbnails!.isNotEmpty ? _searchList![index]?.thumbnails![0].url ?? "" : "",
+                      imageUrl: _searchList?[index]?.thumbnails != null &&
+                              _searchList![index]!.thumbnails!.isNotEmpty
+                          ? _searchList![index]?.thumbnails![0].url ?? ""
+                          : "",
                       fit: BoxFit.cover,
                       alignment: FractionalOffset.topCenter,
                       /*for align image*/
@@ -201,7 +202,7 @@ class _HomeSearchPageState extends State<HomeSearchPage> {
                     height: 10,
                   ),
                   Container(
-                    padding: const EdgeInsets.only(left: 15,right: 15),
+                    padding: const EdgeInsets.only(left: 15, right: 15),
                     alignment: Alignment.center,
                     child: Text(_searchList?[index]?.title ?? "",
                         textAlign: TextAlign.center,
@@ -223,7 +224,7 @@ class _HomeSearchPageState extends State<HomeSearchPage> {
     setState(() {});
   }
 
-  apiSeacrhList(search){
+  apiSeacrhList(search) {
     _searchCubit?.getSearchList(search);
   }
 }

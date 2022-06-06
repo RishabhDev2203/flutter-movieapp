@@ -11,6 +11,7 @@ import 'package:flutter_ideal_ott_api/dto/user_dto.dart';
 import 'package:flutter_ideal_ott_api/repository/home_repository.dart';
 import '../../bloc/api_resp_state.dart';
 import '../../bloc/cubit/home_cubit.dart';
+import '../../locale/application_localizations.dart';
 import '../../util/app_colors.dart';
 import '../../util/app_session.dart';
 import '../../util/constants.dart';
@@ -64,61 +65,68 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocListener(listeners: [
-      BlocListener<HomeCubit, ResponseState>(
-        bloc: _bannerCubit,
-        listener: (context, state) {
-          if (state is ResponseStateLoading) {
-          } else if (state is ResponseStateError) {
-            Utility.hideLoader(context);
-            var error = state.errorMessage;
-            Utility.showAlertDialog(context, error);
-          } else if (state is ResponseStateSuccess) {
-            Utility.hideLoader(context);
-            _libraryList?.clear();
-            if (state.data != null) {
-              _libraryList = state.data;
-              setState(() {});
-            }
-          }
-        },
-      ),
-      BlocListener<HomeCubit, ResponseState>(
-        bloc: _categoryCubit,
-        listener: (context, state) {
-          if (state is ResponseStateLoading) {
-          } else if (state is ResponseStateError) {
-            Utility.hideLoader(context);
-            var error = state.errorMessage;
-            Utility.showAlertDialog(context, error);
-          } else if (state is ResponseStateSuccess) {
-            Utility.hideLoader(context);
-            _categoryList?.clear();
-            if (state.data != null) {
-              _categoryList = state.data;
-              setState(() {});
-            }
-          }
-        },
-      ),
-      BlocListener<HomeCubit, ResponseState>(
-        bloc: _continueWatchingCubit,
-        listener: (context, state) {
-          if (state is ResponseStateLoading) {
-          } else if (state is ResponseStateError) {
-            Utility.hideLoader(context);
-            var error = state.errorMessage;
-            Utility.showAlertDialog(context, error);
-          } else if (state is ResponseStateSuccess) {
-            Utility.hideLoader(context);
-            if (state.data != null) {
-              _continueWatchList = state.data;
-              setState(() {});
-            }
-          }
-        },
-      ),
-    ], child: Scaffold(backgroundColor: AppColors.bg, body: _getBody()));
+    return MultiBlocListener(
+        listeners: [
+          BlocListener<HomeCubit, ResponseState>(
+            bloc: _bannerCubit,
+            listener: (context, state) {
+              if (state is ResponseStateLoading) {
+              } else if (state is ResponseStateError) {
+                Utility.hideLoader(context);
+                var error  = state.errorMessage;
+                Utility.showAlertDialog(context, error);
+              } else if (state is ResponseStateSuccess) {
+                Utility.hideLoader(context);
+                _libraryList?.clear();
+                if(state.data != null){
+                  _libraryList = state.data;
+                  setState(() {});
+                  print("_libraryList?[0]?.videoContent.contentId>>>>>>>>>>>>>>>>>>> : ${_libraryList?[0]?.videoContent?.contentId ?? ""}");
+                }
+              }
+            },
+          ),
+          BlocListener<HomeCubit, ResponseState>(
+            bloc: _categoryCubit,
+            listener: (context, state) {
+              if (state is ResponseStateLoading) {
+              } else if (state is ResponseStateError) {
+                Utility.hideLoader(context);
+                var error  = state.errorMessage;
+                Utility.showAlertDialog(context, error);
+              } else if (state is ResponseStateSuccess) {
+                Utility.hideLoader(context);
+                _categoryList?.clear();
+                if(state.data != null){
+                  _categoryList = state.data;
+                  setState(() {});
+                }
+              }
+            },
+          ),
+          BlocListener<HomeCubit, ResponseState>(
+            bloc: _continueWatchingCubit,
+            listener: (context, state) {
+              if (state is ResponseStateLoading) {
+              } else if (state is ResponseStateError) {
+                Utility.hideLoader(context);
+                var error  = state.errorMessage;
+                Utility.showAlertDialog(context, error);
+              } else if (state is ResponseStateSuccess) {
+                Utility.hideLoader(context);
+                if(state.data != null){
+                  _continueWatchList = state.data;
+                  setState(() {});
+                }
+              }
+            },
+          ),
+        ],
+        child: Scaffold(
+            backgroundColor: Theme.of(context).backgroundColor,
+            body: _getBody()
+        )
+    );
   }
 
   _getBody() {
@@ -156,7 +164,7 @@ class _HomePageState extends State<HomePage> {
                       imageUrl: _userDto.avatar ?? "",
                       fit: BoxFit.cover,
                       placeholder: (context, url) => Container(
-                        color: Colors.black38,
+                        color: Colors.black87,
                         alignment: Alignment.center,
                         child:
                             Image.asset("assets/images/user_placeholder.png"),
@@ -210,29 +218,19 @@ class _HomePageState extends State<HomePage> {
                 ),
                 _continueWatchList != null && _continueWatchList!.isNotEmpty
                     ? Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const [
-                          Text(
-                            Strings.continueWatching,
-                            style: TextStyle(
-                                overflow: TextOverflow.ellipsis,
-                                fontSize: Dimensions.textSizeLarge,
-                                fontFamily: Constants.fontFamily,
-                                fontWeight: FontWeight.w600,
-                                color: AppColors.white),
-                          ),
-                          Text(
-                            Strings.seeAll,
-                            style: TextStyle(
-                                overflow: TextOverflow.ellipsis,
-                                fontSize: Dimensions.textSizeMedium,
-                                fontFamily: Constants.fontFamily,
-                                fontWeight: FontWeight.w400,
-                                color: AppColors.textSecondary),
-                          ),
-                        ],
-                      )
-                    : Container(),
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children:  [
+                    Text(ApplicationLocalizations.of(context)!.translate("continueWatching")!,
+                    style: Theme.of(context).textTheme.headline4
+                    ),
+
+                    Text(ApplicationLocalizations.of(context)!.translate("seeAll")!,
+                      style: Theme.of(context).textTheme.headline5
+
+                    ),
+
+                  ],
+                ) : Container(),
                 const SizedBox(
                   height: 15,
                 ),
@@ -281,12 +279,7 @@ class _HomePageState extends State<HomePage> {
                                 children: [
                                   Text(
                                     _categoryList?[categoryIndex].title ?? "",
-                                    style: const TextStyle(
-                                        overflow: TextOverflow.ellipsis,
-                                        fontSize: Dimensions.textSizeLarge,
-                                        fontFamily: Constants.fontFamily,
-                                        fontWeight: FontWeight.w600,
-                                        color: AppColors.white),
+                                      style: Theme.of(context).textTheme.headline4
                                   ),
                                   InkWell(
                                     onTap: () {
@@ -305,14 +298,9 @@ class _HomePageState extends State<HomePage> {
                                                 )),
                                       );
                                     },
-                                    child: const Text(
+                                    child: Text(
                                       Strings.seeAll,
-                                      style: TextStyle(
-                                          overflow: TextOverflow.ellipsis,
-                                          fontSize: Dimensions.textSizeMedium,
-                                          fontFamily: Constants.fontFamily,
-                                          fontWeight: FontWeight.w400,
-                                          color: AppColors.textSecondary),
+                                      style: Theme.of(context).textTheme.headline5,
                                     ),
                                   ),
                                 ],
@@ -630,3 +618,5 @@ class _HomePageState extends State<HomePage> {
     _continueWatchingCubit?.getContinueWatching(_auth.currentUser?.uid);
   }
 }
+
+

@@ -1,11 +1,17 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_firebase_ott/theme/change_theme.dart';
+import 'package:flutter_firebase_ott/ui/auth/sign_in_page.dart';
+import 'package:flutter_firebase_ott/util/app_colors.dart';
+import 'package:flutter_firebase_ott/util/component/back_button.dart';
+import 'package:flutter_firebase_ott/util/dimensions.dart';
+import 'package:flutter_firebase_ott/util/strings.dart';
 import 'package:flutter_ideal_ott_api/dto/user_dto.dart';
 import 'package:flutter_ideal_ott_api/repository/auth_repository.dart';
-
 import '../../bloc/api_resp_state.dart';
 import '../../bloc/cubit/auth_cubit.dart';
+import '../../locale/application_localizations.dart';
 import '../../util/app_colors.dart';
 import '../../util/app_session.dart';
 import '../../util/component/back_button.dart';
@@ -39,6 +45,11 @@ class _ProfilePageState extends State<ProfilePage> {
     _fbSignOutCubit = AuthCubit(AuthRepository());
     _appSession.init().then((value) => getDetail());
     super.initState();
+  }
+
+  @override
+  setSelectedRadio(int val) {
+    setState(() {});
   }
 
   @override
@@ -117,7 +128,7 @@ class _ProfilePageState extends State<ProfilePage> {
       decoration: AppColors.bgGradientBoxDecoration(),
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        backgroundColor: AppColors.transparent,
+        backgroundColor: Theme.of(context).backgroundColor,
         body: Padding(
           padding: EdgeInsets.only(
               top: MediaQuery.of(context).padding.top,
@@ -129,7 +140,8 @@ class _ProfilePageState extends State<ProfilePage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const ButtonBack(),
+                  Container(
+                      margin: const EdgeInsets.only(top: 10), child: const ButtonBack()),
                   GestureDetector(
                     onTap: () {
                       Navigator.push(
@@ -143,17 +155,18 @@ class _ProfilePageState extends State<ProfilePage> {
                       padding: const EdgeInsets.only(top: 10.0),
                       child: Container(
                         height: 36,
-                        width: 90,
+                        width: 120,
                         decoration: BoxDecoration(
                           color: AppColors.red,
                           // border: Border.all(color: AppColors.containerBorder),
                           borderRadius: BorderRadius.circular(
                               Dimensions.cornerRadiusMedium),
                         ),
-                        child: const Center(
+                        child: Center(
                             child: Text(
-                          "Edit Profile",
-                          style: TextStyle(
+                          ApplicationLocalizations.of(context)!
+                              .translate("editProfile")!,
+                          style: const TextStyle(
                               color: AppColors.white,
                               fontWeight: FontWeight.w500),
                         )),
@@ -165,7 +178,24 @@ class _ProfilePageState extends State<ProfilePage> {
               const SizedBox(
                 height: 50,
               ),
-              _imageView(),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(50),
+                child: CachedNetworkImage(
+                  width: 100,
+                  height: 100,
+                  imageUrl: userDto?.avatar ?? "",
+                  fit: BoxFit.cover,
+                  placeholder: (context, url) => Container(
+                    alignment: Alignment.center,
+                    child: Image.asset("assets/images/user_placeholder.png"),
+                  ),
+                  errorWidget: (context, url, error) => Container(
+                    color: Colors.transparent,
+                    alignment: Alignment.center,
+                    child: Image.asset("assets/images/user_placeholder.png"),
+                  ),
+                ),
+              ),
               const SizedBox(
                 height: 5,
               ),
@@ -194,7 +224,7 @@ class _ProfilePageState extends State<ProfilePage> {
               const Padding(
                 padding: EdgeInsets.only(left: 16, right: 16),
                 child: Divider(
-                  color: AppColors.divider,
+                  color: Colors.blueGrey,
                   thickness: 1,
                 ),
               ),
@@ -233,9 +263,54 @@ class _ProfilePageState extends State<ProfilePage> {
                             const SizedBox(
                               width: 20,
                             ),
-                            const Text(
-                              "Change Password",
-                              style: TextStyle(
+                            Text(
+                              ApplicationLocalizations.of(context)!
+                                  .translate("changePassword")!,
+                              style: const TextStyle(
+                                  color: AppColors.white,
+                                  fontSize: Dimensions.textSizeMedium,
+                                  fontFamily: Constants.fontFamily,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      const Divider(
+                        color: AppColors.black,
+                        thickness: 1.3,
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const ChangeTheme(),
+                              ));
+                        },
+                        child: Row(
+                          children: [
+                            const SizedBox(
+                              width: 20,
+                            ),
+                            Image.asset(
+                              "assets/images/moon.png",
+                              color: AppColors.white,
+                              height: 20,
+                              width: 20,
+                            ),
+                            const SizedBox(
+                              width: 20,
+                            ),
+                            Text(
+                              ApplicationLocalizations.of(context)!
+                                  .translate("theme")!,
+                              style: const TextStyle(
                                   color: AppColors.white,
                                   fontSize: Dimensions.textSizeMedium,
                                   fontFamily: Constants.fontFamily,
@@ -306,9 +381,10 @@ class _ProfilePageState extends State<ProfilePage> {
                             const SizedBox(
                               width: 20,
                             ),
-                            const Text(
-                              "Logout",
-                              style: TextStyle(
+                            Text(
+                              ApplicationLocalizations.of(context)!
+                                  .translate("logout")!,
+                              style: const TextStyle(
                                   color: AppColors.white,
                                   fontSize: Dimensions.textSizeMedium,
                                   fontFamily: Constants.fontFamily,

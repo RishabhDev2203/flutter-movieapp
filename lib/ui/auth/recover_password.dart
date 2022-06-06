@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ideal_ott_api/repository/auth_repository.dart';
 import '../../bloc/api_resp_state.dart';
 import '../../bloc/cubit/auth_cubit.dart';
+import '../../locale/application_localizations.dart';
 import '../../util/app_colors.dart';
 import '../../util/component/button_fill.dart';
 import '../../util/component/my_container.dart';
@@ -67,7 +68,7 @@ class _RecoverPasswordScreenState extends State<RecoverPasswordScreen> {
     return  Container(
       decoration: AppColors.bgGradientBoxDecoration(),
       child: Scaffold(
-          backgroundColor: AppColors.transparent,
+          backgroundColor: Theme.of(context).backgroundColor,
           body: Container(
               padding: const EdgeInsets.only(
                 left: Dimensions.marginMedium,
@@ -83,9 +84,9 @@ class _RecoverPasswordScreenState extends State<RecoverPasswordScreen> {
                       child: ButtonBack(),
                     ),
                     const SizedBox(height: 20),
-                    const TitleText(
-                      text: Strings.recoverYourPassword,
-                      fontSize: 28,
+                     Text(
+                      ApplicationLocalizations.of(context)!.translate("recoverYourPassword")!,
+                         style: Theme.of(context).textTheme.headline1
                     ),
                     const SizedBox(height: 25),
                     MyContainer(
@@ -94,7 +95,7 @@ class _RecoverPasswordScreenState extends State<RecoverPasswordScreen> {
                           keyboardType: TextInputType.emailAddress,
                           textAlignVertical: TextAlignVertical.center,
                           decoration: InputDecoration(
-                            hintText: Strings.email,
+                            hintText:  ApplicationLocalizations.of(context)!.translate("email")!,
                             prefixIcon: IconButton(
                               icon: Image.asset(
                                 "assets/images/sms.png",
@@ -123,7 +124,7 @@ class _RecoverPasswordScreenState extends State<RecoverPasswordScreen> {
                       height: 30,
                     ),
                     ButtonFill(
-                        text: Strings.next,
+                        text:ApplicationLocalizations.of(context)!.translate("next")!,
                         onPressed: () {
                           if(validate()) {
                             forgotPassword();
@@ -145,10 +146,10 @@ class _RecoverPasswordScreenState extends State<RecoverPasswordScreen> {
     List<String>? messages = [];
     if (email.isEmpty) {
       valid = false;
-      messages.add("Enter Email id.");
+      messages.add(ApplicationLocalizations.of(context)!.translate("emailValidation1")!,);
     } else if (!emailValid) {
       valid = false;
-      messages.add("Enter valid email.");
+      messages.add(ApplicationLocalizations.of(context)!.translate("emailValidation2")!);
     }
     if (!valid) {
       var msg = "";

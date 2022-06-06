@@ -7,6 +7,7 @@ import 'package:flutter_ideal_ott_api/dto/library_dto.dart';
 import 'package:flutter_ideal_ott_api/repository/home_repository.dart';
 import 'package:video_player/video_player.dart';
 import '../../bloc/api_resp_state.dart';
+import '../../locale/application_localizations.dart';
 import '../../util/app_colors.dart';
 import '../../util/component/more_description.dart';
 import '../../util/constants.dart';
@@ -76,7 +77,7 @@ class _HomeDetailPageState extends State<HomeDetailPage> {
           ),
         ],
         child: Scaffold(
-          backgroundColor: AppColors.secondBg,
+          backgroundColor: Theme.of(context).backgroundColor,
           body: getBody(),
         ));
   }
@@ -203,20 +204,17 @@ class _HomeDetailPageState extends State<HomeDetailPage> {
         const Padding(
           padding: EdgeInsets.only(left: 16, right: 16),
           child: Divider(
-            color: AppColors.divider,
             thickness: 1,
+            color: Colors.blueGrey,
           ),
         ),
         Expanded(
           child: ListView(
             padding: const EdgeInsets.only(left: 16, right: 16),
             children: [
-              const Text("Storyline",
-                  style: TextStyle(
-                      fontSize: Dimensions.textSizeMedium,
-                      fontFamily: Constants.fontFamily,
-                      fontWeight: FontWeight.w500,
-                      color: AppColors.white)),
+               Text( ApplicationLocalizations.of(context)!.translate("storyLine")!,
+                   style: Theme.of(context).textTheme.labelMedium
+               ),
               const SizedBox(
                 height: 10,
               ),
@@ -225,37 +223,23 @@ class _HomeDetailPageState extends State<HomeDetailPage> {
                 trimLines: 3,
                 colorClickableText: AppColors.red,
                 trimMode: TrimMode.Line,
-                trimCollapsedText: ' Read More',
-                trimExpandedText: ' Less',
-                style: const TextStyle(
-                    fontSize: Dimensions.textSizeSmall,
-                    fontFamily: Constants.fontFamily,
-                    fontWeight: FontWeight.w400,
-                    color: AppColors.textSecondary),
+                trimCollapsedText:  ApplicationLocalizations.of(context)!.translate("readMore")!,
+                trimExpandedText:  ApplicationLocalizations.of(context)!.translate("less")!,
+                style: Theme.of(context).textTheme.headline6,
               ),
               const SizedBox(
                 height: 15,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
+                children:  [
                   Text(
-                    Strings.recommended,
-                    style: TextStyle(
-                        overflow: TextOverflow.ellipsis,
-                        fontSize: Dimensions.textSizeLarge,
-                        fontFamily: Constants.fontFamily,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.white),
+                    ApplicationLocalizations.of(context)!.translate("recommended")!,
+                      style: Theme.of(context).textTheme.headline4
                   ),
                   Text(
-                    Strings.seeAll,
-                    style: TextStyle(
-                        overflow: TextOverflow.ellipsis,
-                        fontSize: Dimensions.textSizeMedium,
-                        fontFamily: Constants.fontFamily,
-                        fontWeight: FontWeight.w400,
-                        color: AppColors.textSecondary),
+                    ApplicationLocalizations.of(context)!.translate("seeAll")!,
+                      style: Theme.of(context).textTheme.headline5
                   ),
                 ],
               ),

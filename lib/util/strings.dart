@@ -47,4 +47,5 @@ class Strings {
   static const linkWithTV = "Link with TV";
   static const getConnect = "Get Connect";
   static const enter6dCode = "Enter 6-digit Code";
+  static const logout = "Logout";
 }

@@ -29,6 +29,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  intl: ^0.17.0
+
   flutter_ideal_ott_api:
     git:
       url: git@mygitlab.idealittechno.in:devsideal/flutter_ideal_ott_api.git
@@ -59,6 +63,7 @@ dependencies:
   #video_viewer: ^1.2.7
   video_player: ^2.4.0
   flutter_barcode_scanner: ^2.0.0
+  provider: ^6.0.0
 
 dev_dependencies:
   flutter_test:
@@ -70,18 +75,15 @@ dev_dependencies:
   equatable: ^2.0.3
   flutter_aws_s3_client:
 
-  # The "flutter_lints" package below contains a set of recommended lints to
-  # encourage good coding practices. The lint set provided by the package is
-  # activated in the `analysis_options.yaml` file located at the root of your
-  # package. See that file for information about deactivating specific lint
-  # rules and activating additional ones.
   flutter_lints: ^1.0.0
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter.
 flutter:
+  generate: true
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
@@ -89,6 +91,10 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+    - language/en.json
+    - language/es.json
+    - language/fr.json
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
