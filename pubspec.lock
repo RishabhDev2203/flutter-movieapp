@@ -465,8 +465,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "4f7c7f74942a4da8fc7b936804ad7bed0e64388d"
-      resolved-ref: "4f7c7f74942a4da8fc7b936804ad7bed0e64388d"
+      ref: d0516c06de796d5e59858d9ad55f7ee73455cdac
+      resolved-ref: d0516c06de796d5e59858d9ad55f7ee73455cdac
       url: "git@mygitlab.idealittechno.in:devsideal/flutter_ideal_ott_api.git"
     source: git
     version: "0.0.1"

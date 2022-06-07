@@ -48,4 +48,7 @@ class Strings {
   static const getConnect = "Get Connect";
   static const enter6dCode = "Enter 6-digit Code";
   static const logout = "Logout";
+  static const contactUs = "Contact us";
+  static const termsCondition = "Terms & condition";
+  static const privacyPolicy = "Privacy policy";
 }
