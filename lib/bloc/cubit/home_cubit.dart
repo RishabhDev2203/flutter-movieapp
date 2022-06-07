@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_firebase_ott/bloc/api_resp_state.dart';
+import 'package:flutter_ideal_ott_api/dto/app_content_dto.dart';
 import 'package:flutter_ideal_ott_api/dto/category_dto.dart';
 import 'package:flutter_ideal_ott_api/dto/continue_watching_dto.dart';
 import 'package:flutter_ideal_ott_api/dto/library_dto.dart';
@@ -117,4 +118,17 @@ class HomeCubit extends Cubit<ResponseState> {
       emit(ResponseStateError(error.message?? ""));
     }
   }
+
+  void getAppContent(type) async {
+    emit(ResponseStateLoading());
+    AppContentDto? dto;
+    try {
+      dto = await _homeRepository.getAppContent(type);
+      emit(ResponseStateSuccess(dto));
+    }
+    on FirebaseException catch (error) {
+      emit(ResponseStateError(error.message?? ""));
+    }
+  }
+
 }
