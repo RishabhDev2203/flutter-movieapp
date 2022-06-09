@@ -18,6 +18,7 @@ class AppSession {
 
   // Shared Preference keys
   static const keyUser = 'user';
+  static const keyLanguage = 'language';
 
   Future<void> storeUserDetail(jsonResultObj) async {
     String user = jsonEncode(UserDto.fromJson(jsonResultObj));
@@ -34,5 +35,20 @@ class AppSession {
     var jsonObjMap = jsonDecode(data.toString());
     var u = UserDto.fromJson(jsonObjMap);
     return u;
+  }
+
+  Future<void> storeUserLanguage(String languageMode) async {
+    _sharedPreferences?.setString(keyLanguage, languageMode);
+    print(">>>>>>>>>>>>>>>>> ${languageMode}");
+  }
+
+  Future<void> removeUserLanguage() async {
+    _sharedPreferences?.setString(keyLanguage, "");
+  }
+
+  Future<String?> getUserLangauge() async {
+    var data = await _sharedPreferences?.getString(keyLanguage);
+    print(">>>>>>>>>>>>>>>>> ${data}");
+    return data;
   }
 }

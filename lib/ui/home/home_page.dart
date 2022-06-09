@@ -139,17 +139,20 @@ class _HomePageState extends State<HomePage> {
           Container(
             height: 70,
             padding: const EdgeInsets.only(left: 10, right: 10),
-            color: AppColors.header,
+            color:Theme.of(context).secondaryHeaderColor,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 InkWell(
                   onTap: () {
+                    var lag;
                     Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => const ProfilePage()))
-                        .then((value) => {
+                        .then((value) async => {
+                        lag= AppSession().getUserLangauge(),
+                    print(">>>>>>>>>>>>124 : lag ${lag}"),
                               _appSession.init().then((value) => getDetail()),
                               getBannerMovieList(),
                               getFeaturedLists(),

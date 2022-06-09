@@ -61,7 +61,7 @@ class _AppContentPageState extends State<AppContentPage> {
         ],
         child: Scaffold(
           resizeToAvoidBottomInset: false,
-          backgroundColor: AppColors.bg,
+          backgroundColor: Theme.of(context).backgroundColor,
           body: _getBody(),
         ));
   }

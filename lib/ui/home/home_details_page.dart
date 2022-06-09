@@ -212,7 +212,7 @@ class _HomeDetailPageState extends State<HomeDetailPage> {
           child: ListView(
             padding: const EdgeInsets.only(left: 16, right: 16),
             children: [
-               Text( ApplicationLocalizations.of(context)!.translate("storyLine")!,
+               Text( ApplicationLocalizations.of(context)!.translate("storyLine"),
                    style: Theme.of(context).textTheme.labelMedium
                ),
               const SizedBox(
@@ -223,8 +223,8 @@ class _HomeDetailPageState extends State<HomeDetailPage> {
                 trimLines: 3,
                 colorClickableText: AppColors.red,
                 trimMode: TrimMode.Line,
-                trimCollapsedText:  ApplicationLocalizations.of(context)!.translate("readMore")!,
-                trimExpandedText:  ApplicationLocalizations.of(context)!.translate("less")!,
+                trimCollapsedText:  ApplicationLocalizations.of(context)!.translate("readMore"),
+                trimExpandedText:  ApplicationLocalizations.of(context)!.translate("less"),
                 style: Theme.of(context).textTheme.headline6,
               ),
               const SizedBox(
@@ -234,11 +234,11 @@ class _HomeDetailPageState extends State<HomeDetailPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children:  [
                   Text(
-                    ApplicationLocalizations.of(context)!.translate("recommended")!,
+                    ApplicationLocalizations.of(context)!.translate("recommended"),
                       style: Theme.of(context).textTheme.headline4
                   ),
                   Text(
-                    ApplicationLocalizations.of(context)!.translate("seeAll")!,
+                    ApplicationLocalizations.of(context)!.translate("seeAll"),
                       style: Theme.of(context).textTheme.headline5
                   ),
                 ],

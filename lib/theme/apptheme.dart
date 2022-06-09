@@ -13,6 +13,7 @@ class Themes {
     accentIconTheme: IconThemeData(color: Colors.black),
     dividerColor: Colors.black12,
     buttonColor: Colors.white,
+    secondaryHeaderColor: Color(0xFF0f1c46),
     // fontFamily: 'Georgia',
     textTheme: const TextTheme(
       headline1: TextStyle(
@@ -37,19 +38,18 @@ class Themes {
       bodyText1: TextStyle(
           fontSize: 14, fontWeight: FontWeight.w500, color: Colors.redAccent),
     ),
-
-
   );
 
   static ThemeData lightTheme = ThemeData(
     primarySwatch: Colors.grey,
     primaryColor: Colors.white,
     brightness: Brightness.light,
-    backgroundColor: Colors.teal[100],
+    backgroundColor: const Color(0xFF8CC0DE),
     accentColor: Colors.black,
     accentIconTheme: IconThemeData(color: Colors.white),
     dividerColor: Colors.white12,
     buttonColor: Colors.black,
+    secondaryHeaderColor: const Color(0xFF219F94),
     // fontFamily: 'Georgia',
     textTheme: const TextTheme(
       headline1: TextStyle(

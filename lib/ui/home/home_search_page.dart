@@ -58,7 +58,7 @@ class _HomeSearchPageState extends State<HomeSearchPage> {
       ],
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        backgroundColor: AppColors.containerBg,
+        backgroundColor: Theme.of(context).backgroundColor,
         // backgroundColor:AppColors.bg,
         body: Padding(
           padding: EdgeInsets.only(
@@ -74,7 +74,7 @@ class _HomeSearchPageState extends State<HomeSearchPage> {
                   const ButtonBack(),
                   Text(
                       ApplicationLocalizations.of(context)!
-                          .translate("search")!,
+                          .translate("search"),
                       style: Theme.of(context).textTheme.labelMedium),
                   const SizedBox(
                     height: 32,
@@ -90,7 +90,7 @@ class _HomeSearchPageState extends State<HomeSearchPage> {
                 height: 20,
               ),
               Text(
-                  ApplicationLocalizations.of(context)!.translate("allMovies")!,
+                  ApplicationLocalizations.of(context)!.translate("allMovies"),
                   style: Theme.of(context).textTheme.headline4),
               const SizedBox(
                 height: 10,
@@ -155,14 +155,15 @@ class _HomeSearchPageState extends State<HomeSearchPage> {
   }
 
   Widget movieListBody() {
-    return Expanded(
+    return Expanded(flex:1,
       child: GridView.builder(
-          padding: EdgeInsets.zero,
+          padding: EdgeInsets.only(bottom: 50),
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               crossAxisSpacing: 10,
               mainAxisSpacing: 10,
-              childAspectRatio: 4 / 5.2),
+              mainAxisExtent: 230,
+              childAspectRatio: 4 / 5.5),
           itemCount: _searchList?.length ?? 0,
           itemBuilder: (BuildContext ctx, index) {
             return Container(
@@ -199,10 +200,9 @@ class _HomeSearchPageState extends State<HomeSearchPage> {
                     ),
                   ),
                   const SizedBox(
-                    height: 10,
+                    height: 7,
                   ),
                   Container(
-                    padding: const EdgeInsets.only(left: 15, right: 15),
                     alignment: Alignment.center,
                     child: Text(_searchList?[index]?.title ?? "",
                         textAlign: TextAlign.center,

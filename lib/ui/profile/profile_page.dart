@@ -1,5 +1,8 @@
+import 'dart:ffi';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_firebase_ott/theme/change_theme.dart';
 import 'package:flutter_firebase_ott/ui/auth/sign_in_page.dart';
@@ -9,9 +12,12 @@ import 'package:flutter_firebase_ott/util/dimensions.dart';
 import 'package:flutter_firebase_ott/util/strings.dart';
 import 'package:flutter_ideal_ott_api/dto/user_dto.dart';
 import 'package:flutter_ideal_ott_api/repository/auth_repository.dart';
+import 'package:provider/provider.dart';
 import '../../bloc/api_resp_state.dart';
 import '../../bloc/cubit/auth_cubit.dart';
 import '../../locale/application_localizations.dart';
+import '../../locale/default_data.dart';
+import '../../locale/languageprovider.dart';
 import '../../util/app_colors.dart';
 import '../../util/app_session.dart';
 import '../../util/component/back_button.dart';
@@ -38,6 +44,7 @@ class _ProfilePageState extends State<ProfilePage> {
   AuthCubit? _fbSignOutCubit;
   final AppSession _appSession = AppSession();
   UserDto? userDto;
+  final DefaultData defaultData = DefaultData();
 
   @override
   void initState() {
@@ -59,6 +66,7 @@ class _ProfilePageState extends State<ProfilePage> {
     super.dispose();
   }
 
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocListener(listeners: [
@@ -76,7 +84,7 @@ class _ProfilePageState extends State<ProfilePage> {
             Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
                     builder: (context) => const /*HomePage()*/ SignInPage()),
-                    (Route<dynamic> route) => false);
+                (Route<dynamic> route) => false);
           }
         },
       ),
@@ -94,7 +102,7 @@ class _ProfilePageState extends State<ProfilePage> {
             Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
                     builder: (context) => const /*HomePage()*/ SignInPage()),
-                    (Route<dynamic> route) => false);
+                (Route<dynamic> route) => false);
           }
         },
       ),
@@ -112,11 +120,13 @@ class _ProfilePageState extends State<ProfilePage> {
             Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
                     builder: (context) => const /*HomePage()*/ SignInPage()),
-                    (Route<dynamic> route) => false);
+                (Route<dynamic> route) => false);
           }
         },
       ),
-    ], child: _getBody());
+    ],
+        child: _getBody()
+    );
   }
 
   _getBody() {
@@ -124,7 +134,7 @@ class _ProfilePageState extends State<ProfilePage> {
       decoration: AppColors.bgGradientBoxDecoration(),
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        backgroundColor: AppColors.transparent,
+        backgroundColor: Theme.of(context).backgroundColor,
         body: Padding(
           padding: EdgeInsets.only(
             top: MediaQuery.of(context).padding.top,
@@ -143,28 +153,28 @@ class _ProfilePageState extends State<ProfilePage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const EditProfilePage())).then((value) => {
-                        _appSession.init().then((value) => getDetail())
-                      });
+                              builder: (context) =>
+                                  const EditProfilePage())).then((value) =>
+                          {_appSession.init().then((value) => getDetail())});
                     },
                     child: Padding(
                       padding: const EdgeInsets.only(top: 10.0),
                       child: Container(
                         height: 36,
-                        width: 90,
+                        width: 110,
                         decoration: BoxDecoration(
                           color: AppColors.red,
                           // border: Border.all(color: AppColors.containerBorder),
                           borderRadius: BorderRadius.circular(
                               Dimensions.cornerRadiusMedium),
                         ),
-                        child: const Center(
+                        child: Center(
                             child: Text(
-                              "Edit Profile",
-                              style: TextStyle(
-                                  color: AppColors.white,
-                                  fontWeight: FontWeight.w500),
-                            )),
+                              ApplicationLocalizations.of(context)!.translate("editProfile"),
+                          style: TextStyle(
+                              color: AppColors.white,
+                              fontWeight: FontWeight.w500),
+                        )),
                       ),
                     ),
                   )
@@ -212,15 +222,16 @@ class _ProfilePageState extends State<ProfilePage> {
               Expanded(
                 child: ListView(
                   shrinkWrap: true,
-                  padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom+20),
+                  padding: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).padding.bottom + 20),
                   children: [
                     Container(
                         padding: const EdgeInsets.only(
                             top: 25, bottom: 25, left: 10, right: 10),
                         decoration: BoxDecoration(
                           color: AppColors.myContainerColor,
-                          borderRadius:
-                          BorderRadius.circular(Dimensions.cornerRadiusMedium),
+                          borderRadius: BorderRadius.circular(
+                              Dimensions.cornerRadiusMedium),
                         ),
                         child: Column(
                           children: [
@@ -229,8 +240,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => CreateNewPasswordScreen(
-                                          title: Strings.changePassword),
+                                      builder: (context) =>
+                                          CreateNewPasswordScreen(
+                                              title: Strings.changePassword),
                                     ));
                               },
                               child: Row(
@@ -246,8 +258,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                   const SizedBox(
                                     width: 20,
                                   ),
-                                  const Text(
-                                    "Change Password",
+                                   Text(
+                                    ApplicationLocalizations.of(context)!.translate("changePassword"),
                                     style: TextStyle(
                                         color: AppColors.white,
                                         fontSize: Dimensions.textSizeMedium,
@@ -264,25 +276,28 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
                             InkWell(
                               onTap: () {
-
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => LinkWithTV(
-                                          title: Strings.linkWithTV),
+                                      builder: (context) =>
+                                          LinkWithTV(title: Strings.linkWithTV),
                                     ));
                               },
                               child: Row(
-                                children: const [
+                                children:  [
                                   SizedBox(
                                     width: 20,
                                   ),
-                                  Icon(Icons.connected_tv, size: 20, color: Colors.white,),
+                                  Icon(
+                                    Icons.connected_tv,
+                                    size: 20,
+                                    color: Colors.white,
+                                  ),
                                   SizedBox(
                                     width: 20,
                                   ),
                                   Text(
-                                    Strings.linkWithTV,
+                                    ApplicationLocalizations.of(context)!.translate("linkTv"),
                                     style: TextStyle(
                                         color: AppColors.white,
                                         fontSize: Dimensions.textSizeMedium,
@@ -321,7 +336,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   ),
                                   Text(
                                     ApplicationLocalizations.of(context)!
-                                        .translate("theme")!,
+                                        .translate("theme"),
                                     style: const TextStyle(
                                         color: AppColors.white,
                                         fontSize: Dimensions.textSizeMedium,
@@ -336,27 +351,113 @@ class _ProfilePageState extends State<ProfilePage> {
                               thickness: 1,
                               height: 30,
                             ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    const SizedBox(
+                                      width: 20,
+                                    ),
+                                    Image.asset(
+                                      "assets/images/language.png",
+                                      color: AppColors.white,
+                                      height: 20,
+                                      width: 20,
+                                    ),
+                                    const SizedBox(
+                                      width: 20,
+                                    ),
+                                    Text(
+                                      ApplicationLocalizations.of(context)!
+                                          .translate("language"),
+                                      style: const TextStyle(
+                                          color: AppColors.white,
+                                          fontSize: Dimensions.textSizeMedium,
+                                          fontFamily: Constants.fontFamily,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                  child: Consumer<LanguageChangeProvider>(
+                                    builder: (context, currentData, child) {
+                                      return Container(
+                                        padding:EdgeInsets.only(right: 10),
+                                        decoration: const BoxDecoration(
+                                          color: Colors.transparent,
+                                        ),
+                                        child: DropdownButton<String>(
+                                          value: currentData
+                                              .defineCurrentLanguage(context),
+                                          icon: const Icon(
+                                            Icons.arrow_drop_down,
+                                            color: Colors.white,
+                                          ),
+                                          iconSize: 20,
+                                          style: const TextStyle(color: Colors.white),
+                                          underline: Container(
+                                          ),
+                                          dropdownColor: Colors.blueGrey,
+                                          borderRadius: BorderRadius.circular(20),
+                                          alignment: Alignment.center,
+                                          onChanged: (String? newValue) async {
+                                            currentData.changeLocale(newValue!);
+                                            AppSession().storeUserLanguage(newValue);
+                                             var lag=await AppSession().getUserLangauge();
+                                             print(">>>>>>>>>>>> : lag ${lag}");
+                                          },
+                                          items: defaultData
+                                              .languagesListDefault
+                                              .map<DropdownMenuItem<String>>(
+                                                (String value) {
+                                              return DropdownMenuItem<String>(
+                                                value: value,
+                                                child: Text(value),
+                                                alignment: Alignment.center,
+                                              );
+                                            },
+                                          ).toList(),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const Divider(
+                              color: AppColors.black,
+                              thickness: 1,
+                              height: 30,
+                            ),
                             InkWell(
                               onTap: () {
-
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => const AppContentPage(
-                                        type:"contact_us",),
+                                      builder: (context) =>
+                                          const AppContentPage(
+                                        type: "contact_us",
+                                      ),
                                     ));
                               },
                               child: Row(
-                                children: const [
+                                children: [
                                   SizedBox(
                                     width: 20,
                                   ),
-                                  Icon(Icons.contact_phone_outlined, size: 20, color: Colors.white,),
+                                  Icon(
+                                    Icons.contact_phone_outlined,
+                                    size: 20,
+                                    color: Colors.white,
+                                  ),
                                   SizedBox(
                                     width: 20,
                                   ),
                                   Text(
-                                    Strings.contactUs,
+                                    ApplicationLocalizations.of(context)!.translate("contactUs"),
                                     style: TextStyle(
                                         color: AppColors.white,
                                         fontSize: Dimensions.textSizeMedium,
@@ -376,21 +477,27 @@ class _ProfilePageState extends State<ProfilePage> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => const AppContentPage(
-                                        type:"terms_condition",),
+                                      builder: (context) =>
+                                          const AppContentPage(
+                                        type: "terms_condition",
+                                      ),
                                     ));
                               },
                               child: Row(
-                                children: const [
+                                children:  [
                                   SizedBox(
                                     width: 20,
                                   ),
-                                  Icon(Icons.content_paste_go_outlined, size: 20, color: Colors.white,),
+                                  Icon(
+                                    Icons.content_paste_go_outlined,
+                                    size: 20,
+                                    color: Colors.white,
+                                  ),
                                   SizedBox(
                                     width: 20,
                                   ),
                                   Text(
-                                    Strings.termsCondition,
+                                    ApplicationLocalizations.of(context)!.translate("termsAndCondition"),
                                     style: TextStyle(
                                         color: AppColors.white,
                                         fontSize: Dimensions.textSizeMedium,
@@ -407,25 +514,30 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
                             InkWell(
                               onTap: () {
-
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => const AppContentPage(
-                                        type:"privacy_policy",),
+                                      builder: (context) =>
+                                          const AppContentPage(
+                                        type: "privacy_policy",
+                                      ),
                                     ));
                               },
                               child: Row(
-                                children: const [
+                                children:  [
                                   SizedBox(
                                     width: 20,
                                   ),
-                                  Icon(Icons.content_paste_go_outlined, size: 20, color: Colors.white,),
+                                  Icon(
+                                    Icons.content_paste_go_outlined,
+                                    size: 20,
+                                    color: Colors.white,
+                                  ),
                                   SizedBox(
                                     width: 20,
                                   ),
                                   Text(
-                                    Strings.privacyPolicy,
+                                      ApplicationLocalizations.of(context)!.translate("privacyPolicy"),
                                     style: TextStyle(
                                         color: AppColors.white,
                                         fontSize: Dimensions.textSizeMedium,
@@ -459,9 +571,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                   const SizedBox(
                                     width: 20,
                                   ),
-                                  const Text(
-                                    "Logout",
-                                    style: TextStyle(
+                                   Text(
+                                     ApplicationLocalizations.of(context)!.translate("logout"),
+                                     style: TextStyle(
                                         color: AppColors.white,
                                         fontSize: Dimensions.textSizeMedium,
                                         fontFamily: Constants.fontFamily,
@@ -521,10 +633,9 @@ class _ProfilePageState extends State<ProfilePage> {
 
   getDetail() {
     _appSession.getUserDetail().then((value) => {
-      setState(() {
-        userDto = value;
-      })
-    });
+          setState(() {
+            userDto = value;
+          })
+        });
   }
-
 }

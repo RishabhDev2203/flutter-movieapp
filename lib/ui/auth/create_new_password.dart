@@ -90,7 +90,7 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
                     ),
                     const SizedBox(height: 20),
                     Text(
-                      ApplicationLocalizations.of(context)!.translate("changePassword")!,
+                      ApplicationLocalizations.of(context)!.translate("changePassword"),
                         style: Theme.of(context).textTheme.headline1
 
                     ),

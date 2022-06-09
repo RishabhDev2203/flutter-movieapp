@@ -3,6 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_ott/ui/home/home_page.dart';
 import 'package:flutter_firebase_ott/util/app_colors.dart';
+import 'package:flutter_firebase_ott/util/app_session.dart';
+import 'package:provider/provider.dart';
+import 'locale/languageprovider.dart';
 import 'ui/auth/sign_in_page.dart';
 
 class Splash extends StatefulWidget {
@@ -13,11 +16,15 @@ class Splash extends StatefulWidget {
 }
 
 class _SplashState extends State<Splash> {
+  final AppSession _appSession = AppSession();
+
   @override
   void initState() {
     super.initState();
-    Timer(const Duration(seconds: 2), () {
-      _goto(context);
+    _appSession.init().then((value) => {
+      Timer(const Duration(seconds: 2), () {
+        _goto(context);
+      }),
     });
   }
 
@@ -43,16 +50,21 @@ class _SplashState extends State<Splash> {
     );
   }
 
-  _goto(BuildContext context) {
-    Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(
-            builder: (context) => const SignInPage()),
-            (Route<dynamic> route) => false);
+  _goto(BuildContext context)  async {
+    var language= await _appSession.getUserLangauge();
+    var consumer = Provider.of<LanguageChangeProvider>(context, listen: false);
+    if(language=='Français') {
+      consumer.changeLocale(language ?? "");
+    }else if(language=='Español'){
+      consumer.changeLocale(language ?? "");
+    }else{
+      consumer.changeLocale("English");
+    }
 
-          /*if(FirebaseAuth.instance.currentUser== null){
+    if(FirebaseAuth.instance.currentUser== null){
            Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
-                    builder: (context) => const *//*HomePage()*//* SignInPage()),
+                    builder: (context) => const SignInPage()),
 
                     (Route<dynamic> route) => false);
           }else{
@@ -62,7 +74,7 @@ class _SplashState extends State<Splash> {
 
                     (Route<dynamic> route) => false);
 
-          }*/
+          }
     }
   // _goto(BuildContext context) async {
   //   var dto = await AppSession().getUserDetail();

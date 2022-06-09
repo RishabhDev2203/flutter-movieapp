@@ -2,6 +2,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_firebase_ott/bloc/cubit/home_cubit.dart';
+import 'package:flutter_firebase_ott/locale/language_helper.dart';
+import 'package:flutter_firebase_ott/locale/languageprovider.dart';
 import 'package:flutter_firebase_ott/splash.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_firebase_ott/theme/apptheme.dart';
@@ -31,12 +33,14 @@ void main() async{
       var themeMode = prefs.getInt('themeMode')  ?? 0;
       runApp(
         ChangeNotifierProvider<ThemeNotifier>(
-          create: (_) =>   ThemeNotifier(ThemeMode.values[themeMode]),
+          create: (_) =>ThemeNotifier(ThemeMode.values[themeMode]),
           child: MyApp(),
         ),
       );
     });
   });
+
+
 }
 
 class MyApp extends StatelessWidget {
@@ -45,7 +49,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeNotifier = Provider.of<ThemeNotifier>(context);
-
+    final LanguageChangeProvider currentData = LanguageChangeProvider();
     return MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -57,37 +61,44 @@ class MyApp extends StatelessWidget {
       ],
       child: GlobalLoaderOverlay(
         overlayOpacity: 0.1,
-        child: MaterialApp(
+        child: ChangeNotifierProvider(
+          create: (context) => currentData,
+          child: Consumer<LanguageChangeProvider>(
+              builder: (context, provider, child) =>
+             MaterialApp(
+                title: '',
+                 locale: Provider.of<LanguageChangeProvider>(context).locale,
 
-            title: '',
+                supportedLocales: [
+                  Locale( 'en' , 'US' ),
+                  Locale( 'es' , 'ES' ),
+                  Locale( 'fr' , 'FR' ),
+                ],
 
-            supportedLocales: [
-              Locale( 'en' , 'US' ),
-              Locale( 'es' , 'ES' ),
-              Locale( 'fr' , 'FR' ),
+                localizationsDelegates: const [
+                  AppLocalizationDelegate(),
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
 
-            ],
-
-            localizationsDelegates: [
-              ApplicationLocalizations.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-            ],
-            localeResolutionCallback: (locale, supportedLocales) {
-              for (var supportedLocaleLanguage in supportedLocales) {
-                if (supportedLocaleLanguage.languageCode == locale?.languageCode &&
-                    supportedLocaleLanguage.countryCode == locale?.countryCode) {
-                  return supportedLocaleLanguage;
-                }
-              }
-              return supportedLocales.first;
-            },
-            scrollBehavior: MyBehavior(),
-            debugShowCheckedModeBanner: false,
-            theme: Themes.lightTheme,
-            darkTheme: Themes.darkTheme,
-            themeMode: themeNotifier.getThemeMode(),
-            home: const Splash()),
+                ],
+                localeResolutionCallback: (locale, supportedLocales) {
+                  for (var supportedLocaleLanguage in supportedLocales) {
+                    if (supportedLocaleLanguage.languageCode == locale?.languageCode &&
+                        supportedLocaleLanguage.countryCode == locale?.countryCode) {
+                      return supportedLocaleLanguage;
+                    }
+                  }
+                  return supportedLocales.first;
+                },
+                scrollBehavior: MyBehavior(),
+                debugShowCheckedModeBanner: false,
+                theme: Themes.lightTheme,
+                darkTheme: Themes.darkTheme,
+                themeMode: themeNotifier.getThemeMode(),
+                home: const Splash()),
+          ),
+        ),
       ),
     );
   }

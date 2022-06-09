@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import '../app_colors.dart';
 import '../dimensions.dart';
 
@@ -14,10 +15,8 @@ class TitleText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: TextStyle(
-          color: AppColors.white,
-          fontSize: fontSize,
-          fontWeight: FontWeight.w600),
+      style:Theme.of(context).textTheme.headline1
+
     );
   }
 }

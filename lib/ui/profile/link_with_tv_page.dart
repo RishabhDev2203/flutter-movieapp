@@ -80,7 +80,7 @@ class _LinkWithTVState extends State<LinkWithTV> {
     return  Container(
       decoration: AppColors.bgGradientBoxDecoration(),
       child: Scaffold(
-          backgroundColor: AppColors.transparent,
+          backgroundColor: Theme.of(context).backgroundColor,
           body: Container(
               padding: const EdgeInsets.only(
                 left: Dimensions.marginMedium,

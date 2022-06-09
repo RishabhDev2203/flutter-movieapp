@@ -153,7 +153,8 @@ class _SignInPageState extends State<SignInPage> with WidgetsBindingObserver{
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                   Text(ApplicationLocalizations.of(context)!.translate("loginToYourProfile")!,
+                   Text(
+                     ApplicationLocalizations.of(context)!.translate("loginToYourProfile"),
                      style: Theme.of(context).textTheme.headline1,
                    ),
                   const SizedBox(height: 30),
